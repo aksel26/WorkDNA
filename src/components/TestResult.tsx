@@ -1,6 +1,7 @@
 import React from 'react';
-import { Share2, RefreshCw } from 'lucide-react';
+import { Share2, RefreshCw, Heart, AlertTriangle } from 'lucide-react';
 import type { PersonalityType } from '../data/personalityTypes';
+import { typeDetails } from '../data/typeDetails';
 
 interface TestResultProps {
   personalityType: PersonalityType;
@@ -16,6 +17,7 @@ export const TestResult: React.FC<TestResultProps> = ({
   onShare,
 }) => {
   const maxScore = Math.max(...Object.values(scores));
+  const detail = typeDetails[personalityType.id];
   
   return (
     <div className="w-full max-w-2xl mx-auto px-4">
@@ -29,7 +31,7 @@ export const TestResult: React.FC<TestResultProps> = ({
             {personalityType.name.charAt(0)}
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {personalityType.name}
+            {detail?.summary || personalityType.name}
           </h1>
           <p className="text-gray-600 text-lg">
             {personalityType.description}
@@ -42,46 +44,48 @@ export const TestResult: React.FC<TestResultProps> = ({
         <div className="space-y-6">
           {/* Traits */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">주요 특성</h3>
-            <div className="flex flex-wrap gap-2">
-              {personalityType.traits.map((trait, index) => (
-                <span
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">주요 특징</h3>
+            <div className="space-y-2">
+              {detail?.characteristics.map((trait, index) => (
+                <div
                   key={index}
-                  className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                  className="flex items-center text-gray-700"
                 >
+                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-3" />
                   {trait}
-                </span>
+                </div>
               ))}
             </div>
           </div>
 
-          {/* Strengths */}
+          {/* Needs */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">강점</h3>
-            <ul className="space-y-2">
-              {personalityType.strengths.map((strength, index) => (
-                <li key={index} className="flex items-center text-gray-700">
-                  <div className="w-2 h-2 bg-primary-500 rounded-full mr-3" />
-                  {strength}
-                </li>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+              <Heart className="w-5 h-5 mr-2 text-red-500" />
+              나에게 필요한 것은
+            </h3>
+            <p className="text-gray-700 leading-relaxed bg-red-50 p-3 rounded-lg">
+              {detail?.needs}
+            </p>
+          </div>
+
+          {/* Negative Traits */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+              <AlertTriangle className="w-5 h-5 mr-2 text-yellow-500" />
+              내가 삐뚤어지면
+            </h3>
+            <div className="space-y-2 bg-yellow-50 p-3 rounded-lg">
+              {detail?.negativeTraits.map((trait, index) => (
+                <div
+                  key={index}
+                  className="flex items-start text-gray-700"
+                >
+                  <div className="w-2 h-2 bg-yellow-500 rounded-full mr-3 mt-2 flex-shrink-0" />
+                  {trait}
+                </div>
               ))}
-            </ul>
-          </div>
-
-          {/* Work Style */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">업무 스타일</h3>
-            <p className="text-gray-700 leading-relaxed">
-              {personalityType.workStyle}
-            </p>
-          </div>
-
-          {/* Team Role */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">적합한 역할</h3>
-            <p className="text-gray-700 leading-relaxed">
-              {personalityType.teamRole}
-            </p>
+            </div>
           </div>
         </div>
       </div>
