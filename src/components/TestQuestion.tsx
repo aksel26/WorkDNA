@@ -3,8 +3,8 @@ import type { Question } from '../data/questions';
 
 interface TestQuestionProps {
   question: Question;
-  currentAnswer: 'A' | 'B' | null;
-  onAnswer: (questionId: number, value: 'A' | 'B') => void;
+  currentAnswer: string | null;
+  onAnswer: (questionId: number, value: string) => void;
   questionNumber: number;
   totalQuestions: number;
 }
@@ -44,7 +44,7 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
 
         {/* Answer Options */}
         <div className="space-y-3">
-          {question.options.map((option, index) => (
+          {question.options.map((option) => (
             <button
               key={option.value}
               onClick={() => onAnswer(question.id, option.value)}

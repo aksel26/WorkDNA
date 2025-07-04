@@ -52,7 +52,7 @@ export const personalityTypes: Record<string, PersonalityType> = {
   }
 };
 
-export function calculatePersonalityType(answers: Record<number, 'A' | 'B'>): {
+export function calculatePersonalityType(answers: Record<number, string>): {
   type: string;
   scores: Record<string, number>;
   typeCode: string;
@@ -100,5 +100,3 @@ export function calculatePersonalityType(answers: Record<number, 'A' | 'B'>): {
   };
 }
 
-// Import questions for the calculation function
-import type { questions } from './questions';
