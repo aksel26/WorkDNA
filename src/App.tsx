@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { ConsentModal } from './components/ConsentModal';
 import { TestQuestion } from './components/TestQuestion';
 import { TestResult } from './components/TestResult';
-import { useTestNew as useTest } from './hooks/useTestNew';
+import { useTest } from './hooks/useTest';
+import { questions } from './data/questions';
 import { Brain, Users, BarChart3 } from 'lucide-react';
 
 function App() {
@@ -32,7 +33,7 @@ function App() {
     }
   };
 
-  const handleAnswer = async (questionId: number, value: 'A' | 'B') => {
+  const handleAnswer = async (questionId: number, value: string) => {
     try {
       await submitAnswer(questionId, value);
     } catch (err) {
@@ -84,7 +85,7 @@ function App() {
                   정확한 분석
                 </h3>
                 <p className="text-gray-600">
-                  10개의 간단한 질문으로 당신의 업무 스타일을 정확히 분석합니다
+                  {questions.length}개의 간단한 질문으로 당신의 업무 스타일을 정확히 분석합니다
                 </p>
               </div>
               <div className="card text-center">
@@ -147,7 +148,7 @@ function App() {
             currentAnswer={testState.answers[currentQuestion.id] || null}
             onAnswer={handleAnswer}
             questionNumber={testState.currentQuestion + 1}
-            totalQuestions={10}
+            totalQuestions={questions.length}
           />
         </div>
       </div>
