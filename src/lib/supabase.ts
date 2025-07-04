@@ -18,6 +18,32 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 export type Database = {
   public: {
     Tables: {
+      results: {
+        Row: {
+          id: string
+          user_id: string
+          personality_type: string
+          scores: Record<string, number>
+          ending: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          personality_type: string
+          scores: Record<string, number>
+          ending?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          personality_type?: string
+          scores?: Record<string, number>
+          ending?: string | null
+          created_at?: string
+        }
+      }
       user_responses: {
         Row: {
           id: string
@@ -38,6 +64,7 @@ export type Database = {
           personality_type: string | null
           type_code: string | null
           scores: Record<string, number> | null
+          ending: string | null
           session_duration_seconds: number
           traffic_source: string | null
           country: string | null
@@ -68,6 +95,7 @@ export type Database = {
           personality_type?: string | null
           type_code?: string | null
           scores?: Record<string, number> | null
+          ending?: string | null
           session_duration_seconds?: number
           traffic_source?: string | null
           country?: string | null
@@ -98,6 +126,7 @@ export type Database = {
           personality_type?: string | null
           type_code?: string | null
           scores?: Record<string, number> | null
+          ending?: string | null
           session_duration_seconds?: number
           traffic_source?: string | null
           country?: string | null
