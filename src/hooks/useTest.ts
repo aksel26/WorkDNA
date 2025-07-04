@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { questions } from '../data/questions';
 import { calculatePersonalityType, personalityTypes } from '../data/personalityTypes';
+import { detectDevice, detectBrowser, detectLocation, detectTrafficSource } from '../utils/browserDetection';
 
 export interface UserData {
   name: string;
@@ -12,14 +13,16 @@ export interface UserData {
 
 export interface TestState {
   currentQuestion: number;
-  answers: Record<number, number>;
+  answers: Record<number, string>;
   isComplete: boolean;
   result: {
     type: string;
     scores: Record<string, number>;
+    typeCode: string;
   } | null;
   userData: UserData | null;
   userId: string | null;
+  sessionStartTime: number;
 }
 
 export const useTest = () => {
@@ -30,6 +33,7 @@ export const useTest = () => {
     result: null,
     userData: null,
     userId: null,
+    sessionStartTime: Date.now(),
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +45,7 @@ export const useTest = () => {
     if (savedState) {
       try {
         const parsed = JSON.parse(savedState);
-        setTestState(parsed);
+        setTestState({ ...parsed, sessionStartTime: parsed.sessionStartTime || Date.now() });
       } catch (e) {
         console.error('Failed to parse saved state:', e);
       }
@@ -60,14 +64,27 @@ export const useTest = () => {
     setError(null);
 
     try {
-      // Create user record
+      // Detect device and location information
+      const deviceType = detectDevice();
+      const browser = detectBrowser();
+      const trafficSource = detectTrafficSource();
+      const location = await detectLocation();
+
+      // Create user record with all tracking data
       const { data: user, error: userError } = await supabase
-        .from('users')
+        .from('user_responses')
         .insert([{
           name: userData.name || null,
           gender: userData.gender || null,
           age_range: userData.ageRange || null,
           consent_given: userData.consent,
+          device_type: deviceType,
+          browser: browser,
+          traffic_source: trafficSource,
+          country: location.country,
+          region: location.region,
+          session_duration_seconds: 0,
+          test_started_at: new Date().toISOString(),
         }])
         .select()
         .single();
@@ -78,6 +95,7 @@ export const useTest = () => {
         ...prev,
         userData,
         userId: user.id,
+        sessionStartTime: Date.now(),
       }));
 
       return user.id;
@@ -89,7 +107,7 @@ export const useTest = () => {
     }
   };
 
-  const submitAnswer = async (questionId: number, value: number) => {
+  const submitAnswer = async (questionId: number, value: string) => {
     if (!testState.userId) {
       setError('User not found');
       return;
@@ -99,16 +117,17 @@ export const useTest = () => {
     setError(null);
 
     try {
-      // Save answer to database
-      const { error: answerError } = await supabase
-        .from('answers')
-        .insert([{
-          user_id: testState.userId,
-          question_id: questionId,
-          answer_value: value,
-        }]);
+      // Update the specific answer column
+      const answerColumn = `answer_${questionId}`;
+      
+      const { error: updateError } = await supabase
+        .from('user_responses')
+        .update({
+          [answerColumn]: value
+        })
+        .eq('id', testState.userId);
 
-      if (answerError) throw answerError;
+      if (updateError) throw updateError;
 
       // Update local state
       const newAnswers = { ...testState.answers, [questionId]: value };
@@ -125,14 +144,29 @@ export const useTest = () => {
       // If test is complete, calculate and save result
       if (isComplete) {
         const result = calculatePersonalityType(newAnswers);
+        const sessionDuration = Math.floor((Date.now() - testState.sessionStartTime) / 1000);
+        
+        const getEndingByType = (type: string) => {
+          const endings = {
+            AB: "진취적이며 자신감 있는 행동대장",
+            AA: "관계 속에서 빛나는 사교왕",
+            BB: "신뢰할 수 있는 솔직한 조언자",
+            BA: "배려가 넘치는 따뜻한 평화주의자",
+          };
+          return endings[type as keyof typeof endings] || "";
+        };
         
         const { error: resultError } = await supabase
-          .from('results')
-          .insert([{
-            user_id: testState.userId,
+          .from('user_responses')
+          .update({
             personality_type: result.type,
+            type_code: result.typeCode,
             scores: result.scores,
-          }]);
+            ending: getEndingByType(result.type),
+            session_duration_seconds: sessionDuration,
+            test_completed_at: new Date().toISOString(),
+          })
+          .eq('id', testState.userId);
 
         if (resultError) throw resultError;
 
@@ -158,6 +192,7 @@ export const useTest = () => {
       result: null,
       userData: null,
       userId: null,
+      sessionStartTime: Date.now(),
     });
     localStorage.removeItem('workdna-test-state');
   };
