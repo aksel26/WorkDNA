@@ -44,13 +44,13 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-[#6b6a6a] rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-gray-900">개인정보 수집 및 이용 동의</h2>
+            <h2 className="text-xl font-bold text-white">개인정보 수집 및 이용 동의</h2>
             <button
               onClick={onClose}
-              className="text-gray-400 hover:text-gray-600"
+              className="text-gray-400 hover:text-white"
             >
               <X size={24} />
             </button>
@@ -59,7 +59,7 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name Input */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-white mb-1">
                 이름 (선택사항)
               </label>
               <input
@@ -73,7 +73,7 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
 
             {/* Gender Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 성별 (선택사항)
               </label>
               <div className="flex space-x-4">
@@ -82,7 +82,7 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
                   { value: 'female', label: '여성' },
                   { value: 'other', label: '기타' }
                 ].map(option => (
-                  <label key={option.value} className="flex items-center">
+                  <label key={option.value} className="flex items-center text-white">
                     <input
                       type="radio"
                       name="gender"
@@ -99,7 +99,7 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
 
             {/* Age Range Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 연령대 (선택사항)
               </label>
               <select
@@ -117,14 +117,14 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
             </div>
 
             {/* Privacy Policy */}
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="font-medium text-gray-900 mb-2">개인정보 수집 및 이용 내역</h3>
-              <div className="text-sm text-gray-700 space-y-2">
+            <div className="bg-[#7e7d7d] p-4 rounded-lg">
+              <h3 className="font-medium text-white mb-2">개인정보 수집 및 이용 내역</h3>
+              <div className="text-sm text-gray-300 space-y-2">
                 <p><strong>수집 목적:</strong> 업무 스타일 진단 서비스 제공 및 통계 분석</p>
                 <p><strong>수집 항목:</strong> 이름, 성별, 연령대, 테스트 응답 (모든 항목 선택사항)</p>
                 <p><strong>보유 기간:</strong> 서비스 제공 완료 후 즉시 삭제</p>
                 <p><strong>처리 방식:</strong> 익명화하여 통계 목적으로만 사용</p>
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs text-gray-400 mt-2">
                   * 개인정보는 암호화되어 저장되며, 서비스 개선 및 통계 분석 목적으로만 사용됩니다.
                 </p>
               </div>
@@ -139,7 +139,7 @@ export const ConsentModal: React.FC<ConsentModalProps> = ({
                 onChange={(e) => handleChange('consent', e.target.checked)}
                 className="mt-1"
               />
-              <label htmlFor="consent" className="text-sm text-gray-700">
+              <label htmlFor="consent" className="text-sm text-white">
                 개인정보 수집 및 이용에 동의합니다. (필수)
               </label>
             </div>
