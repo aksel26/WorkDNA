@@ -30,10 +30,10 @@ export const TestResult: React.FC<TestResultProps> = ({
           >
             {personalityType.name.charAt(0)}
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-white mb-2">
             {detail?.summary || personalityType.name}
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-300 text-lg">
             {personalityType.description}
           </p>
         </div>
@@ -44,12 +44,12 @@ export const TestResult: React.FC<TestResultProps> = ({
         <div className="space-y-6">
           {/* Traits */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">주요 특징</h3>
+            <h3 className="text-lg font-semibold text-white mb-3">주요 특징</h3>
             <div className="space-y-2">
               {detail?.characteristics.map((trait, index) => (
                 <div
                   key={index}
-                  className="flex items-center text-gray-700"
+                  className="flex items-center text-gray-300"
                 >
                   <div className="w-2 h-2 bg-primary-500 rounded-full mr-3" />
                   {trait}
@@ -60,28 +60,28 @@ export const TestResult: React.FC<TestResultProps> = ({
 
           {/* Needs */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-              <Heart className="w-5 h-5 mr-2 text-red-500" />
+            <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+              <Heart className="w-5 h-5 mr-2 text-red-400" />
               나에게 필요한 것은
             </h3>
-            <p className="text-gray-700 leading-relaxed bg-red-50 p-3 rounded-lg">
+            <p className="text-gray-300 leading-relaxed bg-red-900 bg-opacity-30 p-3 rounded-lg">
               {detail?.needs}
             </p>
           </div>
 
           {/* Negative Traits */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-              <AlertTriangle className="w-5 h-5 mr-2 text-yellow-500" />
+            <h3 className="text-lg font-semibold text-white mb-3 flex items-center">
+              <AlertTriangle className="w-5 h-5 mr-2 text-yellow-400" />
               내가 삐뚤어지면
             </h3>
-            <div className="space-y-2 bg-yellow-50 p-3 rounded-lg">
+            <div className="space-y-2 bg-yellow-900 bg-opacity-30 p-3 rounded-lg">
               {detail?.negativeTraits.map((trait, index) => (
                 <div
                   key={index}
-                  className="flex items-start text-gray-700"
+                  className="flex items-start text-gray-300"
                 >
-                  <div className="w-2 h-2 bg-yellow-500 rounded-full mr-3 mt-2 flex-shrink-0" />
+                  <div className="w-2 h-2 bg-yellow-400 rounded-full mr-3 mt-2 flex-shrink-0" />
                   {trait}
                 </div>
               ))}
@@ -92,23 +92,23 @@ export const TestResult: React.FC<TestResultProps> = ({
 
       {/* Score Breakdown */}
       <div className="card mb-6 animate-fade-in">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">유형별 점수</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">유형별 점수</h3>
         <div className="space-y-3">
           {Object.entries(scores)
             .sort(([,a], [,b]) => b - a)
             .map(([type, score]) => (
               <div key={type} className="flex items-center justify-between">
-                <span className="text-sm text-gray-700 capitalize">
+                <span className="text-sm text-gray-300 capitalize">
                   {type.replace('-', ' ')}
                 </span>
                 <div className="flex items-center space-x-2">
-                  <div className="w-32 bg-gray-200 rounded-full h-2">
+                  <div className="w-32 bg-[#7e7d7d] rounded-full h-2">
                     <div
-                      className="bg-primary-600 h-2 rounded-full transition-all duration-500"
+                      className="bg-primary-500 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${(score / maxScore) * 100}%` }}
                     />
                   </div>
-                  <span className="text-sm font-medium text-gray-900 w-8 text-right">
+                  <span className="text-sm font-medium text-white w-8 text-right">
                     {score}
                   </span>
                 </div>
@@ -136,7 +136,7 @@ export const TestResult: React.FC<TestResultProps> = ({
       </div>
 
       {/* Footer */}
-      <div className="text-center text-sm text-gray-500 pb-8">
+      <div className="text-center text-sm text-gray-400 pb-8">
         <p>이 결과는 당신의 업무 성향을 분석한 것입니다.</p>
         <p>더 정확한 결과를 위해 솔직하게 답변해주세요.</p>
       </div>
