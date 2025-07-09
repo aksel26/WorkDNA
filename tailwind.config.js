@@ -17,8 +17,8 @@ export default {
           900: "#5c4e41",
         },
         background: {
-          primary: "#efebde",
-          secondary: "#6b6a6a",
+          primary: "#282427",
+          secondary: "#EEEBD9",
           light: "#7e7d7d",
         },
       },
