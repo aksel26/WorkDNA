@@ -1,27 +1,41 @@
 import { BarChart3, Brain, Users } from "lucide-react";
 import { useState } from "react";
-import { ConsentModal } from "./components/ConsentModal";
+import { SplashScreen } from "./components/SplashScreen";
 import { TestQuestion } from "./components/TestQuestion";
 import { TestResult } from "./components/TestResult";
-import { Carousel, CarouselContent, CarouselItem } from "./components/ui/carousel";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./components/ui/dialog";
+import { ConsentDrawer } from "./components/ConsentDrawer";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "./components/ui/carousel";
 import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
 import { Toaster } from "./components/ui/sonner";
 
 function App() {
-  const [showConsentModal, setShowConsentModal] = useState(false);
-  const { testState, isLoading, error, submitConsent, submitAnswer, restartTest, shareResult, currentQuestion, personalityType } = useTest();
+  const [showSplash, setShowSplash] = useState(true);
+  const {
+    testState,
+    isLoading,
+    error,
+    submitConsent,
+    submitAnswer,
+    restartTest,
+    shareResult,
+    currentQuestion,
+    personalityType,
+  } = useTest();
 
-  const handleStart = () => {
-    setShowConsentModal(true);
-  };
-
-  const handleConsentSubmit = async (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
+  const handleConsentSubmit = async (userData: {
+    name: string;
+    gender: string;
+    ageRange: string;
+    consent: boolean;
+  }) => {
     try {
       console.log("userData:", userData);
       await submitConsent(userData);
-      setShowConsentModal(false);
     } catch (err) {
       console.error("Failed to submit consent:", err);
     }
@@ -35,13 +49,20 @@ function App() {
     }
   };
 
+  // Splash screen
+  if (showSplash) {
+    return <SplashScreen onComplete={() => setShowSplash(false)} />;
+  }
+
   // Error state
   if (error) {
     return (
       <>
         <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              오류가 발생했습니다
+            </h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -70,7 +91,9 @@ function App() {
                   <br />
                   나는 누구?
                 </h1>
-                <p className="text-xl text-gray-300 mb-8">오피스 마을에서 나는 어떤 동물 주민일까요?</p>
+                <p className="text-xl text-gray-300 mb-8">
+                  오피스 마을에서 나는 어떤 동물 주민일까요?
+                </p>
               </div>
 
               {/* Features */}
@@ -82,8 +105,13 @@ function App() {
                       <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-500 rounded-full text-white mb-4">
                         <Brain size={24} />
                       </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">정확한 분석</h3>
-                      <p className="text-gray-300">{questions.length}개의 간단한 질문으로 당신의 업무 스타일을 정확히 분석합니다</p>
+                      <h3 className="text-lg font-semibold text-white mb-2">
+                        정확한 분석
+                      </h3>
+                      <p className="text-gray-300">
+                        {questions.length}개의 간단한 질문으로 당신의 업무
+                        스타일을 정확히 분석합니다
+                      </p>
                     </div>
                   </CarouselItem>
                   <CarouselItem>
@@ -91,8 +119,12 @@ function App() {
                       <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-500 rounded-full text-white mb-4">
                         <Users size={24} />
                       </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">팀워크 향상</h3>
-                      <p className="text-gray-300">동료들과 결과를 공유하여 더 나은 협업 방법을 찾아보세요</p>
+                      <h3 className="text-lg font-semibold text-white mb-2">
+                        팀워크 향상
+                      </h3>
+                      <p className="text-gray-300">
+                        동료들과 결과를 공유하여 더 나은 협업 방법을 찾아보세요
+                      </p>
                     </div>
                   </CarouselItem>
                   <CarouselItem>
@@ -101,8 +133,13 @@ function App() {
                       <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-500 rounded-full text-white mb-4">
                         <BarChart3 size={24} />
                       </div>
-                      <h3 className="text-lg font-semibold text-white mb-2">개인 성장</h3>
-                      <p className="text-gray-300">나의 강점과 개발 포인트를 파악하여 성장의 기회를 찾으세요</p>
+                      <h3 className="text-lg font-semibold text-white mb-2">
+                        개인 성장
+                      </h3>
+                      <p className="text-gray-300">
+                        나의 강점과 개발 포인트를 파악하여 성장의 기회를
+                        찾으세요
+                      </p>
                     </div>
                   </CarouselItem>
                 </CarouselContent>
@@ -117,23 +154,14 @@ function App() {
               </div> */}
 
               {/* CTA */}
+              <ConsentDrawer
+                isLoading={isLoading}
+                onSubmit={handleConsentSubmit}
+              />
 
-              <Dialog open={showConsentModal} onOpenChange={setShowConsentModal}>
-                <DialogTrigger onClick={handleStart} disabled={isLoading} className="btn-primary text-lg px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed">
-                  {isLoading ? "준비 중..." : "테스트 시작하기"}
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogTitle className="text-xl font-bold text-black">개인정보 수집 및 이용 동의</DialogTitle>
-                  <ConsentModal onClose={() => setShowConsentModal(false)} onSubmit={handleConsentSubmit} />
-
-                  {/* <DialogHeader>
-                    <DialogTitle>Are you absolutely sure?</DialogTitle>
-                    <DialogDescription>This action cannot be undone. This will permanently delete your account and remove your data from our servers.</DialogDescription>
-                  </DialogHeader> */}
-                </DialogContent>
-              </Dialog>
-
-              <p className="text-sm text-gray-400 mt-5">소요 시간: 약 5분 | 완전 무료</p>
+              <p className="text-sm text-gray-400 mt-5">
+                소요 시간: 약 5분 | 완전 무료
+              </p>
             </div>
           </div>
 
@@ -171,7 +199,12 @@ function App() {
       <>
         <div className="min-h-screen bg-gradient-to-br from-background-primary to-background-secondary py-8">
           <div className="container mx-auto">
-            <TestResult personalityType={personalityType} scores={testState.result.scores} onRestart={restartTest} onShare={shareResult} />
+            <TestResult
+              personalityType={personalityType}
+              scores={testState.result.scores}
+              onRestart={restartTest}
+              onShare={shareResult}
+            />
           </div>
         </div>
         <Toaster />
@@ -200,7 +233,9 @@ function App() {
       <>
         <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              오류가 발생했습니다
+            </h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -217,7 +252,9 @@ function App() {
     <>
       <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">예상치 못한 상태입니다</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">
+            예상치 못한 상태입니다
+          </h2>
           <button onClick={restartTest} className="btn-primary">
             처음부터 시작하기
           </button>
