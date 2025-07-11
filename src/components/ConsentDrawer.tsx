@@ -50,7 +50,7 @@ export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({
       <DrawerTrigger asChild>
         <button
           disabled={isLoading}
-          className="btn-primary text-lg px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary w-full text-sm px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoading ? "준비 중..." : "테스트 시작하기"}
         </button>
