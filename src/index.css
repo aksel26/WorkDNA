@@ -108,7 +108,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #dff3ff;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -181,5 +181,49 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* src/index.css */
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("./assets/fonts/NanumSquareRoundOTFL.otf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("./assets/fonts/NanumSquareRoundOTFR.otf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("./assets/fonts/NanumSquareRoundOTFB.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("./assets/fonts/NanumSquareRoundOTFEB.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+/* 전역 기본 폰트 설정 */
+html,
+body {
+  font-family: "NanumSquareRound", Arial, sans-serif;
+}
+
+/* 또는 Tailwind의 기본 레이어에서 설정 */
+@layer base {
+  html {
+    font-family: "NanumSquareRound", Arial, sans-serif;
   }
 }
