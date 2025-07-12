@@ -131,51 +131,79 @@ export const useTest = () => {
 
       // Update local state
       const newAnswers = { ...testState.answers, [questionId]: value };
-      const nextQuestion = testState.currentQuestion + 1;
-      const isComplete = nextQuestion >= questions.length;
 
       setTestState(prev => ({
         ...prev,
         answers: newAnswers,
-        currentQuestion: nextQuestion,
-        isComplete,
       }));
 
-      // If test is complete, calculate and save result
-      if (isComplete) {
-        const result = calculatePersonalityType(newAnswers);
-        const sessionDuration = Math.floor((Date.now() - testState.sessionStartTime) / 1000);
-        
-        const getEndingByType = (type: string) => {
-          const endings = {
-            AB: "진취적이며 자신감 있는 행동대장",
-            AA: "관계 속에서 빛나는 사교왕",
-            BB: "신뢰할 수 있는 솔직한 조언자",
-            BA: "배려가 넘치는 따뜻한 평화주의자",
-          };
-          return endings[type as keyof typeof endings] || "";
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const nextQuestion = () => {
+    const nextQ = testState.currentQuestion + 1;
+    if (nextQ >= questions.length) {
+      // Complete the test
+      completeTest();
+    } else {
+      setTestState(prev => ({
+        ...prev,
+        currentQuestion: nextQ,
+      }));
+    }
+  };
+
+  const previousQuestion = () => {
+    if (testState.currentQuestion > 0) {
+      setTestState(prev => ({
+        ...prev,
+        currentQuestion: prev.currentQuestion - 1,
+      }));
+    }
+  };
+
+  const completeTest = async () => {
+    if (!testState.userId) return;
+
+    setIsLoading(true);
+    try {
+      const result = calculatePersonalityType(testState.answers);
+      const sessionDuration = Math.floor((Date.now() - testState.sessionStartTime) / 1000);
+      
+      const getEndingByType = (type: string) => {
+        const endings = {
+          AB: "진취적이며 자신감 있는 행동대장",
+          AA: "관계 속에서 빛나는 사교왕",
+          BB: "신뢰할 수 있는 솔직한 조언자",
+          BA: "배려가 넘치는 따뜻한 평화주의자",
         };
-        
-        const { error: resultError } = await supabase
-          .from('user_responses')
-          .update({
-            personality_type: result.type,
-            type_code: result.typeCode,
-            scores: result.scores,
-            ending: getEndingByType(result.type),
-            session_duration_seconds: sessionDuration,
-            test_completed_at: new Date().toISOString(),
-          })
-          .eq('id', testState.userId);
+        return endings[type as keyof typeof endings] || "";
+      };
+      
+      const { error: resultError } = await supabase
+        .from('user_responses')
+        .update({
+          personality_type: result.type,
+          type_code: result.typeCode,
+          scores: result.scores,
+          ending: getEndingByType(result.type),
+          session_duration_seconds: sessionDuration,
+          test_completed_at: new Date().toISOString(),
+        })
+        .eq('id', testState.userId);
 
-        if (resultError) throw resultError;
+      if (resultError) throw resultError;
 
-        setTestState(prev => ({
-          ...prev,
-          result,
-        }));
-      }
-
+      setTestState(prev => ({
+        ...prev,
+        result,
+        isComplete: true,
+      }));
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
       throw err;
@@ -230,6 +258,8 @@ export const useTest = () => {
     error,
     submitConsent,
     submitAnswer,
+    nextQuestion,
+    previousQuestion,
     restartTest,
     shareResult,
     currentQuestion: testState.currentQuestion < questions.length 
