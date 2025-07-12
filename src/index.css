@@ -5,7 +5,7 @@
 
 @layer base {
   html {
-    font-family: "Inter", system-ui, sans-serif;
+    font-family: "NanumSquareRound", "맑은 고딕", "Malgun Gothic", sans-serif;
   }
 
   body {
@@ -66,6 +66,17 @@
     border-color: transparent;
     box-shadow: 0 0 0 2px #b59f85;
   }
+
+  .bg-main {
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+      ),
+      url("./assets/images/bg/bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 }
 
 @theme inline {
@@ -108,7 +119,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: #dff3ff;
+  --background: white;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -214,16 +225,4 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
-}
-/* 전역 기본 폰트 설정 */
-html,
-body {
-  font-family: "NanumSquareRound", Arial, sans-serif;
-}
-
-/* 또는 Tailwind의 기본 레이어에서 설정 */
-@layer base {
-  html {
-    font-family: "NanumSquareRound", Arial, sans-serif;
-  }
 }
