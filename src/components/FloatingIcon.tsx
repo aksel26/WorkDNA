@@ -12,6 +12,7 @@ export function FloatingIcon({ src, alt, className = "", delay = 0.5 }: Floating
   
   return (
     <motion.img
+      key={`${src}-${delay}-${Date.now()}`} // 컴포넌트가 다시 마운트될 때마다 애니메이션 재시작
       src={src}
       alt={alt}
       className={`absolute ${className}`}

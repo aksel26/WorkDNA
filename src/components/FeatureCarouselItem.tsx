@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { FloatingIcon } from "./FloatingIcon";
 
 interface FeatureCarouselItemProps {
@@ -12,10 +13,20 @@ interface FeatureCarouselItemProps {
   floatingIcon?: {
     src: string;
     alt: string;
+    className?: string;
+    delay?: number;
   };
   floatingIcon2?: {
     src: string;
     alt: string;
+    className?: string;
+    delay?: number;
+  };
+  floatingIcon3?: {
+    src: string;
+    alt: string;
+    className?: string;
+    delay?: number;
   };
 }
 
@@ -29,29 +40,64 @@ export function FeatureCarouselItem({
   imageHeight = "h-[340px]",
   floatingIcon,
   floatingIcon2,
+  floatingIcon3,
 }: FeatureCarouselItemProps) {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="bg-transparent flex flex-col h-full">
+    <div ref={ref} className="bg-transparent flex flex-col h-full">
       <div className="h-[400px] flex items-center justify-center mb-4 relative">
         <img
           src={imageSrc}
           alt={imageAlt}
           className={`${imageWidth} ${imageHeight} object-contain`}
         />
-        {floatingIcon && (
+        {floatingIcon && isVisible && (
           <FloatingIcon
             src={floatingIcon.src}
             alt={floatingIcon.alt}
-            className="top-8 right-3 w-24 h-24"
-            delay={0.5}
+            className={floatingIcon.className || "top-12 right-6 w-16 h-16"}
+            delay={floatingIcon.delay || 0.5}
           />
         )}
-        {floatingIcon2 && (
+        {floatingIcon2 && isVisible && (
           <FloatingIcon
             src={floatingIcon2.src}
             alt={floatingIcon2.alt}
-            className="top-8 left-12 w-14 h-14"
-            delay={1}
+            className={floatingIcon2.className || "top-12 left-6 w-16 h-16"}
+            delay={floatingIcon2.delay || 1.0}
+          />
+        )}
+        {floatingIcon3 && isVisible && (
+          <FloatingIcon
+            src={floatingIcon3.src}
+            alt={floatingIcon3.alt}
+            className={floatingIcon3.className || "top-12 left-32 w-16 h-16"}
+            delay={floatingIcon3.delay || 1.5}
           />
         )}
       </div>
