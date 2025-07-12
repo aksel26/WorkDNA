@@ -15,6 +15,10 @@ import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
 import floatingIcon from "./assets/images/cover/icons/icon.png";
 import floatingIcon2 from "./assets/images/cover/icons/icon2.png";
+import chickenIcon from "./assets/images/cover/icons/chicken.png";
+import studyIcon1 from "./assets/images/cover/icons/study1.png";
+import studyIcon2 from "./assets/images/cover/icons/study2.png";
+import studyIcon3 from "./assets/images/cover/icons/study3.png";
 import logoImage from "./assets/images/ci/ACG_CI-그레이1.png";
 
 function App() {
@@ -25,6 +29,8 @@ function App() {
     error,
     submitConsent,
     submitAnswer,
+    nextQuestion,
+    previousQuestion,
     restartTest,
     shareResult,
     currentQuestion,
@@ -127,10 +133,14 @@ function App() {
                         floatingIcon={{
                           src: floatingIcon,
                           alt: "플로팅 아이콘",
+                          className: "top-8 right-4 w-20 h-20",
+                          delay: 0.5,
                         }}
                         floatingIcon2={{
                           src: floatingIcon2,
                           alt: "플로팅 아이콘 2",
+                          className: "top-16 left-6 w-16 h-16",
+                          delay: 1.5,
                         }}
                       />
                     </CarouselItem>
@@ -140,14 +150,25 @@ function App() {
                         imageAlt="팀워크 향상"
                         title="팀워크 향상"
                         description="동료들과 결과를 공유하여 더 나은 협업 방법을 찾아보세요"
-                        imageWidth="w-auto"
+                        // imageHeight="h-[440px]"
+                        imageWidth="auto"
                         floatingIcon={{
-                          src: floatingIcon,
-                          alt: "플로팅 아이콘",
+                          src: chickenIcon,
+                          alt: "치킨 아이콘 1",
+                          className: "top-10 right-8 w-20 h-20",
+                          delay: 0.5,
                         }}
                         floatingIcon2={{
-                          src: floatingIcon2,
-                          alt: "플로팅 아이콘 2",
+                          src: chickenIcon,
+                          alt: "치킨 아이콘 2",
+                          className: "top-10 left-4 w-20 h-20",
+                          delay: 1.0,
+                        }}
+                        floatingIcon3={{
+                          src: chickenIcon,
+                          alt: "치킨 아이콘 3",
+                          className: "top-10 left-32 w-20 h-20",
+                          delay: 1.5,
                         }}
                       />
                     </CarouselItem>
@@ -157,7 +178,26 @@ function App() {
                         imageAlt="개인 성장"
                         title="개인 성장"
                         description="나의 강점과 개발 포인트를 파악하여 성장의 기회를 찾으세요"
-                        imageHeight="h-[340px]"
+                        // imageHeight="h-[440px]"
+                        imageWidth="auto"
+                        floatingIcon={{
+                          src: studyIcon1,
+                          alt: "스터디 아이콘 1",
+                          className: "top-4 right-2 w-24 h-24",
+                          delay: 0.3,
+                        }}
+                        floatingIcon2={{
+                          src: studyIcon2,
+                          alt: "스터디 아이콘 2",
+                          className: "top-20 left-8 w-16 h-16",
+                          delay: 0.8,
+                        }}
+                        floatingIcon3={{
+                          src: studyIcon3,
+                          alt: "스터디 아이콘 3",
+                          className: "top-32 right-4 w-20 h-20",
+                          delay: 1.3,
+                        }}
                       />
                     </CarouselItem>
                   </CarouselContent>
@@ -178,7 +218,7 @@ function App() {
             <div className="bg-white rounded-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-[250px]">
               <div className="text-center flex flex-col items-center justify-around h-full">
                 <div>
-                  <h3 className="text-lg font-bold text-gray-800 mb-2">
+                  <h3 className="text-lg font-extrabold text-gray-800 mb-2">
                     나만의 워크 DNA 발견하기
                   </h3>
                   <p className="text-sm text-gray-600 mb-4">
@@ -216,8 +256,12 @@ function App() {
               question={currentQuestion}
               currentAnswer={testState.answers[currentQuestion.id] || null}
               onAnswer={handleAnswer}
+              onNext={nextQuestion}
+              onPrevious={previousQuestion}
               questionNumber={testState.currentQuestion + 1}
               totalQuestions={questions.length}
+              canGoNext={testState.currentQuestion < questions.length - 1 || (testState.currentQuestion === questions.length - 1 && !!testState.answers[currentQuestion.id])}
+              canGoPrevious={testState.currentQuestion > 0}
             />
           </div>
         </div>
