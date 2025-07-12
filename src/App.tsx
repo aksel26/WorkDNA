@@ -3,6 +3,7 @@ import { ConsentDrawer } from "./components/ConsentDrawer";
 import { SplashScreen } from "./components/SplashScreen";
 import { TestQuestion } from "./components/TestQuestion";
 import { TestResult } from "./components/TestResult";
+import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
 import {
   Carousel,
   CarouselContent,
@@ -12,6 +13,9 @@ import {
 import { Toaster } from "./components/ui/sonner";
 import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
+import floatingIcon from "./assets/images/cover/icons/icon.png";
+import floatingIcon2 from "./assets/images/cover/icons/icon2.png";
+import logoImage from "./assets/images/ci/ACG_CI-그레이1.png";
 
 function App() {
   const [showSplash, setShowSplash] = useState(false);
@@ -58,7 +62,7 @@ function App() {
   if (error) {
     return (
       <>
-        <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
+        <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-4">
               오류가 발생했습니다
@@ -78,8 +82,21 @@ function App() {
   if (!testState.userId) {
     return (
       <>
-        <div className="min-h-screen bg-gradient-to-br from-background-primary to-background-secondary">
-          <div className="container mx-auto px-4 py-8">
+        <div className="min-h-screen bg-main flex flex-col">
+          {/* Fixed Header */}
+          <div className="fixed top-4 left-4 right-4 z-50">
+            <div className="bg-white rounded-xl shadow-pink-500/50 py-3 px-6 max-w-4xl mx-auto">
+              <div className="flex justify-center">
+                <img
+                  src={logoImage}
+                  alt="WorkDNA Logo"
+                  className="h-5 object-contain"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="container mx-auto px-4 py-8 flex-1 pt-20">
             <div className="max-w-4xl mx-auto text-center">
               {/* Header */}
               {/* <div className="mb-8 mt-10">
@@ -95,58 +112,53 @@ function App() {
 
               <div className="relative">
                 <div className="absolute inset-0 w-full flex bg-transparent items-center justify-center pointer-events-none">
-                  <div className="w-full h-[400px] bg-white rounded-full blur-xl opacity-100"></div>
+                  <div className="w-full h-[500px] bg-white rounded-full blur-xl opacity-100"></div>
                 </div>
-                <Carousel className="mb-5 relative z-10 h-[400px]">
+                <Carousel className="mb-5 relative z-10 h-[500px]">
                   <CarouselContent>
                     <CarouselItem>
-                      <div className="bg-transparent backdrop-blur-sm text-center rounded-2xl p-6">
-                        <img
-                          src="/src/assets/images/cover/cover1.webp"
-                          alt="정확한 분석"
-                          // className="h-[2500px] w-full object-fill"
-                        />
-
-                        <h3 className="text-xl font-bold text-gray-800 mb-2">
-                          정확한 분석
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                          {questions.length}개의 간단한 질문으로 당신의 업무
-                          스타일을 정확히 분석합니다
-                        </p>
-                      </div>
+                      <FeatureCarouselItem
+                        imageSrc="/src/assets/images/cover/cover1-1.png"
+                        imageAlt="정확한 분석"
+                        title="정확한 분석"
+                        description={`${questions.length}개의 간단한 질문으로 당신의 업무 스타일을 정확히 분석합니다`}
+                        titleColor="font-extrabold"
+                        imageHeight="h-[340px]"
+                        floatingIcon={{
+                          src: floatingIcon,
+                          alt: "플로팅 아이콘",
+                        }}
+                        floatingIcon2={{
+                          src: floatingIcon2,
+                          alt: "플로팅 아이콘 2",
+                        }}
+                      />
                     </CarouselItem>
                     <CarouselItem>
-                      <div className="bg-transparent backdrop-blur-sm text-center rounded-2xl p-6">
-                        <img
-                          src="/src/assets/images/cover/cover2.webp"
-                          alt="팀워크 향상"
-                        />
-
-                        <h3 className="text-xl font-bold text-gray-800 mb-2">
-                          팀워크 향상
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                          동료들과 결과를 공유하여 더 나은 협업 방법을
-                          찾아보세요
-                        </p>
-                      </div>
+                      <FeatureCarouselItem
+                        imageSrc="/src/assets/images/cover/cover2-2.png"
+                        imageAlt="팀워크 향상"
+                        title="팀워크 향상"
+                        description="동료들과 결과를 공유하여 더 나은 협업 방법을 찾아보세요"
+                        imageWidth="w-auto"
+                        floatingIcon={{
+                          src: floatingIcon,
+                          alt: "플로팅 아이콘",
+                        }}
+                        floatingIcon2={{
+                          src: floatingIcon2,
+                          alt: "플로팅 아이콘 2",
+                        }}
+                      />
                     </CarouselItem>
                     <CarouselItem>
-                      <div className="bg-transparent backdrop-blur-sm text-center rounded-2xl p-6">
-                        <img
-                          src="/src/assets/images/cover/cover3.webp"
-                          alt="개인 성장"
-                        />
-
-                        <h3 className="text-xl font-bold text-gray-800 mb-2">
-                          개인 성장
-                        </h3>
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                          나의 강점과 개발 포인트를 파악하여 성장의 기회를
-                          찾으세요
-                        </p>
-                      </div>
+                      <FeatureCarouselItem
+                        imageSrc="/src/assets/images/cover/cover3.png"
+                        imageAlt="개인 성장"
+                        title="개인 성장"
+                        description="나의 강점과 개발 포인트를 파악하여 성장의 기회를 찾으세요"
+                        imageHeight="h-[340px]"
+                      />
                     </CarouselItem>
                   </CarouselContent>
                   <CarouselDots />
@@ -158,16 +170,31 @@ function App() {
                 
                
               </div> */}
+            </div>
+          </div>
 
-              {/* CTA */}
-              <ConsentDrawer
-                isLoading={isLoading}
-                onSubmit={handleConsentSubmit}
-              />
-
-              <p className="text-sm text-gray-500 mt-5">
-                소요 시간: 약 5분 | 완전 무료
-              </p>
+          {/* Fixed bottom CTA */}
+          <div className="fixed bottom-6 left-4 right-4 z-50">
+            <div className="bg-white rounded-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-[250px]">
+              <div className="text-center flex flex-col items-center justify-around h-full">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-800 mb-2">
+                    나만의 워크 DNA 발견하기
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    간단한 질문으로 당신의 업무 스타일을 알아보세요
+                  </p>
+                </div>
+                <div className="w-full">
+                  <ConsentDrawer
+                    isLoading={isLoading}
+                    onSubmit={handleConsentSubmit}
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    소요 시간: 약 5분 | 완전 무료
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -183,7 +210,7 @@ function App() {
   if (!testState.isComplete && currentQuestion) {
     return (
       <>
-        <div className="min-h-screen bg-[#efebde] py-8">
+        <div className="min-h-screen bg-[#efebde] bg-main py-8">
           <div className="container mx-auto">
             <TestQuestion
               question={currentQuestion}
@@ -203,7 +230,7 @@ function App() {
   if (testState.isComplete && testState.result && personalityType) {
     return (
       <>
-        <div className="min-h-screen bg-gradient-to-br from-background-primary to-background-secondary py-8">
+        <div className="min-h-screen bg-gradient-to-br from-background-primary to-background-secondary bg-main py-8">
           <div className="container mx-auto">
             <TestResult
               personalityType={personalityType}
@@ -222,7 +249,7 @@ function App() {
   if (isLoading) {
     return (
       <>
-        <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
+        <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
             <p className="text-gray-300">로딩 중...</p>
@@ -237,7 +264,7 @@ function App() {
   if (error) {
     return (
       <>
-        <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
+        <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-4">
               오류가 발생했습니다
@@ -256,7 +283,7 @@ function App() {
   // Fallback - should not reach here
   return (
     <>
-      <div className="min-h-screen bg-[#efebde] flex items-center justify-center">
+      <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-white mb-4">
             예상치 못한 상태입니다
