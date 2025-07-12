@@ -6,7 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import {
@@ -32,9 +31,10 @@ export interface ConsentModalRef {
   submit: () => void;
 }
 
-export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>(({
-  onSubmit,
-}, ref) => {
+export const ConsentModal = React.forwardRef<
+  ConsentModalRef,
+  ConsentModalProps
+>(({ onSubmit }, ref) => {
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -43,7 +43,7 @@ export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>
   });
   const [isPrivacyDialogOpen, setIsPrivacyDialogOpen] = useState(false);
   const formDataRef = React.useRef(formData);
-  
+
   // Keep ref in sync with state
   React.useEffect(() => {
     formDataRef.current = formData;
@@ -51,19 +51,26 @@ export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>
 
   console.log("formData:", formData);
 
-  const handleSubmit = React.useCallback((e?: React.FormEvent) => {
-    if (e) e.preventDefault();
-    const currentFormData = formDataRef.current;
-    if (!currentFormData.consent) {
-      toast.error("개인정보 수집 및 이용에 동의해주세요.");
-      return;
-    }
-    onSubmit(currentFormData);
-  }, [onSubmit]);
+  const handleSubmit = React.useCallback(
+    (e?: React.FormEvent) => {
+      if (e) e.preventDefault();
+      const currentFormData = formDataRef.current;
+      if (!currentFormData.consent) {
+        toast.error("개인정보 수집 및 이용에 동의해주세요.");
+        return;
+      }
+      onSubmit(currentFormData);
+    },
+    [onSubmit]
+  );
 
-  React.useImperativeHandle(ref, () => ({
-    submit: handleSubmit
-  }), [handleSubmit]);
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      submit: handleSubmit,
+    }),
+    [handleSubmit]
+  );
 
   const handlePrivacyConsent = () => {
     setFormData((prev) => ({ ...prev, consent: true }));
@@ -92,6 +99,7 @@ export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>
           <Input
             type="text"
             value={formData.name}
+            className="text-sm"
             onChange={(e) => handleChange("name", e.target.value)}
             placeholder="이름을 입력하세요"
           />
@@ -102,24 +110,41 @@ export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>
           <Label className="block text-sm font-medium text-black mb-2">
             성별 (선택사항)
           </Label>
-          <RadioGroup
-            value={formData.gender}
-            onValueChange={(value) => handleChange("gender", value)}
-            className="flex"
-          >
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="male" id="male" />
-              <Label htmlFor="male">남성</Label>
-            </div>
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="female" id="female" />
-              <Label htmlFor="female">여성</Label>
-            </div>
-            <div className="flex items-center gap-3">
-              <RadioGroupItem value="other" id="other" />
-              <Label htmlFor="other">기타</Label>
-            </div>
-          </RadioGroup>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={() => handleChange("gender", "male")}
+              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+                formData.gender === "male"
+                  ? "border-blue-400 bg-blue-50 text-blue-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              남성
+            </button>
+            <button
+              type="button"
+              onClick={() => handleChange("gender", "female")}
+              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+                formData.gender === "female"
+                  ? "border-pink-400 bg-pink-50 text-pink-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              여성
+            </button>
+            <button
+              type="button"
+              onClick={() => handleChange("gender", "other")}
+              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+                formData.gender === "other"
+                  ? "border-gray-400 bg-gray-50 text-gray-700"
+                  : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
+              }`}
+            >
+              기타
+            </button>
+          </div>
         </div>
 
         {/* Age Range Selection */}
@@ -166,7 +191,7 @@ export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>
             <DialogTrigger asChild>
               <button
                 type="button"
-                className={`w-full p-3 rounded-lg border text-left transition-colors ${
+                className={`w-full p-3 rounded-lg border text-left transition-colors text-sm ${
                   formData.consent
                     ? "bg-green-50 border-green-200 text-green-700"
                     : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
@@ -205,7 +230,7 @@ export const ConsentModal = React.forwardRef<ConsentModalRef, ConsentModalProps>
               <DialogFooter>
                 <button
                   onClick={handlePrivacyConsent}
-                  className="btn-primary w-full"
+                  className="btn-primary w-full text-sm"
                 >
                   동의하고 확인
                 </button>
