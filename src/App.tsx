@@ -4,12 +4,7 @@ import { SplashScreen } from "./components/SplashScreen";
 import { TestQuestion } from "./components/TestQuestion";
 import { TestResult } from "./components/TestResult";
 import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselDots,
-  CarouselItem,
-} from "./components/ui/carousel";
+import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "./components/ui/carousel";
 import { Toaster } from "./components/ui/sonner";
 import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
@@ -23,26 +18,9 @@ import logoImage from "./assets/images/ci/ACG_CI-그레이1.png";
 
 function App() {
   const [showSplash, setShowSplash] = useState(false);
-  const {
-    testState,
-    isLoading,
-    error,
-    submitConsent,
-    submitAnswer,
-    nextQuestion,
-    previousQuestion,
-    restartTest,
-    shareResult,
-    currentQuestion,
-    personalityType,
-  } = useTest();
+  const { testState, isLoading, error, submitConsent, submitAnswer, nextQuestion, previousQuestion, restartTest, shareResult, currentQuestion, personalityType } = useTest();
 
-  const handleConsentSubmit = async (userData: {
-    name: string;
-    gender: string;
-    ageRange: string;
-    consent: boolean;
-  }) => {
+  const handleConsentSubmit = async (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
     try {
       console.log("userData:", userData);
       await submitConsent(userData);
@@ -70,9 +48,7 @@ function App() {
       <>
         <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              오류가 발생했습니다
-            </h2>
+            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -93,11 +69,7 @@ function App() {
           <div className="fixed top-4 left-4 right-4 z-50">
             <div className="bg-white rounded-xl shadow-pink-500/50 py-3 px-6 max-w-4xl mx-auto">
               <div className="flex justify-center">
-                <img
-                  src={logoImage}
-                  alt="WorkDNA Logo"
-                  className="h-5 object-contain"
-                />
+                <img src={logoImage} alt="WorkDNA Logo" className="h-5 object-contain" />
               </div>
             </div>
           </div>
@@ -218,21 +190,12 @@ function App() {
             <div className="bg-white rounded-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-[250px]">
               <div className="text-center flex flex-col items-center justify-around h-full">
                 <div>
-                  <h3 className="text-lg font-extrabold text-gray-800 mb-2">
-                    나만의 워크 DNA 발견하기
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    간단한 질문으로 당신의 업무 스타일을 알아보세요
-                  </p>
+                  <h3 className="text-lg font-extrabold text-gray-800 mb-2">나만의 워크 DNA 발견하기</h3>
+                  <p className="text-sm text-gray-600 mb-4">간단한 질문으로 당신의 업무 스타일을 알아보세요</p>
                 </div>
                 <div className="w-full">
-                  <ConsentDrawer
-                    isLoading={isLoading}
-                    onSubmit={handleConsentSubmit}
-                  />
-                  <p className="text-xs text-gray-500 mt-2">
-                    소요 시간: 약 5분 | 완전 무료
-                  </p>
+                  <ConsentDrawer isLoading={isLoading} onSubmit={handleConsentSubmit} />
+                  <p className="text-xs text-gray-500 mt-2">소요 시간: 약 5분 | 완전 무료</p>
                 </div>
               </div>
             </div>
@@ -274,14 +237,9 @@ function App() {
   if (testState.isComplete && testState.result && personalityType) {
     return (
       <>
-        <div className="min-h-screen bg-gradient-to-br from-background-primary to-background-secondary bg-main py-8">
+        <div className="min-h-screen bg-main py-8">
           <div className="container mx-auto">
-            <TestResult
-              personalityType={personalityType}
-              scores={testState.result.scores}
-              onRestart={restartTest}
-              onShare={shareResult}
-            />
+            <TestResult personalityType={personalityType} scores={testState.result.scores} onRestart={restartTest} onShare={shareResult} />
           </div>
         </div>
         <Toaster />
@@ -310,9 +268,7 @@ function App() {
       <>
         <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              오류가 발생했습니다
-            </h2>
+            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -329,9 +285,7 @@ function App() {
     <>
       <div className="min-h-screen bg-[#efebde] bg-main flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            예상치 못한 상태입니다
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-4">예상치 못한 상태입니다</h2>
           <button onClick={restartTest} className="btn-primary">
             처음부터 시작하기
           </button>
