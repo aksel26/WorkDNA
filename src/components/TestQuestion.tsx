@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import logoImage from "../assets/images/ci/ACG_CI-그레이1.png";
 import type { Question } from "../data/questions";
 import { Progress } from "./ui/progress";
-import logoImage from "../assets/images/ci/ACG_CI-그레이1.png";
 
 interface TestQuestionProps {
   question: Question;
@@ -16,6 +16,37 @@ interface TestQuestionProps {
 }
 
 export const TestQuestion: React.FC<TestQuestionProps> = ({ question, currentAnswer, onAnswer, onNext, onPrevious, questionNumber, totalQuestions, canGoNext, canGoPrevious }) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [showContent, setShowContent] = useState(true);
+  const [currentQuestion, setCurrentQuestion] = useState(question);
+
+  useEffect(() => {
+    if (currentQuestion.id !== question.id) {
+      setShowContent(false);
+      setTimeout(() => {
+        setCurrentQuestion(question);
+        setShowContent(true);
+      }, 200);
+    }
+  }, [question, currentQuestion.id]);
+
+  const handleNext = () => {
+    setIsAnimating(true);
+    setShowContent(false);
+    setTimeout(() => {
+      onNext();
+      setIsAnimating(false);
+    }, 200);
+  };
+
+  const handlePrevious = () => {
+    setIsAnimating(true);
+    setShowContent(false);
+    setTimeout(() => {
+      onPrevious();
+      setIsAnimating(false);
+    }, 200);
+  };
   return (
     <>
       {/* Fixed Header */}
@@ -45,31 +76,36 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({ question, currentAns
         </div>
 
         {/* Question */}
+
         <div className="bg-white rounded-3xl shadow-sm p-8 mb-6 shadow-pink-200/50 h-94 flex flex-col justify-between">
           <div></div>
-          <div>
+          <div className={`transition-all duration-300 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
             <h4 className="text-gray-500">{`Q${questionNumber}`}</h4>
-            <h2 className="text-lg font-semibold text-gray-800 leading-relaxed">{question.text}</h2>
+            <h2 className="text-lg font-semibold text-gray-800 leading-relaxed">{currentQuestion.text}</h2>
           </div>
 
           {/* Answer Options */}
           <div className="space-y-3">
-            {question.options.map((option) => (
+            {currentQuestion.options.map((option, index) => (
               <button
                 key={option.value}
-                onClick={() => onAnswer(question.id, option.value)}
-                className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${
+                onClick={() => onAnswer(currentQuestion.id, option.value)}
+                disabled={isAnimating}
+                className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"} ${
                   currentAnswer === option.value ? "border-lime-400 bg-lime-50 text-lime-900" : "border-gray-200 hover:border-lime-300 hover:bg-gray-50"
                 }`}
+                style={{
+                  transitionDelay: showContent ? `${index * 50}ms` : "0ms",
+                }}
               >
                 <div className="flex items-center space-x-3">
-                  {/* <div
+                  <div
                     className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
                       currentAnswer === option.value ? "border-lime-400 bg-lime-400 shadow-lg shadow-lime-200" : "border-gray-300"
                     }`}
                   >
                     {currentAnswer === option.value && <div className="w-full h-full rounded-full bg-white scale-50" />}
-                  </div> */}
+                  </div>
                   {/* <span className="text-sm font-medium text-gray-800">
                     {option.value}
                   </span> */}
@@ -83,10 +119,10 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({ question, currentAns
         {/* Navigation Buttons */}
         <div className="flex justify-between items-center mt-8 gap-x-2">
           <button
-            onClick={onPrevious}
-            disabled={!canGoPrevious}
+            onClick={handlePrevious}
+            disabled={!canGoPrevious || isAnimating}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex-1/2 ${
-              canGoPrevious ? "bg-gray-200 text-gray-700 hover:bg-gray-300" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+              canGoPrevious && !isAnimating ? "bg-gray-200 text-gray-700 hover:bg-gray-300" : "bg-gray-100 text-gray-400 cursor-not-allowed"
             }`}
           >
             이전
@@ -97,10 +133,10 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({ question, currentAns
           </div> */}
 
           <button
-            onClick={onNext}
-            disabled={!canGoNext || !currentAnswer}
+            onClick={handleNext}
+            disabled={!canGoNext || !currentAnswer || isAnimating}
             className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex-1/2 ${
-              canGoNext && currentAnswer ? "bg-lime-400 text-white hover:bg-lime-500" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+              canGoNext && currentAnswer && !isAnimating ? "bg-lime-400 text-white hover:bg-lime-500" : "bg-gray-100 text-gray-400 cursor-not-allowed"
             }`}
           >
             다음
