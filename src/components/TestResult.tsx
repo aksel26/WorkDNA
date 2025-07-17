@@ -10,17 +10,24 @@ interface TestResultProps {
   onShare: () => void;
 }
 
-export const TestResult: React.FC<TestResultProps> = ({ personalityType, scores, onRestart, onShare }) => {
+export const TestResult: React.FC<TestResultProps> = ({
+  personalityType,
+  scores,
+  onRestart,
+  onShare,
+}) => {
   const maxScore = Math.max(...Object.values(scores));
   const detail = typeDetails[personalityType.id];
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4">
+    <div className="w-full max-w-xl mx-auto px-4">
       {/* Result Header */}
       <div className="text-center mb-8">
         <div className="animate-slide-up">
           <img src="/src/assets/images/types/사교왕.webp" alt="result" />
-          <h1 className="text-2xl font-bold  mb-2">{detail?.summary || personalityType.name}</h1>
+          <h1 className="text-2xl font-bold  mb-2">
+            {detail?.summary || personalityType.name}
+          </h1>
           <p className="text-gray-900 text-lg">{personalityType.description}</p>
         </div>
       </div>
@@ -47,7 +54,9 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, scores,
               <Heart className="w-5 h-5 mr-2 text-red-400" />
               나에게 필요한 것은
             </h3>
-            <p className="text-gray-300 leading-relaxed bg-red-900 bg-opacity-30 p-3 rounded-lg">{detail?.needs}</p>
+            <p className="text-gray-300 leading-relaxed bg-red-900 bg-opacity-30 p-3 rounded-lg">
+              {detail?.needs}
+            </p>
           </div>
 
           {/* Negative Traits */}
@@ -76,12 +85,19 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, scores,
             .sort(([, a], [, b]) => b - a)
             .map(([type, score]) => (
               <div key={type} className="flex items-center justify-between">
-                <span className="text-sm text-gray-300 capitalize">{type.replace("-", " ")}</span>
+                <span className="text-sm text-gray-300 capitalize">
+                  {type.replace("-", " ")}
+                </span>
                 <div className="flex items-center space-x-2">
                   <div className="w-32 bg-[#7e7d7d] rounded-full h-2">
-                    <div className="bg-primary-500 h-2 rounded-full transition-all duration-500" style={{ width: `${(score / maxScore) * 100}%` }} />
+                    <div
+                      className="bg-primary-500 h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${(score / maxScore) * 100}%` }}
+                    />
                   </div>
-                  <span className="text-sm font-medium text-white w-8 text-right">{score}</span>
+                  <span className="text-sm font-medium text-white w-8 text-right">
+                    {score}
+                  </span>
                 </div>
               </div>
             ))}
@@ -90,11 +106,17 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, scores,
 
       {/* Action Buttons */}
       <div className="flex flex-col sm:flex-row gap-3 mb-8">
-        <button onClick={onShare} className="btn-primary flex items-center justify-center space-x-2">
+        <button
+          onClick={onShare}
+          className="btn-primary flex items-center justify-center space-x-2"
+        >
           <Share2 size={20} />
           <span>결과 공유하기</span>
         </button>
-        <button onClick={onRestart} className="btn-secondary flex items-center justify-center space-x-2">
+        <button
+          onClick={onRestart}
+          className="btn-secondary flex items-center justify-center space-x-2"
+        >
           <RefreshCw size={20} />
           <span>다시 테스트하기</span>
         </button>
