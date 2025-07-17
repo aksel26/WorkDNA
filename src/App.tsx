@@ -90,7 +90,7 @@ function App() {
 
               <div className="relative">
                 <div className="absolute inset-0 w-full flex bg-transparent items-center justify-center pointer-events-none">
-                  <div className="w-full h-[500px] bg-white rounded-full blur-xl opacity-100"></div>
+                  <div className="w-full h-[50px] bg-white rounded-full blur-xl opacity-100"></div>
                 </div>
                 <Carousel className="mb-5 relative z-10 h-[500px]">
                   <CarouselContent>
@@ -186,8 +186,8 @@ function App() {
           </div>
 
           {/* Fixed bottom CTA */}
-          <div className="fixed bottom-6 left-4 right-4 z-50">
-            <div className="bg-white rounded-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-[250px]">
+          <div className="fixed bottom-0 left-0 right-0 z-50 h-98">
+            <div className="bg-white rounded-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-full">
               <div className="text-center flex flex-col items-center justify-around h-full">
                 <div>
                   <h3 className="text-lg font-extrabold text-gray-800 mb-2">나만의 워크 DNA 발견하기</h3>
