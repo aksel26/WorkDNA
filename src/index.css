@@ -6,12 +6,16 @@
 @layer base {
   html {
     font-family: "NanumSquareRound", "맑은 고딕", "Malgun Gothic", sans-serif;
+    background-color: #1c3163;
+    word-break: keep-all;
+    height: 100dvh;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+    overscroll-behavior: none;
   }
 
   body {
-    background-color: white;
-    color: white;
-    word-break: keep-all;
+    /* overflow-y: hidden; */
   }
 }
 
@@ -45,7 +49,8 @@
   .card {
     background-color: #6b6a6a;
     border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding: 1.5rem;
     color: white;
   }
@@ -65,6 +70,8 @@
     border-color: transparent;
     box-shadow: 0 0 0 2px #b59f85;
   }
+
+  /* #d6b585 */
 
   .bg-main {
     /* background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url("./assets/images/bg/bg.jpg");

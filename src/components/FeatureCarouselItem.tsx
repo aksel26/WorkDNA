@@ -36,8 +36,8 @@ export function FeatureCarouselItem({
   title,
   description,
   titleColor = "text-gray-800",
-  imageWidth = "w-[240px]",
-  imageHeight = "h-[340px]",
+  imageWidth,
+  imageHeight,
   floatingIcon,
   floatingIcon2,
   floatingIcon3,
@@ -70,7 +70,7 @@ export function FeatureCarouselItem({
 
   return (
     <div ref={ref} className="bg-transparent flex flex-col h-full">
-      <div className="h-[400px] flex items-center justify-center mb-4 relative">
+      <div className="flex items-center justify-center mb-4 relative">
         <img
           src={imageSrc}
           alt={imageAlt}
@@ -101,9 +101,9 @@ export function FeatureCarouselItem({
           />
         )}
       </div>
-      <div className="flex-1 flex flex-col justify-center text-center">
+      <div className="">
         <motion.h3
-          className={`text-xl font-bold ${titleColor} mb-2`}
+          className={`text-base font-bold ${titleColor} mb-2 md:text-xl`}
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -111,7 +111,7 @@ export function FeatureCarouselItem({
           {title}
         </motion.h3>
         <motion.p
-          className="text-gray-600 text-sm leading-relaxed"
+          className="text-gray-600 text-xs md:text-md leading-relaxed"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
