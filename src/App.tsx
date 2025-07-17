@@ -187,7 +187,7 @@ function App() {
 
           {/* Fixed bottom CTA */}
           <div className="fixed bottom-0 left-0 right-0 z-50 h-98">
-            <div className="bg-white rounded-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-full">
+            <div className="bg-white rounded-t-3xl shadow-none border border-gray-100 p-6 max-w-4xl mx-auto h-full">
               <div className="text-center flex flex-col items-center justify-around h-full">
                 <div>
                   <h3 className="text-lg font-extrabold text-gray-800 mb-2">나만의 워크 DNA 발견하기</h3>
