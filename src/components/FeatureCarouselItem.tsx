@@ -8,8 +8,6 @@ interface FeatureCarouselItemProps {
   title: string;
   description: string;
   titleColor?: string;
-  imageWidth?: string;
-  imageHeight?: string;
   floatingIcon?: {
     src: string;
     alt: string;
@@ -36,8 +34,6 @@ export function FeatureCarouselItem({
   title,
   description,
   titleColor = "text-gray-800",
-  imageWidth,
-  imageHeight,
   floatingIcon,
   floatingIcon2,
   floatingIcon3,
@@ -70,11 +66,11 @@ export function FeatureCarouselItem({
 
   return (
     <div ref={ref} className="bg-transparent flex flex-col h-full">
-      <div className="flex items-center justify-center mb-4 relative">
+      <div className="flex items-center justify-center mb-4 relative aspect-[4/3] max-w-[280px] mx-auto">
         <img
           src={imageSrc}
           alt={imageAlt}
-          className={`${imageWidth} ${imageHeight} object-contain`}
+          className="w-full h-full object-contain"
         />
         {floatingIcon && isVisible && (
           <FloatingIcon

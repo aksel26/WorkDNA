@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { toast } from "sonner";
+import logoImageGray from "./assets/images/ci/ACG_CI-그레이1.png";
 import logoImage from "./assets/images/ci/ACG_CI-화이트1 2.png";
 import floatingIcon from "./assets/images/cover/icons/icon.png";
 import floatingIcon2 from "./assets/images/cover/icons/icon2.png";
@@ -10,18 +12,42 @@ import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
 import { SplashScreen } from "./components/SplashScreen";
 import { TestQuestion } from "./components/TestQuestion";
 import { TestResult } from "./components/TestResult";
-import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "./components/ui/carousel";
+import { TestLoading } from "./components/TestLoading";
+import { Button } from "./components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselDots,
+  CarouselItem,
+} from "./components/ui/carousel";
 import { Toaster } from "./components/ui/sonner";
-import { toast } from "sonner";
-import { Copy } from "lucide-react";
 import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
+import useKakao from "./hooks/useKakao";
+import KakaoShareButton from "./components/share/Kakao";
 
 function TestApp() {
   const [showSplash, setShowSplash] = useState(false);
-  const { testState, isLoading, error, submitConsent, submitAnswer, nextQuestion, previousQuestion, restartTest, shareResult, currentQuestion, personalityType } = useTest();
+  const {
+    testState,
+    isLoading,
+    error,
+    submitConsent,
+    submitAnswer,
+    nextQuestion,
+    previousQuestion,
+    restartTest,
+    shareResult,
+    currentQuestion,
+    personalityType,
+  } = useTest();
 
-  const handleConsentSubmit = async (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
+  const handleConsentSubmit = async (userData: {
+    name: string;
+    gender: string;
+    ageRange: string;
+    consent: boolean;
+  }) => {
     try {
       console.log("userData:", userData);
       await submitConsent(userData);
@@ -48,6 +74,38 @@ function TestApp() {
     }
   };
 
+  const isKakaoReady = useKakao();
+  console.log("isKakaoReady: ", isKakaoReady);
+
+  const handleKakaoShare = () => {
+    if (!isKakaoReady || !window.Kakao) {
+      alert("Kakao SDK가 준비되지 않았습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    window.Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: "내 앱으로 초대합니다!",
+        description: "React와 Vite로 만든 멋진 앱을 경험해보세요.",
+        imageUrl: logoImageGray, // 'src/assets'에 이미지를 넣고 import하여 사용
+        link: {
+          mobileWebUrl: window.location.href,
+          webUrl: window.location.href,
+        },
+      },
+      buttons: [
+        {
+          title: "앱으로 이동",
+          link: {
+            mobileWebUrl: window.location.href,
+            webUrl: window.location.href,
+          },
+        },
+      ],
+    });
+  };
+
   // Splash screen
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
@@ -59,7 +117,9 @@ function TestApp() {
       <>
         <div className=" bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              오류가 발생했습니다
+            </h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -80,15 +140,21 @@ function TestApp() {
           <div className="fixed top-4 left-4 right-4 z-50">
             <div className="bg-transparent rounded-xl py-2 px-6 max-w-xl mx-auto">
               <div className="flex justify-center">
-                <img src={logoImage} alt="WorkDNA Logo" className="h-5 object-contain" />
+                <img
+                  src={logoImage}
+                  alt="WorkDNA Logo"
+                  className="h-5 object-contain"
+                />
               </div>
             </div>
           </div>
 
-          <div className="container mx-auto px-4 py-8 flex-1 pt-14">
+          <div className="container mx-auto px-4 py-8 flex-1 pt-14 h-dvh">
             <div className="max-w-xl mx-auto text-center">
               {/* Header */}
-              <h3 className="text-lg sm:text-xl font-extrabold mb-4 text-white mt-10 ">나만의 워크 DNA 발견하기</h3>
+              <h3 className="text-lg sm:text-xl font-extrabold mb-4 text-white mt-10 ">
+                나만의 워크 DNA 발견하기
+              </h3>
 
               {/* Features */}
 
@@ -101,13 +167,13 @@ function TestApp() {
           </div>
 
           {/* Fixed bottom CTA */}
-          <div className="fixed bottom-0 left-0 right-0 z-10 h-84 md:h-84">
-            <div className="bg-white rounded-t-3xl shadow-none border border-gray-100 p-6 max-w-xl mx-auto h-full relative">
-              <div className="absolute -top-54 left-0 right-0 text-center">
+          <div className="fixed bottom-0 left-0 right-0 z-10 h-[336px] sm:h-[360px] md:h-[384px]">
+            <div className="bg-white rounded-t-3xl shadow-none border border-gray-100 p-4 sm:p-6 max-w-xl mx-auto h-full relative">
+              <div className="absolute -top-[216px] sm:-top-[240px] md:-top-[264px] left-0 right-0 text-center px-4">
                 {/* <div className="absolute inset-0 w-full flex bg-transparent items-center justify-center pointer-events-none top-6">
                   <div className="w-full h-64 bg-white rounded-full blur-xs opacity-100"></div>
                 </div> */}
-                <Carousel className="mb-5 relative z-50 mt-8">
+                <Carousel className="mb-3 sm:mb-5 relative z-50 mt-6 sm:mt-8">
                   <CarouselContent>
                     <CarouselItem>
                       <FeatureCarouselItem
@@ -116,8 +182,6 @@ function TestApp() {
                         title="정확한 분석"
                         description={`${questions.length}개의 간단한 질문으로 당신의 업무 스타일을 정확히 분석합니다`}
                         titleColor="font-extrabold"
-                        imageWidth="w-full md:w-[280px]"
-                        imageHeight="h-[240px]"
                         floatingIcon={{
                           src: floatingIcon,
                           alt: "플로팅 아이콘",
@@ -138,8 +202,6 @@ function TestApp() {
                         imageAlt="팀워크 향상"
                         title="팀워크 향상"
                         description="동료들과 결과를 공유하여 더 나은 협업 방법을 찾아보세요"
-                        imageWidth="w-full md:w-[280px]"
-                        imageHeight="h-[250px]"
                         // floatingIcon={{
                         //   src: chickenIcon,
                         //   alt: "치킨 아이콘 1",
@@ -166,8 +228,6 @@ function TestApp() {
                         imageAlt="개인 성장"
                         title="개인 성장"
                         description="나의 강점과 개발 포인트를 파악하여 성장의 기회를 찾으세요"
-                        imageWidth="w-full md:w-[280px]"
-                        imageHeight="h-[240px]"
                         floatingIcon={{
                           src: studyIcon1,
                           alt: "스터디 아이콘 1",
@@ -193,16 +253,44 @@ function TestApp() {
                 </Carousel>
               </div>
 
-              <div className="w-full text-center absolute bottom-12 left-0 right-0 px-4">
-                <ConsentDrawer isLoading={isLoading} onSubmit={handleConsentSubmit} />
+              <div className="w-full text-center absolute bottom-8 sm:bottom-12 left-0 right-0 px-4">
+                <ConsentDrawer
+                  isLoading={isLoading}
+                  onSubmit={handleConsentSubmit}
+                />
                 <p className="text-xs text-gray-500 mt-2">소요 시간: 약 5분</p>
-                <button
-                  onClick={copyCurrentUrl}
-                  className="flex items-center justify-center space-x-2 mx-auto mt-3 px-4 py-2 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                >
-                  <Copy className="w-4 h-4" />
-                  <span>URL 복사</span>
-                </button>
+                <div className="space-x-4">
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="mt-4 size-9 border-[#d6b585] border cursor-pointer hover:bg-[#1c3163]"
+                    onClick={copyCurrentUrl}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#d6b585"
+                      strokeWidth="2.3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-link-icon lucide-link"
+                    >
+                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                    </svg>
+                  </Button>
+
+                  {isKakaoReady ? (
+                    <KakaoShareButton onClick={handleKakaoShare} />
+                  ) : (
+                    <div className="text-gray-500">
+                      공유 버튼을 불러오는 중입니다...
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -215,12 +303,23 @@ function TestApp() {
     );
   }
 
+  // Loading state when completing test
+  // if (isLoading && testState.currentQuestion >= questions.length - 1) {
+  if (isLoading && testState.currentQuestion >= questions.length - 1) {
+    return (
+      <>
+        <TestLoading />
+        <Toaster />
+      </>
+    );
+  }
+
   // Test in progress
   if (!testState.isComplete && currentQuestion) {
     return (
       <>
-        <div className=" bg-[#efebde] bg-main py-8">
-          <div className="container mx-auto">
+        <div className="bg-main h-dvh px-4 flex items-center">
+          <div className="container mx-auto ">
             <TestQuestion
               question={currentQuestion}
               currentAnswer={testState.answers[currentQuestion.id] || null}
@@ -229,7 +328,11 @@ function TestApp() {
               onPrevious={previousQuestion}
               questionNumber={testState.currentQuestion + 1}
               totalQuestions={questions.length}
-              canGoNext={testState.currentQuestion < questions.length - 1 || (testState.currentQuestion === questions.length - 1 && !!testState.answers[currentQuestion.id])}
+              canGoNext={
+                testState.currentQuestion < questions.length - 1 ||
+                (testState.currentQuestion === questions.length - 1 &&
+                  !!testState.answers[currentQuestion.id])
+              }
               canGoPrevious={testState.currentQuestion > 0}
             />
           </div>
@@ -245,7 +348,12 @@ function TestApp() {
       <>
         <div className=" bg-main py-8">
           <div className="container mx-auto">
-            <TestResult personalityType={personalityType} scores={testState.result.scores} onRestart={restartTest} onShare={shareResult} />
+            <TestResult
+              personalityType={personalityType}
+              scores={testState.result.scores}
+              onRestart={restartTest}
+              onShare={shareResult}
+            />
           </div>
         </div>
         <Toaster />
@@ -274,7 +382,9 @@ function TestApp() {
       <>
         <div className=" bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              오류가 발생했습니다
+            </h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -291,7 +401,9 @@ function TestApp() {
     <>
       <div className=" bg-[#efebde] bg-main flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">예상치 못한 상태입니다</h2>
+          <h2 className="text-2xl font-bold text-white mb-4">
+            예상치 못한 상태입니다
+          </h2>
           <button onClick={restartTest} className="btn-primary">
             처음부터 시작하기
           </button>
