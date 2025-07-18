@@ -1,8 +1,16 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
-import { questions } from '../data/questions';
-import { calculatePersonalityType, personalityTypes } from '../data/personalityTypes';
-import { detectDevice, detectBrowser, detectLocation, detectTrafficSource } from '../utils/browserDetection';
+import { useState, useEffect } from "react";
+import { supabase } from "../lib/supabase";
+import { questions } from "../data/questions";
+import {
+  calculatePersonalityType,
+  personalityTypes,
+} from "../data/personalityTypes";
+import {
+  detectDevice,
+  detectBrowser,
+  detectLocation,
+  detectTrafficSource,
+} from "../utils/browserDetection";
 
 export interface UserData {
   name: string;
@@ -41,13 +49,16 @@ export const useTest = () => {
 
   // Load saved progress from localStorage
   useEffect(() => {
-    const savedState = localStorage.getItem('workdna-test-state');
+    const savedState = localStorage.getItem("workdna-test-state");
     if (savedState) {
       try {
         const parsed = JSON.parse(savedState);
-        setTestState({ ...parsed, sessionStartTime: parsed.sessionStartTime || Date.now() });
+        setTestState({
+          ...parsed,
+          sessionStartTime: parsed.sessionStartTime || Date.now(),
+        });
       } catch (e) {
-        console.error('Failed to parse saved state:', e);
+        console.error("Failed to parse saved state:", e);
       }
     }
   }, []);
@@ -55,7 +66,7 @@ export const useTest = () => {
   // Save progress to localStorage
   useEffect(() => {
     if (testState.userId) {
-      localStorage.setItem('workdna-test-state', JSON.stringify(testState));
+      localStorage.setItem("workdna-test-state", JSON.stringify(testState));
     }
   }, [testState]);
 
@@ -72,26 +83,28 @@ export const useTest = () => {
 
       // Create user record with all tracking data
       const { data: user, error: userError } = await supabase
-        .from('user_responses')
-        .insert([{
-          name: userData.name || null,
-          gender: userData.gender || null,
-          age_range: userData.ageRange || null,
-          consent_given: userData.consent,
-          device_type: deviceType,
-          browser: browser,
-          traffic_source: trafficSource,
-          country: location.country,
-          region: location.region,
-          session_duration_seconds: 0,
-          test_started_at: new Date().toISOString(),
-        }])
+        .from("user_responses")
+        .insert([
+          {
+            name: userData.name || null,
+            gender: userData.gender || null,
+            age_range: userData.ageRange || null,
+            consent_given: userData.consent,
+            device_type: deviceType,
+            browser: browser,
+            traffic_source: trafficSource,
+            country: location.country,
+            region: location.region,
+            session_duration_seconds: 0,
+            test_started_at: new Date().toISOString(),
+          },
+        ])
         .select()
         .single();
 
       if (userError) throw userError;
 
-      setTestState(prev => ({
+      setTestState((prev) => ({
         ...prev,
         userData,
         userId: user.id,
@@ -100,7 +113,7 @@ export const useTest = () => {
 
       return user.id;
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(err instanceof Error ? err.message : "Unknown error");
       throw err;
     } finally {
       setIsLoading(false);
@@ -109,7 +122,7 @@ export const useTest = () => {
 
   const submitAnswer = async (questionId: number, value: string) => {
     if (!testState.userId) {
-      setError('User not found');
+      setError("User not found");
       return;
     }
 
@@ -119,26 +132,25 @@ export const useTest = () => {
     try {
       // Update the specific answer column
       const answerColumn = `answer_${questionId}`;
-      
+
       const { error: updateError } = await supabase
-        .from('user_responses')
+        .from("user_responses")
         .update({
-          [answerColumn]: value
+          [answerColumn]: value,
         })
-        .eq('id', testState.userId);
+        .eq("id", testState.userId);
 
       if (updateError) throw updateError;
 
       // Update local state
       const newAnswers = { ...testState.answers, [questionId]: value };
 
-      setTestState(prev => ({
+      setTestState((prev) => ({
         ...prev,
         answers: newAnswers,
       }));
-
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(err instanceof Error ? err.message : "Unknown error");
       throw err;
     } finally {
       setIsLoading(false);
@@ -151,7 +163,7 @@ export const useTest = () => {
       // Complete the test
       completeTest();
     } else {
-      setTestState(prev => ({
+      setTestState((prev) => ({
         ...prev,
         currentQuestion: nextQ,
       }));
@@ -160,7 +172,7 @@ export const useTest = () => {
 
   const previousQuestion = () => {
     if (testState.currentQuestion > 0) {
-      setTestState(prev => ({
+      setTestState((prev) => ({
         ...prev,
         currentQuestion: prev.currentQuestion - 1,
       }));
@@ -173,8 +185,10 @@ export const useTest = () => {
     setIsLoading(true);
     try {
       const result = calculatePersonalityType(testState.answers);
-      const sessionDuration = Math.floor((Date.now() - testState.sessionStartTime) / 1000);
-      
+      const sessionDuration = Math.floor(
+        (Date.now() - testState.sessionStartTime) / 1000
+      );
+
       const getEndingByType = (type: string) => {
         const endings = {
           AB: "진취적이며 자신감 있는 행동대장",
@@ -184,9 +198,9 @@ export const useTest = () => {
         };
         return endings[type as keyof typeof endings] || "";
       };
-      
+
       const { error: resultError } = await supabase
-        .from('user_responses')
+        .from("user_responses")
         .update({
           personality_type: result.type,
           type_code: result.typeCode,
@@ -195,17 +209,20 @@ export const useTest = () => {
           session_duration_seconds: sessionDuration,
           test_completed_at: new Date().toISOString(),
         })
-        .eq('id', testState.userId);
+        .eq("id", testState.userId);
 
       if (resultError) throw resultError;
 
-      setTestState(prev => ({
+      // Add 1.5 second delay before showing results
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      setTestState((prev) => ({
         ...prev,
         result,
         isComplete: true,
       }));
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(err instanceof Error ? err.message : "Unknown error");
       throw err;
     } finally {
       setIsLoading(false);
@@ -222,7 +239,7 @@ export const useTest = () => {
       userId: null,
       sessionStartTime: Date.now(),
     });
-    localStorage.removeItem('workdna-test-state');
+    localStorage.removeItem("workdna-test-state");
   };
 
   const shareResult = async () => {
@@ -234,20 +251,22 @@ export const useTest = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'WorkDNA 테스트 결과',
+          title: "WorkDNA 테스트 결과",
           text: shareText,
           url: window.location.href,
         });
       } catch (err) {
-        console.log('Sharing cancelled', err);
+        console.log("Sharing cancelled", err);
       }
     } else {
       // Fallback to clipboard
       try {
-        await navigator.clipboard.writeText(shareText + '\n\n' + window.location.href);
-        alert('결과가 클립보드에 복사되었습니다!');
+        await navigator.clipboard.writeText(
+          shareText + "\n\n" + window.location.href
+        );
+        alert("결과가 클립보드에 복사되었습니다!");
       } catch (err) {
-        console.error('Failed to copy to clipboard:', err);
+        console.error("Failed to copy to clipboard:", err);
       }
     }
   };
@@ -262,11 +281,12 @@ export const useTest = () => {
     previousQuestion,
     restartTest,
     shareResult,
-    currentQuestion: testState.currentQuestion < questions.length 
-      ? questions[testState.currentQuestion] 
-      : null,
-    personalityType: testState.result 
-      ? personalityTypes[testState.result.type] 
+    currentQuestion:
+      testState.currentQuestion < questions.length
+        ? questions[testState.currentQuestion]
+        : null,
+    personalityType: testState.result
+      ? personalityTypes[testState.result.type]
       : null,
   };
 };
