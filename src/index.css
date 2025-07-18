@@ -82,7 +82,18 @@
     background-color: #1c3163;
   }
 }
-
+@theme {
+  --color-gold-50: #fff5e6;
+  --color-gold-100: #f5e9d7;
+  --color-gold-200: #e7d2b3;
+  --color-gold-300: #d6b585;
+  --color-gold-400: #cca46a;
+  --color-gold-500: #c49653;
+  --color-gold-600: #c18f47;
+  --color-gold-700: #aa7c38;
+  --color-gold-800: #986e2f;
+  --color-gold-900: #855e22;
+}
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
