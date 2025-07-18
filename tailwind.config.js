@@ -4,6 +4,22 @@ export default {
   theme: {
     extend: {
       colors: {
+        theme: {
+          main: "#1c3163",
+          sub: "#d6b585",
+        },
+        gold: {
+          50: "#fff5e6",
+          100: "#f5e9d7",
+          200: "#e7d2b3",
+          300: "#d6b585",
+          400: "#cca46a",
+          500: "#c49653",
+          600: "#c18f47",
+          700: "#aa7c38",
+          800: "#986e2f",
+          900: "#855e22",
+        },
         primary: {
           50: "#faf9f8",
           100: "#f5f3f0",
