@@ -10,38 +10,18 @@ import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
 import { SplashScreen } from "./components/SplashScreen";
 import { TestQuestion } from "./components/TestQuestion";
 import { TestResult } from "./components/TestResult";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselDots,
-  CarouselItem,
-} from "./components/ui/carousel";
+import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "./components/ui/carousel";
 import { Toaster } from "./components/ui/sonner";
+import { toast } from "sonner";
+import { Copy } from "lucide-react";
 import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
 
-function App() {
+function TestApp() {
   const [showSplash, setShowSplash] = useState(false);
-  const {
-    testState,
-    isLoading,
-    error,
-    submitConsent,
-    submitAnswer,
-    nextQuestion,
-    previousQuestion,
-    restartTest,
-    shareResult,
-    currentQuestion,
-    personalityType,
-  } = useTest();
+  const { testState, isLoading, error, submitConsent, submitAnswer, nextQuestion, previousQuestion, restartTest, shareResult, currentQuestion, personalityType } = useTest();
 
-  const handleConsentSubmit = async (userData: {
-    name: string;
-    gender: string;
-    ageRange: string;
-    consent: boolean;
-  }) => {
+  const handleConsentSubmit = async (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
     try {
       console.log("userData:", userData);
       await submitConsent(userData);
@@ -58,6 +38,16 @@ function App() {
     }
   };
 
+  const copyCurrentUrl = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      toast.success("URL이 복사되었습니다!");
+    } catch (err) {
+      console.error("Failed to copy URL:", err);
+      toast.error("URL 복사에 실패했습니다.");
+    }
+  };
+
   // Splash screen
   if (showSplash) {
     return <SplashScreen onComplete={() => setShowSplash(false)} />;
@@ -69,9 +59,7 @@ function App() {
       <>
         <div className=" bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              오류가 발생했습니다
-            </h2>
+            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -92,11 +80,7 @@ function App() {
           <div className="fixed top-4 left-4 right-4 z-50">
             <div className="bg-transparent rounded-xl py-2 px-6 max-w-xl mx-auto">
               <div className="flex justify-center">
-                <img
-                  src={logoImage}
-                  alt="WorkDNA Logo"
-                  className="h-5 object-contain"
-                />
+                <img src={logoImage} alt="WorkDNA Logo" className="h-5 object-contain" />
               </div>
             </div>
           </div>
@@ -104,9 +88,7 @@ function App() {
           <div className="container mx-auto px-4 py-8 flex-1 pt-14">
             <div className="max-w-xl mx-auto text-center">
               {/* Header */}
-              <h3 className="text-lg sm:text-xl font-extrabold mb-4 text-white mt-10 ">
-                나만의 워크 DNA 발견하기
-              </h3>
+              <h3 className="text-lg sm:text-xl font-extrabold mb-4 text-white mt-10 ">나만의 워크 DNA 발견하기</h3>
 
               {/* Features */}
 
@@ -212,13 +194,15 @@ function App() {
               </div>
 
               <div className="w-full text-center absolute bottom-12 left-0 right-0 px-4">
-                <ConsentDrawer
-                  isLoading={isLoading}
-                  onSubmit={handleConsentSubmit}
-                />
-                <p className="text-xs text-gray-500 mt-2">
-                  소요 시간: 약 5분 | 완전 무료
-                </p>
+                <ConsentDrawer isLoading={isLoading} onSubmit={handleConsentSubmit} />
+                <p className="text-xs text-gray-500 mt-2">소요 시간: 약 5분</p>
+                <button
+                  onClick={copyCurrentUrl}
+                  className="flex items-center justify-center space-x-2 mx-auto mt-3 px-4 py-2 text-sm text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                >
+                  <Copy className="w-4 h-4" />
+                  <span>URL 복사</span>
+                </button>
               </div>
             </div>
           </div>
@@ -245,11 +229,7 @@ function App() {
               onPrevious={previousQuestion}
               questionNumber={testState.currentQuestion + 1}
               totalQuestions={questions.length}
-              canGoNext={
-                testState.currentQuestion < questions.length - 1 ||
-                (testState.currentQuestion === questions.length - 1 &&
-                  !!testState.answers[currentQuestion.id])
-              }
+              canGoNext={testState.currentQuestion < questions.length - 1 || (testState.currentQuestion === questions.length - 1 && !!testState.answers[currentQuestion.id])}
               canGoPrevious={testState.currentQuestion > 0}
             />
           </div>
@@ -265,12 +245,7 @@ function App() {
       <>
         <div className=" bg-main py-8">
           <div className="container mx-auto">
-            <TestResult
-              personalityType={personalityType}
-              scores={testState.result.scores}
-              onRestart={restartTest}
-              onShare={shareResult}
-            />
+            <TestResult personalityType={personalityType} scores={testState.result.scores} onRestart={restartTest} onShare={shareResult} />
           </div>
         </div>
         <Toaster />
@@ -299,9 +274,7 @@ function App() {
       <>
         <div className=" bg-[#efebde] bg-main flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              오류가 발생했습니다
-            </h2>
+            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -318,9 +291,7 @@ function App() {
     <>
       <div className=" bg-[#efebde] bg-main flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            예상치 못한 상태입니다
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-4">예상치 못한 상태입니다</h2>
           <button onClick={restartTest} className="btn-primary">
             처음부터 시작하기
           </button>
@@ -331,4 +302,4 @@ function App() {
   );
 }
 
-export default App;
+export default TestApp;
