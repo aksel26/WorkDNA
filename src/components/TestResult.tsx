@@ -23,7 +23,7 @@ export const TestResult: React.FC<TestResultProps> = ({
   console.log("detail: ", detail);
 
   return (
-    <div className="w-full max-w-xl mx-auto px-4 py-8">
+    <div className="w-full max-w-xl mx-auto p-8">
       <div className="fixed top-4 left-4 right-4 z-50">
         <div className="bg-transparent rounded-xl py-2 px-6 max-w-xl mx-auto">
           <div className="flex justify-center">
@@ -44,9 +44,9 @@ export const TestResult: React.FC<TestResultProps> = ({
         transition={{ duration: 0.8, delay: 0.2 }}
       >
         <motion.img
-          src="/src/assets/images/types/사교왕.webp"
+          src="/src/assets/images/types/사교왕.png"
           alt="result"
-          className="h-auto pt-3 pb-10"
+          className="h-auto pb-14"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.6 }}
