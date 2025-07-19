@@ -7,6 +7,8 @@ import floatingIcon2 from "./assets/images/cover/icons/icon2.png";
 import studyIcon1 from "./assets/images/cover/icons/study1.png";
 import studyIcon2 from "./assets/images/cover/icons/study2.png";
 import studyIcon3 from "./assets/images/cover/icons/study3.png";
+import teamWork1 from "./assets/images/cover/icons/teamwork.png";
+import teamWork2 from "./assets/images/cover/icons/teamwork2.png";
 import { ConsentDrawer } from "./components/ConsentDrawer";
 import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
 import { SplashScreen } from "./components/SplashScreen";
@@ -135,45 +137,29 @@ function TestApp() {
   if (!testState.userId) {
     return (
       <>
-        <div className=" bg-main flex flex-col">
+        <div className="bg-main h-full flex flex-col justify-between max-w-xl mx-auto">
           {/* Fixed Header */}
-          <div className="fixed top-4 left-4 right-4 z-50">
-            <div className="bg-transparent rounded-xl py-2 px-6 max-w-xl mx-auto">
-              <div className="flex justify-center">
-                <img
-                  src={logoImage}
-                  alt="WorkDNA Logo"
-                  className="h-5 object-contain"
-                />
-              </div>
+          <div className="bg-transparent py-4 px-6 sticky top-0">
+            <div className="flex justify-center">
+              <img
+                src={logoImage}
+                alt="WorkDNA Logo"
+                className="h-5 object-contain"
+              />
             </div>
           </div>
-
-          <div className="container mx-auto px-4 py-8 flex-1 pt-14 h-dvh">
-            <div className="max-w-xl mx-auto text-center">
-              {/* Header */}
-              <h3 className="text-lg sm:text-xl font-extrabold mb-4 text-white mt-10 ">
+          <div className="flex-1  ">
+            {/* Header */}
+            <div className="h-full relative">
+              <h3 className="text-lg sm:text-xl md:text:2xl font-bold text-white text-center absolute top-[8%]  left-0 right-0">
                 나만의 워크 DNA 발견하기
               </h3>
-
-              {/* Features */}
-
-              {/* <div className="grid md:grid-cols-3 gap-8 mb-12">
-                
-                
-               
-              </div> */}
-            </div>
-          </div>
-
-          {/* Fixed bottom CTA */}
-          <div className="fixed bottom-0 left-0 right-0 z-10 h-[336px] sm:h-[360px] md:h-[384px]">
-            <div className="bg-white rounded-t-3xl shadow-none border border-gray-100 p-4 sm:p-6 max-w-xl mx-auto h-full relative">
-              <div className="absolute -top-[216px] sm:-top-[240px] md:-top-[264px] left-0 right-0 text-center px-4">
+              {/* Carouesel */}
+              <div className="px-4 absolute top-[60%] -translate-y-1/2">
                 {/* <div className="absolute inset-0 w-full flex bg-transparent items-center justify-center pointer-events-none top-6">
                   <div className="w-full h-64 bg-white rounded-full blur-xs opacity-100"></div>
                 </div> */}
-                <Carousel className="mb-3 sm:mb-5 relative z-50 mt-6 sm:mt-8">
+                <Carousel>
                   <CarouselContent>
                     <CarouselItem>
                       <FeatureCarouselItem
@@ -181,45 +167,38 @@ function TestApp() {
                         imageAlt="정확한 분석"
                         title="정확한 분석"
                         description={`${questions.length}개의 간단한 질문으로 당신의 업무 스타일을 정확히 분석합니다`}
-                        titleColor="font-extrabold"
                         floatingIcon={{
                           src: floatingIcon,
                           alt: "플로팅 아이콘",
-                          className: "top-8 right-4 w-20 h-20",
+                          className: "-left-24 top-0 w-20 ",
                           delay: 0.5,
                         }}
                         floatingIcon2={{
                           src: floatingIcon2,
                           alt: "플로팅 아이콘 2",
-                          className: "top-16 left-6 w-16 h-16",
+                          className: "-right-24 top-5 w-20 ",
                           delay: 1.5,
                         }}
                       />
                     </CarouselItem>
                     <CarouselItem>
                       <FeatureCarouselItem
-                        imageSrc="/src/assets/images/cover/test.png"
+                        imageSrc="/src/assets/images/cover/cover-222.png"
                         imageAlt="팀워크 향상"
                         title="팀워크 향상"
                         description="동료들과 결과를 공유하여 더 나은 협업 방법을 찾아보세요"
-                        // floatingIcon={{
-                        //   src: chickenIcon,
-                        //   alt: "치킨 아이콘 1",
-                        //   className: "top-10 right-8 w-20 h-20",
-                        //   delay: 0.5,
-                        // }}
-                        // floatingIcon2={{
-                        //   src: chickenIcon,
-                        //   alt: "치킨 아이콘 2",
-                        //   className: "top-10 left-4 w-20 h-20",
-                        //   delay: 1.0,
-                        // }}
-                        // floatingIcon3={{
-                        //   src: chickenIcon,
-                        //   alt: "치킨 아이콘 3",
-                        //   className: "top-10 left-32 w-20 h-20",
-                        //   delay: 1.5,
-                        // }}
+                        floatingIcon={{
+                          src: teamWork1,
+                          alt: "치킨 아이콘 1",
+                          className: "-left-24 bottom-0 w-20 ",
+                          delay: 0.5,
+                        }}
+                        floatingIcon2={{
+                          src: teamWork2,
+                          alt: "치킨 아이콘 2",
+                          className: "-right-24 bottom-8 w-20 ",
+                          delay: 1.0,
+                        }}
                       />
                     </CarouselItem>
                     <CarouselItem>
@@ -231,19 +210,19 @@ function TestApp() {
                         floatingIcon={{
                           src: studyIcon1,
                           alt: "스터디 아이콘 1",
-                          className: "top-4 right-2 w-24 h-24",
+                          className: "top-4 -right-20 w-20",
                           delay: 0.3,
                         }}
                         floatingIcon2={{
                           src: studyIcon2,
                           alt: "스터디 아이콘 2",
-                          className: "top-20 left-8 w-16 h-16",
+                          className: "top-20 -left-20 w-20",
                           delay: 0.8,
                         }}
                         floatingIcon3={{
                           src: studyIcon3,
                           alt: "스터디 아이콘 3",
-                          className: "top-32 right-4 w-20 h-20",
+                          className: "top-28 -right-20 w-20",
                           delay: 1.3,
                         }}
                       />
@@ -252,46 +231,48 @@ function TestApp() {
                   <CarouselDots />
                 </Carousel>
               </div>
+            </div>
+          </div>
+          {/* Fixed bottom CTA */}
+          <div className="z-10 bg-white rounded-t-3xl shadow-none p-8 text-center h-1/3 flex flex-col justify-between ">
+            <div>
+              <p className="text-xs text-gray-500 mb-3">소요 시간: 약 5분</p>
+              <ConsentDrawer
+                isLoading={isLoading}
+                onSubmit={handleConsentSubmit}
+              />
+            </div>
+            <div className="space-x-4">
+              <Button
+                size="icon"
+                variant="ghost"
+                className="mt-4 size-9 border-[#d6b585] border cursor-pointer hover:bg-[#1c3163] hover:border-[#1c3163]"
+                onClick={copyCurrentUrl}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#d6b585"
+                  strokeWidth="2.3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-link-icon lucide-link"
+                >
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              </Button>
 
-              <div className="w-full text-center absolute bottom-8 sm:bottom-12 left-0 right-0 px-4">
-                <ConsentDrawer
-                  isLoading={isLoading}
-                  onSubmit={handleConsentSubmit}
-                />
-                <p className="text-xs text-gray-500 mt-2">소요 시간: 약 5분</p>
-                <div className="space-x-4">
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="mt-4 size-9 border-[#d6b585] border cursor-pointer hover:bg-[#1c3163]"
-                    onClick={copyCurrentUrl}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="#d6b585"
-                      strokeWidth="2.3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="lucide lucide-link-icon lucide-link"
-                    >
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                    </svg>
-                  </Button>
-
-                  {isKakaoReady ? (
-                    <KakaoShareButton onClick={handleKakaoShare} />
-                  ) : (
-                    <div className="text-gray-500">
-                      공유 버튼을 불러오는 중입니다...
-                    </div>
-                  )}
+              {isKakaoReady ? (
+                <KakaoShareButton onClick={handleKakaoShare} />
+              ) : (
+                <div className="text-gray-500">
+                  공유 버튼을 불러오는 중입니다...
                 </div>
-              </div>
+              )}
             </div>
           </div>
 

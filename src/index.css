@@ -15,7 +15,13 @@
   }
 
   body {
+    height: 100dvh;
+    background-color: #1c3163;
     /* overflow-y: hidden; */
+  }
+  #root {
+    height: 100%;
+    background-color: #1c3163;
   }
 }
 
