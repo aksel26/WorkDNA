@@ -4,7 +4,8 @@ import { Button } from "../ui/button";
 // 카카오 아이콘 SVG
 const KakaoIcon = () => (
   <svg
-    className="w-6 h-6"
+    width="18"
+    height="18"
     aria-hidden="true"
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
@@ -19,18 +20,12 @@ const KakaoShareButton = ({ onClick }: { onClick: () => void }) => {
     <Button
       size={"icon"}
       onClick={onClick}
-      className="
-        bg-[#FEE500] 
-        text-black 
-        hover:bg-[#FADA0A] 
-        transition-colors 
-        duration-300 
-        ease-in-out
-        focus:outline-none 
-        focus:ring-2 
-        focus:ring-yellow-400 
-        focus:ring-opacity-75
-      "
+      className="size-5 cursor-pointer bg-[#d6b585] p-3 bg-[#FEE500]
+text-black
+hover:bg-[#FADA0A]
+transition-colors
+duration-300
+ease-in-out"
     >
       <KakaoIcon />
     </Button>

@@ -53,20 +53,24 @@ export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({
         </Button>
       </DrawerTrigger>
       <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
+        <div className="px-6">
           <DrawerHeader>
-            <DrawerTitle>개인정보 수집 및 이용 동의</DrawerTitle>
-            <DrawerDescription>
+            <DrawerTitle className="text-sm">
+              개인정보 수집 및 이용 동의
+            </DrawerTitle>
+            <DrawerDescription className="text-sm">
               개인정보 수집 및 이용 동의 내용을 확인해주세요.
             </DrawerDescription>
           </DrawerHeader>
           <ConsentModal ref={consentModalRef} onSubmit={handleSubmit} />
           <DrawerFooter>
-            <Button onClick={handleButtonClick} className="btn-primary">
+            <Button onClick={handleButtonClick} className="text-xs">
               동의하고 시작하기
             </Button>
             <DrawerClose asChild>
-              <Button variant="outline">취소</Button>
+              <Button variant="outline" className="text-xs">
+                취소
+              </Button>
             </DrawerClose>
           </DrawerFooter>
         </div>

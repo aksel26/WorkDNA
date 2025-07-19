@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import logoImageGray from "../assets/images/ci/ACG_CI-그레이1.png";
 
 import type { Question } from "../data/questions";
-import { NumberTicker } from "./magicui/number-ticker";
 import { Progress } from "./ui/progress";
 
 interface TestQuestionProps {
@@ -83,13 +82,15 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
                 value={(questionNumber / totalQuestions) * 100}
                 className="bg-white flex-1"
               />
-              <div className="bg-white rounded-3xl px-3 py-1 shadow-sm border border-gray-100">
-                <p className="text-base font-bold text-gold-600">
-                  <NumberTicker
-                    className="text-gold-600"
-                    value={Math.round((questionNumber / totalQuestions) * 100)}
-                  />
-                  <span className="text-xs font-bold text-gold-600">%</span>
+              <div className="bg-white rounded-3xl px-3 py-1 shadow-sm border border-gray-100 min-w-[78.62px] text-center">
+                <p className="text-base  text-gold-600">
+                  <div className="flex gap-x-1 justify-evenly">
+                    <span className="font-bold ease-out duration-300">
+                      {questionNumber}
+                    </span>
+                    /<span>{totalQuestions}</span>
+                  </div>
+                  {/* <span className="text-xs font-bold text-gold-600">%</span> */}
                 </p>
               </div>
             </div>
@@ -123,13 +124,13 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
                     key={option.value}
                     onClick={() => onAnswer(currentQuestion.id, option.value)}
                     disabled={isAnimating}
-                    className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${
+                    className={`w-full p-4 text-left rounded-lg border transition-all duration-200 ${
                       showContent
                         ? "opacity-100 translate-y-0"
                         : "opacity-0 translate-y-4"
                     } ${
                       currentAnswer === option.value
-                        ? "border-gold-100 bg-gold-50 text-gold-500"
+                        ? "border-gold-100 bg-gold-50 font-bold"
                         : "border-gray-200 hover:border-gold-300 hover:bg-gray-50"
                     }`}
                     style={{
@@ -137,8 +138,8 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
                     }}
                   >
                     <div className="flex items-center space-x-3">
-                      <div
-                        className={`w-5 h-5 rounded-full border-2 transition-all duration-200 ${
+                      {/* <div
+                        className={`w-5 h-5 rounded-full border transition-all duration-200 ${
                           currentAnswer === option.value
                             ? "border-gold-400 bg-gold-400 shadow-lg shadow-gold-200"
                             : "border-gray-300"
@@ -147,8 +148,8 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
                         {currentAnswer === option.value && (
                           <div className="w-full h-full rounded-full bg-white scale-50" />
                         )}
-                      </div>
-                      <span className="text-sm text-gray-600 leading-relaxed">
+                      </div> */}
+                      <span className="text-xs sm:text-sm text-gray-600 leading-relaxed">
                         {option.text}
                       </span>
                     </div>
@@ -157,15 +158,15 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
               </div>
             </div>
 
-            <div className="h-full w-auto bg-gold-50 absolute inset-0 rounded-3xl z-10 rotate-4 blur-[1px]"></div>
+            <div className="h-full w-auto bg-gold-50 absolute inset-0 rounded-3xl z-10 rotate-5 blur-[1px]"></div>
           </div>
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between items-center gap-x-2">
+          <div className="flex justify-between items-center gap-x-3">
             <button
               onClick={handlePrevious}
               disabled={!canGoPrevious || isAnimating}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex-1/2 ${
+              className={`px-6 py-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 flex-1/2 ${
                 canGoPrevious && !isAnimating
                   ? "bg-gray-200 text-gray-700 hover:bg-gray-300"
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"
@@ -177,7 +178,7 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
             <button
               onClick={handleNext}
               disabled={!canGoNext || !currentAnswer || isAnimating}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-200 flex-1/2 ${
+              className={`px-6 py-3 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 flex-1/2 ${
                 canGoNext && currentAnswer && !isAnimating
                   ? "bg-gold-400 text-white hover:bg-gold-500"
                   : "bg-gray-100 text-gray-400 cursor-not-allowed"

@@ -87,19 +87,19 @@ export const ConsentModal = React.forwardRef<
 
   return (
     <div className="p-1">
-      <form className="space-y-6 ">
+      <form className="space-y-3 ">
         {/* Name Input */}
         <div>
           <Label
             htmlFor="text"
-            className="block text-sm font-medium text-black mb-1"
+            className="block text-xs font-medium text-black mb-1"
           >
             이름 (선택사항)
           </Label>
           <Input
             type="text"
             value={formData.name}
-            className="text-sm"
+            className="text-xs"
             onChange={(e) => handleChange("name", e.target.value)}
             placeholder="이름을 입력하세요"
           />
@@ -107,14 +107,14 @@ export const ConsentModal = React.forwardRef<
 
         {/* Gender Selection */}
         <div>
-          <Label className="block text-sm font-medium text-black mb-2">
+          <Label className="block text-xs font-medium text-black mb-2">
             성별 (선택사항)
           </Label>
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => handleChange("gender", "male")}
-              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+              className={`flex-1 p-2 rounded-lg border text-xs text-center transition-colors ${
                 formData.gender === "male"
                   ? "border-blue-400 bg-blue-50 text-blue-700"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
@@ -125,7 +125,7 @@ export const ConsentModal = React.forwardRef<
             <button
               type="button"
               onClick={() => handleChange("gender", "female")}
-              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+              className={`flex-1 p-2 rounded-lg border text-xs text-center transition-colors ${
                 formData.gender === "female"
                   ? "border-pink-400 bg-pink-50 text-pink-700"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
@@ -136,7 +136,7 @@ export const ConsentModal = React.forwardRef<
             <button
               type="button"
               onClick={() => handleChange("gender", "other")}
-              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+              className={`flex-1 p-2 rounded-lg border text-xs text-center transition-colors ${
                 formData.gender === "other"
                   ? "border-gray-400 bg-gray-50 text-gray-700"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
@@ -149,22 +149,32 @@ export const ConsentModal = React.forwardRef<
 
         {/* Age Range Selection */}
         <div>
-          <Label className="block text-sm font-medium text-black mb-1">
+          <Label className="block text-xs font-medium text-black mb-1">
             연령대
           </Label>
           <Select
             value={formData.ageRange}
             onValueChange={(value) => handleChange("ageRange", value)}
           >
-            <SelectTrigger className="w-full">
+            <SelectTrigger className="w-full text-xs">
               <SelectValue placeholder="연령대를 선택하세요." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="20s">20대</SelectItem>
-              <SelectItem value="30s">30대</SelectItem>
-              <SelectItem value="40s">40대</SelectItem>
-              <SelectItem value="50s">50대</SelectItem>
-              <SelectItem value="60+">60대 이상</SelectItem>
+              <SelectItem className="text-xs" value="20s">
+                20대
+              </SelectItem>
+              <SelectItem className="text-xs" value="30s">
+                30대
+              </SelectItem>
+              <SelectItem className="text-xs" value="40s">
+                40대
+              </SelectItem>
+              <SelectItem className="text-xs" value="50s">
+                50대
+              </SelectItem>
+              <SelectItem className="text-xs" value="60+">
+                60대 이상
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -172,11 +182,11 @@ export const ConsentModal = React.forwardRef<
         {/* Privacy Policy Consent Button */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-black">
+            <span className="text-xs font-medium text-black">
               개인정보 수집 및 이용 동의 (필수)
             </span>
             <span
-              className={`text-sm ${
+              className={`text-xs ${
                 formData.consent ? "text-green-600" : "text-gray-400"
               }`}
             >
@@ -191,7 +201,7 @@ export const ConsentModal = React.forwardRef<
             <DialogTrigger asChild>
               <button
                 type="button"
-                className={`w-full p-3 rounded-lg border text-left transition-colors text-sm ${
+                className={`w-full p-3 rounded-lg border text-left transition-colors text-xs ${
                   formData.consent
                     ? "bg-green-50 border-green-200 text-green-700"
                     : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
@@ -203,10 +213,12 @@ export const ConsentModal = React.forwardRef<
 
             <DialogContent className="max-w-xs">
               <DialogHeader>
-                <DialogTitle>개인정보 수집 및 이용</DialogTitle>
+                <DialogTitle className="text-sm">
+                  개인정보 수집 및 이용
+                </DialogTitle>
               </DialogHeader>
 
-              <div className="text-sm space-y-3 text-black">
+              <div className="text-xs space-y-3 text-black">
                 <p>
                   <strong>수집 목적:</strong> 업무 스타일 진단 서비스 제공 및
                   통계 분석
@@ -230,7 +242,7 @@ export const ConsentModal = React.forwardRef<
               <DialogFooter>
                 <button
                   onClick={handlePrivacyConsent}
-                  className="btn-primary w-full text-sm"
+                  className="btn-primary w-full text-xs"
                 >
                   동의하고 확인
                 </button>
