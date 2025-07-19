@@ -27,6 +27,7 @@ import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
 import useKakao from "./hooks/useKakao";
 import KakaoShareButton from "./components/share/Kakao";
+import { TextAnimate } from "./components/magicui/text-animate";
 
 function TestApp() {
   const [showSplash, setShowSplash] = useState(false);
@@ -137,7 +138,7 @@ function TestApp() {
   if (!testState.userId) {
     return (
       <>
-        <div className="bg-main h-full flex flex-col justify-between max-w-xl mx-auto">
+        <div className="bg-main flex flex-col justify-between max-w-xl mx-auto">
           {/* Fixed Header */}
           <div className="bg-transparent py-4 px-6 sticky top-0">
             <div className="flex justify-center">
@@ -151,14 +152,18 @@ function TestApp() {
           <div className="flex-1  ">
             {/* Header */}
             <div className="h-full relative">
-              <h3 className="text-lg sm:text-xl md:text:2xl font-bold text-white text-center absolute top-[8%]  left-0 right-0">
+              <TextAnimate
+                animation="blurIn"
+                as="h3"
+                className="text-2xl font-bold text-white text-center absolute top-[8%]  left-0 right-0"
+              >
                 나만의 워크 DNA 발견하기
-              </h3>
+              </TextAnimate>
               {/* Carouesel */}
               <div className="px-4 absolute top-[60%] -translate-y-1/2">
-                {/* <div className="absolute inset-0 w-full flex bg-transparent items-center justify-center pointer-events-none top-6">
-                  <div className="w-full h-64 bg-white rounded-full blur-xs opacity-100"></div>
-                </div> */}
+                <div className="absolute inset-0 -top-32 w-full flex bg-transparent items-center justify-center pointer-events-none top-6">
+                  <div className="w-48 h-32 bg-[#D6B585]/50 rounded-full blur-2xl opacity-100"></div>
+                </div>
                 <Carousel>
                   <CarouselContent>
                     <CarouselItem>
@@ -177,7 +182,7 @@ function TestApp() {
                           src: floatingIcon2,
                           alt: "플로팅 아이콘 2",
                           className: "-right-24 top-5 w-20 ",
-                          delay: 1.5,
+                          delay: 1,
                         }}
                       />
                     </CarouselItem>
@@ -234,19 +239,29 @@ function TestApp() {
             </div>
           </div>
           {/* Fixed bottom CTA */}
-          <div className="z-10 bg-white rounded-t-3xl shadow-none p-8 text-center h-1/3 flex flex-col justify-between ">
+          <div className="z-10 bg-white rounded-t-3xl shadow-none p-8 text-center h-auto flex flex-col justify-between">
             <div>
+              <div className="flex justify-center items-center gap-6 mb-4">
+                <div className="text-center">
+                  <p className="text-lg font-bold text-[#1c3163]">1,247</p>
+                  <p className="text-xs text-gray-500">참여 인원</p>
+                </div>
+                <div className="w-px h-8 bg-gray-200"></div>
+                <div className="text-center">
+                  <p className="text-lg font-bold text-[#d6b585]">리더형</p>
+                  <p className="text-xs text-gray-500">최다 유형 (23%)</p>
+                </div>
+              </div>
               <p className="text-xs text-gray-500 mb-3">소요 시간: 약 5분</p>
               <ConsentDrawer
                 isLoading={isLoading}
                 onSubmit={handleConsentSubmit}
               />
             </div>
-            <div className="space-x-4">
+            <div className="space-x-4 mt-4 ">
               <Button
                 size="icon"
-                variant="ghost"
-                className="mt-4 size-9 border-[#d6b585] border cursor-pointer hover:bg-[#1c3163] hover:border-[#1c3163]"
+                className="size-5 cursor-pointer bg-[#d6b585] p-3"
                 onClick={copyCurrentUrl}
               >
                 <svg
@@ -255,7 +270,7 @@ function TestApp() {
                   height="18"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#d6b585"
+                  stroke="white"
                   strokeWidth="2.3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
