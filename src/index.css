@@ -5,23 +5,28 @@
 
 @layer base {
   html {
-    font-family: "NanumSquareRound", "맑은 고딕", "Malgun Gothic", sans-serif;
-    background-color: #1c3163;
-    word-break: keep-all;
     height: 100dvh;
+
+    font-family: "NanumSquareRound", "맑은 고딕", "Malgun Gothic", sans-serif;
+    word-break: keep-all;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
     overscroll-behavior: none;
   }
 
   body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+      url("./assets/images/bg/bg2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     height: 100dvh;
-    background-color: #1c3163;
+    /* background-color: #1c3163; */
     /* overflow-y: hidden; */
   }
   #root {
     height: 100%;
-    background-color: #1c3163;
+    /* background-color: #1c3163; */
   }
 }
 
@@ -85,8 +90,6 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100dvh;
-    /* background-color: #1c3163; */
   }
 }
 @theme {
