@@ -52,7 +52,7 @@ export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({
           {isLoading ? "준비 중..." : "테스트 시작하기"}
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="max-w-xl mx-auto">
         <div className="px-6">
           <DrawerHeader>
             <DrawerTitle className="text-sm">
