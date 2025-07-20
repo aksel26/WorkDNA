@@ -89,8 +89,8 @@ function TestApp() {
     window.Kakao.Share.sendDefault({
       objectType: "feed",
       content: {
-        title: "내 앱으로 초대합니다!",
-        description: "React와 Vite로 만든 멋진 앱을 경험해보세요.",
+        title: "ACG 직장인 유형 테스트",
+        description: "나만의 워크 DNA를 발견해 보세요!",
         imageUrl: logoImageGray, // 'src/assets'에 이미지를 넣고 import하여 사용
         link: {
           mobileWebUrl: window.location.href,
@@ -99,7 +99,7 @@ function TestApp() {
       },
       buttons: [
         {
-          title: "앱으로 이동",
+          title: "웹으로 보기",
           link: {
             mobileWebUrl: window.location.href,
             webUrl: window.location.href,
@@ -118,7 +118,7 @@ function TestApp() {
   if (error) {
     return (
       <>
-        <div className=" bg-[#efebde] bg-main flex items-center justify-center">
+        <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-4">
               오류가 발생했습니다
@@ -138,7 +138,7 @@ function TestApp() {
   if (!testState.userId) {
     return (
       <>
-        <div className="bg-main flex flex-col justify-between max-w-xl mx-auto">
+        <div className="h-dvh flex flex-col justify-between max-w-xl mx-auto">
           {/* Fixed Header */}
           <div className="bg-transparent py-4 px-6 sticky top-0">
             <div className="flex justify-center">
@@ -314,8 +314,8 @@ function TestApp() {
   if (!testState.isComplete && currentQuestion) {
     return (
       <>
-        <div className="bg-main h-dvh px-4 flex items-center">
-          <div className="container mx-auto ">
+        <div className="bg-main h-dvh ">
+          <div className="flex justify-center items-center h-full max-w-xl mx-auto ">
             <TestQuestion
               question={currentQuestion}
               currentAnswer={testState.answers[currentQuestion.id] || null}
@@ -342,16 +342,12 @@ function TestApp() {
   if (testState.isComplete && testState.result && personalityType) {
     return (
       <>
-        <div className=" bg-main py-8">
-          <div className="container mx-auto">
-            <TestResult
-              personalityType={personalityType}
-              scores={testState.result.scores}
-              onRestart={restartTest}
-              onShare={shareResult}
-            />
-          </div>
-        </div>
+        <TestResult
+          personalityType={personalityType}
+          scores={testState.result.scores}
+          onRestart={restartTest}
+          onShare={shareResult}
+        />
         <Toaster />
       </>
     );
@@ -361,7 +357,7 @@ function TestApp() {
   if (isLoading) {
     return (
       <>
-        <div className=" bg-[#efebde] bg-main flex items-center justify-center">
+        <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500 mx-auto mb-4"></div>
             <p className="text-gray-300">로딩 중...</p>
@@ -376,7 +372,7 @@ function TestApp() {
   if (error) {
     return (
       <>
-        <div className=" bg-[#efebde] bg-main flex items-center justify-center">
+        <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-white mb-4">
               오류가 발생했습니다
@@ -395,7 +391,7 @@ function TestApp() {
   // Fallback - should not reach here
   return (
     <>
-      <div className=" bg-[#efebde] bg-main flex items-center justify-center">
+      <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-white mb-4">
             예상치 못한 상태입니다
