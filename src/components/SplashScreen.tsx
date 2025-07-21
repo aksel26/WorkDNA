@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import splashVideo from "../assets/video/splash.mp4";
+import splashVideo from "../assets/video/bgg.mp4";
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -37,14 +37,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <video
-        ref={videoRef}
-        className="w-84  object-cover"
-        muted
-        playsInline
-        autoPlay
-        src={splashVideo}
-      />
+      <video ref={videoRef} className="w-1/2  object-cover" muted playsInline autoPlay src={splashVideo} />
     </div>
   );
 }
