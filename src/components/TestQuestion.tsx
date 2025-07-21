@@ -60,7 +60,7 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
   };
   return (
     <>
-      <div className="flex flex-col justify-center items-center px-8">
+      <div className="flex flex-col justify-center items-center px-6 w-[95%]">
         {/* Progress Bar */}
         <div className="w-full">
           <div className="flex gap-3 items-center w-full">
@@ -68,7 +68,7 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
               value={(questionNumber / totalQuestions) * 100}
               className="bg-white flex-1"
             />
-            <div className="bg-white rounded-3xl px-3 py-1 shadow-sm border border-gray-100 min-w-[78.62px] text-center">
+            {/* <div className="bg-white rounded-3xl px-3 py-1 shadow-sm border border-gray-100 min-w-[78.62px] text-center">
               <p className="text-base  text-gold-600">
                 <div className="flex gap-x-1 justify-evenly">
                   <span className="font-bold ease-out duration-300">
@@ -76,15 +76,14 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
                   </span>
                   /<span>{totalQuestions}</span>
                 </div>
-                {/* <span className="text-xs font-bold text-gold-600">%</span> */}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
 
         {/* Question */}
-        <div className="relative mt-10 mb-10">
-          <div className="bg-white shadow-2xl rounded-3xl p-8 sm:h-94 h-84 flex flex-col justify-between relative z-20">
+        <div className="relative mt-6 mb-10 w-full">
+          <div className="bg-white shadow-2xl rounded-3xl p-5 sm:h-94 h-94 flex flex-col justify-between relative z-20 ">
             <img
               src={logoImageGray}
               alt="WorkDNA Logo White"
@@ -97,14 +96,16 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
                   : "opacity-0 translate-y-4"
               }`}
             >
-              <h2 className="text-gray-300 sm:text-6xl text-3xl font-semibold ">{`Q${questionNumber}`}</h2>
-              <p className="sm:text-lg text-base font-semibold text-gray-800 leading-relaxed mt-4">
-                {currentQuestion.text}
-              </p>
+              <h2 className="text-gray-300 sm:text-6xl text-7xl font-semibold opacity-30 ">{`Q${questionNumber}`}</h2>
+              <div className="w-[90%] px-2">
+                <p className="sm:text-lg text-base font-semibold text-gray-800 leading-relaxed mt-4">
+                  {currentQuestion.text}
+                </p>
+              </div>
             </div>
 
             {/* Answer Options */}
-            <div className="space-y-3">
+            <div className="space-y-2">
               {currentQuestion.options.map((option, index) => (
                 <button
                   key={option.value}
@@ -144,7 +145,7 @@ export const TestQuestion: React.FC<TestQuestionProps> = ({
             </div>
           </div>
 
-          <div className="h-full w-auto bg-gold-50 absolute inset-0 rounded-3xl z-10 rotate-5 blur-[1px]"></div>
+          {/* <div className="h-full w-auto bg-gold-50 absolute inset-0 rounded-3xl z-10 rotate-2 "></div> */}
         </div>
 
         {/* Navigation Buttons */}
