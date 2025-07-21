@@ -16,12 +16,7 @@ import { TestQuestion } from "./components/TestQuestion";
 import { TestResult } from "./components/TestResult";
 import { TestLoading } from "./components/TestLoading";
 import { Button } from "./components/ui/button";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselDots,
-  CarouselItem,
-} from "./components/ui/carousel";
+import { Carousel, CarouselContent, CarouselDots, CarouselItem } from "./components/ui/carousel";
 import { Toaster } from "./components/ui/sonner";
 import { questions } from "./data/questions";
 import { useTest } from "./hooks/useTest";
@@ -30,27 +25,10 @@ import KakaoShareButton from "./components/share/Kakao";
 import { TextAnimate } from "./components/magicui/text-animate";
 
 function TestApp() {
-  const [showSplash, setShowSplash] = useState(false);
-  const {
-    testState,
-    isLoading,
-    error,
-    submitConsent,
-    submitAnswer,
-    nextQuestion,
-    previousQuestion,
-    restartTest,
-    shareResult,
-    currentQuestion,
-    personalityType,
-  } = useTest();
+  const [showSplash, setShowSplash] = useState(true);
+  const { testState, isLoading, error, submitConsent, submitAnswer, nextQuestion, previousQuestion, restartTest, shareResult, currentQuestion, personalityType } = useTest();
 
-  const handleConsentSubmit = async (userData: {
-    name: string;
-    gender: string;
-    ageRange: string;
-    consent: boolean;
-  }) => {
+  const handleConsentSubmit = async (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
     try {
       console.log("userData:", userData);
       await submitConsent(userData);
@@ -120,9 +98,7 @@ function TestApp() {
       <>
         <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              오류가 발생했습니다
-            </h2>
+            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -142,21 +118,13 @@ function TestApp() {
           {/* Fixed Header */}
           <div className="bg-transparent py-4 px-6 sticky top-0">
             <div className="flex justify-center">
-              <img
-                src={logoImage}
-                alt="WorkDNA Logo"
-                className="h-5 object-contain"
-              />
+              <img src={logoImage} alt="WorkDNA Logo" className="h-5 object-contain" />
             </div>
           </div>
           <div className="flex-1  ">
             {/* Header */}
             <div className="h-full relative">
-              <TextAnimate
-                animation="blurIn"
-                as="h3"
-                className="text-2xl font-bold text-white text-center absolute top-[8%]  left-0 right-0"
-              >
+              <TextAnimate animation="blurIn" as="h3" className="text-2xl font-bold text-white text-center absolute top-[8%]  left-0 right-0">
                 나만의 워크 DNA 발견하기
               </TextAnimate>
               {/* Carouesel */}
@@ -253,17 +221,10 @@ function TestApp() {
                 </div>
               </div>
               <p className="text-xs text-gray-500 mb-3">소요 시간: 약 5분</p>
-              <ConsentDrawer
-                isLoading={isLoading}
-                onSubmit={handleConsentSubmit}
-              />
+              <ConsentDrawer isLoading={isLoading} onSubmit={handleConsentSubmit} />
             </div>
             <div className="space-x-4 mt-4 ">
-              <Button
-                size="icon"
-                className="size-5 cursor-pointer bg-[#d6b585] p-3"
-                onClick={copyCurrentUrl}
-              >
+              <Button size="icon" className="size-5 cursor-pointer bg-[#d6b585] p-3" onClick={copyCurrentUrl}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="18"
@@ -281,13 +242,7 @@ function TestApp() {
                 </svg>
               </Button>
 
-              {isKakaoReady ? (
-                <KakaoShareButton onClick={handleKakaoShare} />
-              ) : (
-                <div className="text-gray-500">
-                  공유 버튼을 불러오는 중입니다...
-                </div>
-              )}
+              {isKakaoReady ? <KakaoShareButton onClick={handleKakaoShare} /> : <div className="text-gray-500">공유 버튼을 불러오는 중입니다...</div>}
             </div>
           </div>
 
@@ -324,11 +279,7 @@ function TestApp() {
               onPrevious={previousQuestion}
               questionNumber={testState.currentQuestion + 1}
               totalQuestions={questions.length}
-              canGoNext={
-                testState.currentQuestion < questions.length - 1 ||
-                (testState.currentQuestion === questions.length - 1 &&
-                  !!testState.answers[currentQuestion.id])
-              }
+              canGoNext={testState.currentQuestion < questions.length - 1 || (testState.currentQuestion === questions.length - 1 && !!testState.answers[currentQuestion.id])}
               canGoPrevious={testState.currentQuestion > 0}
             />
           </div>
@@ -342,12 +293,7 @@ function TestApp() {
   if (testState.isComplete && testState.result && personalityType) {
     return (
       <>
-        <TestResult
-          personalityType={personalityType}
-          scores={testState.result.scores}
-          onRestart={restartTest}
-          onShare={shareResult}
-        />
+        <TestResult personalityType={personalityType} scores={testState.result.scores} onRestart={restartTest} onShare={shareResult} />
         <Toaster />
       </>
     );
@@ -374,9 +320,7 @@ function TestApp() {
       <>
         <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
-              오류가 발생했습니다
-            </h2>
+            <h2 className="text-2xl font-bold text-white mb-4">오류가 발생했습니다</h2>
             <p className="text-gray-300 mb-4">{error}</p>
             <button onClick={restartTest} className="btn-primary">
               다시 시도하기
@@ -393,9 +337,7 @@ function TestApp() {
     <>
       <div className=" bg-[#efebde] bg-main h-dvh flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">
-            예상치 못한 상태입니다
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-4">예상치 못한 상태입니다</h2>
           <button onClick={restartTest} className="btn-primary">
             처음부터 시작하기
           </button>
