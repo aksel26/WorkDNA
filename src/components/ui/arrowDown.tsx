@@ -21,7 +21,8 @@ const ChevronDown = ({ width = 28, height = 28, strokeWidth = 2, stroke = "#ffff
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" stroke={stroke} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" {...props}>
         <motion.path
           d="m6 9 6 6 6-6"
-          stroke={"#c49653"}
+          stroke={stroke}
+          fill={"none"}
           animate={{
             y: [0, 4, 0],
             opacity: [1, 0.3, 1],
