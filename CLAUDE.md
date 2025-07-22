@@ -4,42 +4,59 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-WorkDNA is a React-based web application that provides personality assessment tests for workplace environments. Users complete a 12-question survey to determine their work personality type from 8 different categories.
+WorkDNA is a React-based personality assessment web application for workplace environments. Users complete a 10-question survey to determine their work personality type from 4 categories (AA, AB, BA, BB).
 
 ## Technology Stack
 
-- **Frontend**: React 18 with TypeScript, Vite build tool
-- **Styling**: Tailwind CSS v4 with custom design system
-- **Backend**: Supabase (PostgreSQL database + Edge Functions)
-- **Icons**: Lucide React
-- **Deployment**: Designed for Vercel (frontend) + Supabase (backend)
+- **Frontend**: React 19.1.0 with TypeScript, Vite 7.0.0 build tool
+- **Routing**: React Router DOM 7.7.0 with AppRouter.tsx structure
+- **Styling**: Tailwind CSS 4.1.11 with shadcn/ui component system
+- **UI Components**: Radix UI primitives, Framer Motion 12.23.3 for animations
+- **Backend**: Supabase 2.50.3 (PostgreSQL + anonymous access patterns)
+- **Additional**: Kakao SDK integration, html2canvas-pro for image generation
 
 ## Architecture
 
-### Core Components
-- `App.tsx`: Main application component with routing logic
-- `ConsentModal.tsx`: Privacy consent form with personal information collection
-- `TestQuestion.tsx`: Individual question display with answer selection
-- `TestResult.tsx`: Results display with personality type and scoring
+### Routing Structure (AppRouter.tsx)
+- `/` → TestApp (main personality test flow)
+- `/dashboard` → Dashboard (protected admin analytics)
+- `/care` → Care component (mental health assessment module)
 
-### Data Layer
-- `src/data/questions.ts`: Contains all 12 test questions with scoring logic
-- `src/data/personalityTypes.ts`: Defines 8 personality types and calculation algorithm
-- `src/lib/supabase.ts`: Supabase client configuration and database types
+### Core Components
+- `TestQuestion.tsx`: Individual question display with progress tracking
+- `TestResult.tsx`: Results with scroll animations and sharing functionality
+- `ConsentDrawer.tsx`: GDPR-compliant privacy consent collection
+- `SplashScreen.tsx`: Loading experience with animations
+- `Dashboard.tsx`: Admin analytics interface with authentication
+
+### Data Layer & State Management
+- `useTest.ts`: Custom hook for test state management with localStorage persistence
+- `AuthContext.tsx`: Authentication context for protected routes
+- `src/lib/supabase.ts`: Supabase client configuration
+- `calculatePersonalityType()`: Client-side personality type calculation algorithm
 
 ### Database Schema
-- `users`: Personal information and consent tracking
-- `answers`: Individual question responses
-- `results`: Calculated personality types and scores
-- `stats`: Daily/weekly aggregated statistics
+Current primary table: `user_responses`
+- Personal data (name, gender, age_range) - optional fields
+- Individual answer columns (answer_1 through answer_10)
+- Analytics data (device_type, browser, traffic_source, location)
+- Personality results (personality_type, type_code, scores)
+- Session tracking (duration, created_at, updated_at)
 
-## Key Features
+Legacy tables: `results`, `stats` for historical data
 
-1. **Privacy-First Design**: Consent modal before any data collection
-2. **Progressive Test Flow**: 12 questions with progress tracking
-3. **Real-time Scoring**: Personality type calculation upon completion
-4. **Responsive Design**: Mobile-first approach (360px+ support)
-5. **Social Sharing**: Native sharing API with clipboard fallback
+## Personality Type System
+
+**Algorithm**: 
+- Questions 1-5: Extrovert (A) vs Introvert (B) tendency
+- Questions 6-10: Feeling (A) vs Thinking (B) tendency  
+- 4 combinations: AA, AB, BA, BB with comparative scoring
+
+**Types**:
+- AA: "관계 속에서 빛나는 사교왕" (Social relationship-focused)
+- AB: "진취적이며 자신감 있는 행동대장" (Confident action-oriented)
+- BA: "배려가 넘치는 따뜻한 평화주의자" (Caring peacemaker)
+- BB: "신뢰할 수 있는 솔직한 조언자" (Trustworthy advisor)
 
 ## Development Commands
 
@@ -47,16 +64,13 @@ WorkDNA is a React-based web application that provides personality assessment te
 # Start development server
 npm run dev
 
-# Build for production
+# Build for production (includes TypeScript check)
 npm run build
 
 # Preview production build
 npm run preview
 
-# Type checking
-npm run tsc
-
-# Linting
+# Linting only
 npm run lint
 ```
 
@@ -68,40 +82,42 @@ VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
-## Database Setup
+## UI/UX Architecture
 
-1. Create a new Supabase project
-2. Run the migration file: `supabase/migrations/001_initial_schema.sql`
-3. Enable Row Level Security (RLS) policies are included
-4. Configure anonymous access for the assessment flow
+**Design System**:
+- shadcn/ui component library with Radix UI primitives
+- Custom color palette: gold tones (#d6b585) and navy (#1c3163)  
+- Mobile-first responsive design (360px+ support)
+- Framer Motion for micro-interactions and scroll animations
 
-## Scoring Algorithm
+**Animation Patterns**:
+- useInView hook for scroll-triggered animations
+- Staggered animations for list items
+- 3-second artificial loading delay for result anticipation
+- Transform-based performance optimizations
 
-The personality type calculation uses trait scoring from question responses:
-- Each answer option has weighted traits
-- Traits are aggregated across all questions
-- 8 personality types are calculated based on dominant trait combinations
-- Results include both the primary type and comparative scores
+**User Flow**:
+1. Landing page with feature carousel (Embla Carousel)
+2. Privacy consent with optional personal data collection
+3. 10-question progressive assessment with visual progress
+4. Loading animation with personality calculation
+5. Results page with scroll animations and social sharing
 
-## UI/UX Patterns
+## Key Implementation Details
 
-- **Mobile-First**: All components designed for 360px+ screens
-- **Animation**: 0.3s transitions for interactions
-- **Color System**: Primary blue palette with semantic colors
-- **Form Validation**: Client-side validation with error feedback
-- **Loading States**: Proper loading indicators throughout the flow
+**State Management**: 
+- localStorage persistence for test progress across sessions
+- Custom useTest hook centralizes test state logic
+- AuthContext for dashboard authentication
 
-## Testing Strategy
+**Analytics Integration**:
+- Device/browser detection for user analytics
+- Geographic location tracking (IP-based)  
+- Session duration and traffic source attribution
+- Comprehensive user journey tracking in user_responses table
 
-- Manual testing for user flows
-- TypeScript for compile-time safety
-- ESLint for code quality
-- Test question accuracy and personality type calculations
-
-## Common Tasks
-
-- Add new questions: Update `src/data/questions.ts`
-- Modify personality types: Update `src/data/personalityTypes.ts`
-- Database changes: Create new migration files
-- UI updates: Follow existing Tailwind patterns
-- Add new features: Follow component-based architecture
+**Performance Considerations**:
+- Component-based architecture for code splitting potential
+- Progressive image loading for personality type results
+- Client-side personality calculation (no server dependency)
+- Anonymous-first database design with RLS policies
