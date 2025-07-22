@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "../ui/button";
 
 // 카카오 아이콘 SVG
