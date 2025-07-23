@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import logoImageGray from "../assets/images/ci/ACG_CI-그레이1.png";
+import logoImageGray from "../assets/images/ci/ACG_CI_GRAY.webp";
 
 import type { Question } from "../data/questions";
 import { Progress } from "./ui/progress";

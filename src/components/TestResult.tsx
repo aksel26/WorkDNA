@@ -2,12 +2,12 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { AlertTriangle, ChevronRight, ChevronUp, Download, Heart, RefreshCw, Share2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-import bookmarkIcon from "@/assets/icons/bookmark.png";
-import checkIcon from "@/assets/icons/check.png";
-import fireIcon from "@/assets/icons/fire.png";
-import thumbsUpIcon from "@/assets/icons/thumbsUp.png";
-import logoImage from "@/assets/images/ci/ACG_CI-화이트1 2.png";
-import pillIcon from "@/assets/images/cover/pill.png";
+import bookmarkIcon from "@/assets/icons/bookmark.webp";
+import checkIcon from "@/assets/icons/check.webp";
+import fireIcon from "@/assets/icons/fire.webp";
+import thumbsUpIcon from "@/assets/icons/thumbsUp.webp";
+import logoImage from "@/assets/images/ci/ACG_CI-WHITE.webp";
+import pillIcon from "@/assets/images/care/pill.webp";
 import { useTranslation } from "react-i18next";
 import type { PersonalityType } from "../data/personalityTypes";
 import { Button } from "./ui/button";
@@ -130,7 +130,6 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
         <div className="w-full max-w-md sm:max-w-md relative">
           <motion.div
             className="result-header rounded-xl sm:w-[100%] sm:mx-auto bg-cover bg-center bg-no-repeat relative "
-            // style={{ backgroundImage: `url('/src/assets/images/bg/bg.jpg')` }}
             initial={{ opacity: 0, y: 30, rotateX: 45 }}
             animate={{
               opacity: 1,
@@ -212,7 +211,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               {t("testResult.sections.traits")}
             </motion.h3>
             <div className="space-y-3">
-              {t(`personalityTypes.${personalityType.id}.characteristics`, { returnObjects: true }).map((trait: string, index: number) => (
+              {(t(`personalityTypes.${personalityType.id}.characteristics`, { returnObjects: true }) as string[]).map((trait: string, index: number) => (
                 <motion.div
                   key={index}
                   className="flex items-center text-sm sm:text-base text-gray-700"
@@ -274,7 +273,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               {t("testResult.sections.negativeTraits")}
             </motion.h3>
             <div className="space-y-3">
-              {t(`personalityTypes.${personalityType.id}.negativeTraits`, { returnObjects: true }).map((trait: string, index: number) => (
+              {(t(`personalityTypes.${personalityType.id}.negativeTraits`, { returnObjects: true }) as string[]).map((trait: string, index: number) => (
                 <motion.div
                   key={index}
                   className="flex items-start text-sm sm:text-base text-gray-700"

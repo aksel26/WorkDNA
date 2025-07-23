@@ -15,7 +15,7 @@
   }
 
   body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/images/bg/bg2.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/images/bg/bg.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -86,14 +86,14 @@
   /* #d6b585 */
 
   .bg-main {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/images/bg/bg2.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/images/bg/bg.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
 
   .bg-main-care {
-    background-image: url("./assets/images/bg/eeee.jpeg");
+    background-image: url("./assets/images/bg/careBg.webp");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

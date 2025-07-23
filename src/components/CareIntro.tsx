@@ -1,6 +1,6 @@
-import heartIcon from "@/assets/images/care/icon.png";
-import sproutIcon from "@/assets/images/care/sprout.png";
-import logoImage from "@/assets/images/ci/ACG_CI-그레이1.png";
+import heartIcon from "@/assets/images/care/careIntro.webp";
+import sproutIcon from "@/assets/images/care/sprout.webp";
+import logoImage from "@/assets/images/ci/ACG_CI_GRAY.webp";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";

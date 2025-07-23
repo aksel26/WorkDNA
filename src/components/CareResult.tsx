@@ -1,5 +1,5 @@
-import careResult from "@/assets/images/care/careResult2.png";
-import logoImage from "@/assets/images/ci/ACG_CI-그레이1.png";
+import careResult from "@/assets/images/care/careResult.webp";
+import logoImage from "@/assets/images/ci/ACG_CI_GRAY.webp";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowLeft, Share2 } from "lucide-react";
 import { useEffect, useState, useRef } from "react";

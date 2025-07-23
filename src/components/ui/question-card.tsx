@@ -28,7 +28,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       <div></div>
       <div>
         <h4 className="text-gray-500">{`Q${questionNumber}`}</h4>
-        <h2 className="text-lg font-semibold text-gray-800 leading-relaxed">{question.text}</h2>
+        <h2 className="text-lg font-semibold text-gray-800 leading-relaxed">{question.textKey}</h2>
       </div>
 
       {/* Answer Options */}
@@ -44,7 +44,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
             }`}
           >
             <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-600 leading-relaxed">{option.text}</span>
+              <span className="text-sm text-gray-600 leading-relaxed">{option.textKey}</span>
             </div>
           </button>
         ))}

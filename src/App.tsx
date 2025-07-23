@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { AnimatePresence } from "framer-motion";
-import logoImageGray from "./assets/images/ci/ACG_CI-그레이1.png";
-import logoImage from "./assets/images/ci/ACG_CI-화이트1 2.png";
-import floatingIcon from "./assets/images/cover/icons/icon.png";
-import floatingIcon2 from "./assets/images/cover/icons/icon2.png";
-import studyIcon1 from "./assets/images/cover/icons/study1.png";
-import studyIcon2 from "./assets/images/cover/icons/study2.png";
-import studyIcon3 from "./assets/images/cover/icons/study3.png";
-import teamWork1 from "./assets/images/cover/icons/teamwork.png";
-import teamWork2 from "./assets/images/cover/icons/teamwork2.png";
+import logoImageGray from "./assets/images/ci/ACG_CI_GRAY.webp";
+import logoImage from "./assets/images/ci/ACG_CI-WHITE.webp";
+import floatingIcon from "./assets/images/cover/icons/icon.webp";
+import floatingIcon2 from "./assets/images/cover/icons/icon2.webp";
+import studyIcon1 from "./assets/images/cover/icons/study1.webp";
+import studyIcon2 from "./assets/images/cover/icons/study2.webp";
+import studyIcon3 from "./assets/images/cover/icons/study3.webp";
+import teamWork1 from "./assets/images/cover/icons/teamwork.webp";
+import teamWork2 from "./assets/images/cover/icons/teamwork2.webp";
 import { ConsentDrawer } from "./components/ConsentDrawer";
 import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
 import { SplashScreen } from "./components/SplashScreen";
@@ -202,7 +202,7 @@ function TestApp() {
                       <CarouselContent>
                         <CarouselItem>
                           <FeatureCarouselItem
-                            imageSrc="/src/assets/images/cover/cover1-1.png"
+                            imageSrc="/src/assets/images/cover/cover1.webp"
                             imageAlt={t("carousel.feature1.imageAlt")}
                             title={t("carousel.feature1.title")}
                             description={t("carousel.feature1.description", { count: questions.length })}
@@ -222,7 +222,7 @@ function TestApp() {
                         </CarouselItem>
                         <CarouselItem>
                           <FeatureCarouselItem
-                            imageSrc="/src/assets/images/cover/cover-222.png"
+                            imageSrc="/src/assets/images/cover/cover2.webp"
                             imageAlt={t("carousel.feature2.imageAlt")}
                             title={t("carousel.feature2.title")}
                             description={t("carousel.feature2.description")}
@@ -242,7 +242,7 @@ function TestApp() {
                         </CarouselItem>
                         <CarouselItem>
                           <FeatureCarouselItem
-                            imageSrc="/src/assets/images/cover/cover3.png"
+                            imageSrc="/src/assets/images/cover/cover3.webp"
                             imageAlt={t("carousel.feature3.imageAlt")}
                             title={t("carousel.feature3.title")}
                             description={t("carousel.feature3.description")}
