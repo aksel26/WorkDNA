@@ -6,22 +6,21 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 
 export default function AppRouter() {
-  const currentPath = window.location.pathname;
-
-  if (currentPath === "/dashboard") {
-    return (
-      <AuthProvider>
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      </AuthProvider>
-    );
-  }
   return (
     <Router>
       <Routes>
         <Route path="/" element={<TestApp />} />
         <Route path="/care" element={<Care />} />
+        <Route
+          path="/dashboard"
+          element={
+            <AuthProvider>
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            </AuthProvider>
+          }
+        />
       </Routes>
     </Router>
   );
