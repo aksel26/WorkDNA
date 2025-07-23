@@ -18,6 +18,7 @@ import 사교왕Image from "@/assets/images/types/사교왕.webp";
 import 평화주의자Image from "@/assets/images/types/평화주의자.webp";
 import 행동대장Image from "@/assets/images/types/행동대장.webp";
 import { ChevronDown } from "./ui/arrowDown";
+import { useNavigate } from "react-router-dom";
 
 interface TestResultProps {
   personalityType: PersonalityType;
@@ -52,6 +53,8 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
   // Scroll-based logo animation
   const { scrollY } = useScroll();
   const logoOpacity = useTransform(scrollY, [0, 200], [1, 0]);
+
+  const navigate = useNavigate();
 
   // Refs for scroll-triggered animations
   const traitsRef = useRef(null);
@@ -394,7 +397,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               scale: 0.98,
               transition: { duration: 0.1, ease: "easeInOut" },
             }}
-            onClick={() => (window.location.href = "/care")}
+            onClick={() => navigate("/care")}
           >
             <img src={pillIcon} alt="iconBg" className="absolute -right-4 top-0 w-38 opacity-100" />
             <motion.h3
