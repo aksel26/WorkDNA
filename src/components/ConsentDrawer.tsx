@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer";
 import { Button } from "./ui/button";
 import { ConsentModal, type ConsentModalRef } from "./ConsentModal";
+import { useTranslation } from "react-i18next";
 
 interface ConsentDrawerProps {
   isLoading: boolean;
@@ -9,6 +10,7 @@ interface ConsentDrawerProps {
 }
 
 export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({ isLoading, onSubmit }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const consentModalRef = useRef<ConsentModalRef>(null);
 
@@ -27,23 +29,23 @@ export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({ isLoading, onSubmi
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
         <Button disabled={isLoading} className="w-full text-xs cursor-pointer">
-          {isLoading ? "준비 중..." : "테스트 시작하기"}
+          {isLoading ? t("consent.drawer.preparing") : t("consent.drawer.startButton")}
         </Button>
       </DrawerTrigger>
       <DrawerContent className="max-w-xl mx-auto">
         <div className="px-6">
           <DrawerHeader>
-            <DrawerTitle className="text-sm">개인정보 수집 및 이용 동의</DrawerTitle>
-            <DrawerDescription className="text-sm">개인정보 수집 및 이용 동의 내용을 확인해주세요.</DrawerDescription>
+            <DrawerTitle className="text-sm">{t("consent.drawer.title")}</DrawerTitle>
+            <DrawerDescription className="text-sm">{t("consent.drawer.description")}</DrawerDescription>
           </DrawerHeader>
           <ConsentModal ref={consentModalRef} onSubmit={handleSubmit} />
           <DrawerFooter>
             <Button onClick={handleButtonClick} className="text-xs">
-              동의하고 시작하기
+              {t("consent.drawer.agree")}
             </Button>
             <DrawerClose asChild>
               <Button variant="outline" className="text-xs">
-                취소
+                {t("consent.drawer.cancel")}
               </Button>
             </DrawerClose>
           </DrawerFooter>
