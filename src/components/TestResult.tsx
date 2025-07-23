@@ -2,15 +2,15 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { AlertTriangle, ChevronRight, ChevronUp, Download, Heart, RefreshCw, Share2 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 
-import logoImage from "@/assets/images/ci/ACG_CI-화이트1 2.png";
-import type { PersonalityType } from "../data/personalityTypes";
-import { typeDetails } from "../data/typeDetails";
-import { Button } from "./ui/button";
-import checkIcon from "@/assets/icons/check.png";
 import bookmarkIcon from "@/assets/icons/bookmark.png";
+import checkIcon from "@/assets/icons/check.png";
 import fireIcon from "@/assets/icons/fire.png";
 import thumbsUpIcon from "@/assets/icons/thumbsUp.png";
+import logoImage from "@/assets/images/ci/ACG_CI-화이트1 2.png";
 import pillIcon from "@/assets/images/cover/pill.png";
+import { useTranslation } from "react-i18next";
+import type { PersonalityType } from "../data/personalityTypes";
+import { Button } from "./ui/button";
 
 // Import type images
 import 분석왕Image from "@/assets/images/types/분석왕.webp";
@@ -27,7 +27,8 @@ interface TestResultProps {
 }
 
 export const TestResult: React.FC<TestResultProps> = ({ personalityType, onRestart, onShare }) => {
-  const detail = typeDetails[personalityType.id];
+  const { t } = useTranslation();
+  // const detail = typeDetails[personalityType.id];
 
   // ScrollToTop state
   const [showScrollToTop, setShowScrollToTop] = useState(false);
@@ -175,16 +176,16 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               transition={{ duration: 0.8, delay: 1.0 }}
             >
               <motion.h1 className="text-lg sm:text-xl font-extrabold" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 1.4 }}>
-                {detail?.summary || personalityType.name}
+                {t(`personalityTypes.${personalityType.id}.name`)}
               </motion.h1>
               <motion.p className="text-gray-800 font-bold text-xs sm:text-lg" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 1.8 }}>
-                {personalityType.description}
+                {t(`personalityTypes.${personalityType.id}.description`)}
               </motion.p>
             </motion.div>
           </motion.div>
 
           <motion.div className="text-gold-500 flex-col font-bold text-sm text-center p-5 cursor-pointer flex items-center justify-center" onClick={moveDetailSection}>
-            자세히보기
+            {t("testResult.viewDetails")}
             <ChevronDown stroke={"#c49653"} />
           </motion.div>
         </div>
@@ -208,10 +209,10 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               animate={traitsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              주요 특징
+              {t("testResult.sections.traits")}
             </motion.h3>
             <div className="space-y-3">
-              {detail?.characteristics.map((trait, index) => (
+              {t(`personalityTypes.${personalityType.id}.characteristics`, { returnObjects: true }).map((trait: string, index: number) => (
                 <motion.div
                   key={index}
                   className="flex items-center text-sm sm:text-base text-gray-700"
@@ -242,7 +243,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Heart className="w-5 h-5 mr-2 text-red-400" />
-              나에게 필요한 것은
+              {t("testResult.sections.needs")}
             </motion.h3>
             <motion.p
               className="leading-relaxed text-sm sm:text-base text-gray-700"
@@ -250,7 +251,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               animate={needsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              {detail?.needs}
+              {t(`personalityTypes.${personalityType.id}.needs`)}
             </motion.p>
           </motion.div>
 
@@ -270,10 +271,10 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               transition={{ duration: 0.5, delay: 0.3 }}
             >
               <AlertTriangle className="w-5 h-5 mr-2 text-yellow-400" />
-              내가 삐뚤어지면
+              {t("testResult.sections.negativeTraits")}
             </motion.h3>
             <div className="space-y-3">
-              {detail?.negativeTraits.map((trait, index) => (
+              {t(`personalityTypes.${personalityType.id}.negativeTraits`, { returnObjects: true }).map((trait: string, index: number) => (
                 <motion.div
                   key={index}
                   className="flex items-start text-sm sm:text-base text-gray-700"
@@ -303,7 +304,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               animate={teamOptimizationInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              💼 팀 구성 최적화 인사이트
+              {t("testResult.sections.teamOptimization")}
             </motion.h3>
             <motion.p
               className="text-sm font-medium text-gray-400 mb-3"
@@ -311,7 +312,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               animate={teamOptimizationInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              "당신의 유형과 최고의 팀워크를 보이는 조합"
+              {t("testResult.sections.teamOptimizationSubtitle")}
             </motion.p>
             <div className="space-y-3">
               {personalityType.id === "AB" && (
@@ -323,7 +324,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
                     transition={{ duration: 0.4, delay: 0.5 }}
                   >
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3 flex-shrink-0" />
-                    행동대장(당신) + 조언자 = 전략 실행력 120% 상승
+                    {t("testResult.teamCompositions.recommendations.AB.combo1")}
                   </motion.div>
                   <motion.div
                     className="flex items-center text-sm sm:text-base text-gray-700"
@@ -332,7 +333,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
                     transition={{ duration: 0.4, delay: 0.6 }}
                   >
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3 flex-shrink-0" />
-                    행동대장 + 평화주의자 = 팀 내 갈등 75% 감소
+                    {t("testResult.teamCompositions.recommendations.AB.combo2")}
                   </motion.div>
                   <motion.div
                     className="flex items-center text-sm sm:text-base text-gray-700"
@@ -341,7 +342,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
                     transition={{ duration: 0.4, delay: 0.7 }}
                   >
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-3 flex-shrink-0" />
-                    추천 팀 구성비: 행동대장 30% + 사교왕 20% + 조언자 30% + 평화주의자 20%
+                    {t("testResult.teamCompositions.recommendations.AB.teamRatio")}
                   </motion.div>
                 </>
               )}
@@ -353,19 +354,19 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
                   transition={{ duration: 0.4, delay: 0.5 }}
                 >
                   <div className="text-center">
-                    <p className="text-black font-medium text-md">행동대장</p>
+                    <p className="text-black font-medium text-md">{t("testResult.teamCompositions.actionLeader")}</p>
                     <p className="text-black font-medium text-md">30%</p>
                   </div>
                   <div className="text-center">
-                    <p>사교왕</p>
+                    <p>{t("testResult.teamCompositions.socialKing")}</p>
                     <p>30%</p>
                   </div>
                   <div className="text-center">
-                    <p>조언자</p>
+                    <p>{t("testResult.teamCompositions.advisor")}</p>
                     <p>30%</p>
                   </div>
                   <div className="text-center">
-                    <p>평화주의자</p>
+                    <p>{t("testResult.teamCompositions.peacemaker")}</p>
                     <p>30%</p>
                   </div>
                 </motion.div>
@@ -381,18 +382,18 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
             className="rounded-xl p-6 shadow-sm border border-gray-100 relative bg-lime-50 overflow-hidden cursor-pointer hover:shadow-xl"
             initial={{ opacity: 0, y: 50 }}
             animate={careInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-            transition={{ 
-              duration: 0.6, 
+            transition={{
+              duration: 0.6,
               delay: 0.4,
-              scale: { duration: 0.15, ease: "easeOut" }
+              scale: { duration: 0.15, ease: "easeOut" },
             }}
-            whileHover={{ 
+            whileHover={{
               scale: 1.02,
-              transition: { duration: 0.2, ease: "easeOut" }
+              transition: { duration: 0.2, ease: "easeOut" },
             }}
-            whileTap={{ 
+            whileTap={{
               scale: 0.98,
-              transition: { duration: 0.1, ease: "easeInOut" }
+              transition: { duration: 0.1, ease: "easeInOut" },
             }}
             onClick={() => (window.location.href = "/care")}
           >
@@ -403,7 +404,7 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               animate={careInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              마음 처방전
+              {t("testResult.sections.heartPrescription")}
             </motion.h3>
             <motion.p
               className="leading-relaxed text-sm sm:text-base text-gray-700"
@@ -411,11 +412,11 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
               animate={careInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              3분 만에 나의 마음 건강 확인하기
+              {t("testResult.sections.heartPrescriptionDescription")}
             </motion.p>
             <div className="flex justify-start mt-4">
               <div className="px-0 flex gap-x-1 text-sm items-center font-medium">
-                <p className="text-black">진단하러 가기</p>
+                <p className="text-black">{t("testResult.buttons.goToDiagnosis")}</p>
                 <ChevronRight size={18} strokeWidth={1.3} color="black" />
               </div>
             </div>
@@ -431,19 +432,19 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
             <motion.div initial={{ opacity: 0, x: -20 }} animate={buttonsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.4, delay: 0.3 }}>
               <Button onClick={onShare} className="btn-primary flex items-center justify-center space-x-2 w-full">
                 <Share2 size={20} />
-                <span>결과 공유하기</span>
+                <span>{t("testResult.buttons.shareResult")}</span>
               </Button>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: -20 }} animate={buttonsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }} transition={{ duration: 0.4, delay: 0.5 }}>
               <Button onClick={onShare} className="btn-primary flex items-center justify-center space-x-2 w-full">
                 <Download size={20} />
-                <span>결과 내려받기</span>
+                <span>{t("testResult.buttons.downloadResult")}</span>
               </Button>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} animate={buttonsInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }} transition={{ duration: 0.4, delay: 0.6 }}>
               <Button onClick={onRestart} className="btn-secondary flex items-center justify-center space-x-2 w-full">
                 <RefreshCw size={20} />
-                <span>다시 테스트하기</span>
+                <span>{t("testResult.buttons.retakeTest")}</span>
               </Button>
             </motion.div>
           </motion.div>
@@ -456,8 +457,8 @@ export const TestResult: React.FC<TestResultProps> = ({ personalityType, onResta
             animate={footerInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <p>이 결과는 당신의 업무 성향을 분석한 것입니다.</p>
-            <p>더 정확한 결과를 위해 솔직하게 답변해주세요.</p>
+            <p>{t("testResult.footer.disclaimer1")}</p>
+            <p>{t("testResult.footer.disclaimer2")}</p>
           </motion.div>
         </div>
       </section>
