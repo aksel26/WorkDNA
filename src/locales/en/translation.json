@@ -1,0 +1,296 @@
+{
+  "greeting": "Discover Your Work DNA",
+  "description": {
+    "line1": "With 10 simple questions,",
+    "line2": "accurately analyze your work style"
+  },
+  "buttons": {
+    "korean": "한국어",
+    "english": "English"
+  },
+  "toast": {
+    "urlCopied": "URL copied to clipboard!",
+    "urlCopyFailed": "Failed to copy URL."
+  },
+  "alerts": {
+    "kakaoNotReady": "Kakao SDK is not ready. Please try again later."
+  },
+  "kakaoShare": {
+    "title": "ACG Workplace Personality Test",
+    "description": "Discover your unique Work DNA!",
+    "buttonTitle": "View on Web"
+  },
+  "carousel": {
+    "feature1": {
+      "title": "Accurate Analysis",
+      "description": "Precisely analyze your work style with {{count}} simple questions",
+      "imageAlt": "Accurate Analysis"
+    },
+    "feature2": {
+      "title": "Enhanced Teamwork",
+      "description": "Share results with colleagues to find better collaboration methods",
+      "imageAlt": "Enhanced Teamwork"
+    },
+    "feature3": {
+      "title": "Personal Growth",
+      "description": "Identify your strengths and development points to find growth opportunities",
+      "imageAlt": "Personal Growth"
+    }
+  },
+  "stats": {
+    "participants": "Participants",
+    "mostCommonType": "Most Common (23%)",
+    "leaderType": "Leader Type",
+    "estimatedTime": "Estimated time: About 5 minutes"
+  },
+  "sharing": {
+    "loadingButton": "Loading share button..."
+  },
+  "errors": {
+    "errorOccurred": "An error occurred",
+    "tryAgain": "Try Again",
+    "unexpectedState": "Unexpected state",
+    "startFromBeginning": "Start from Beginning"
+  },
+  "loading": {
+    "languageSettings": "Loading language settings...",
+    "general": "Loading..."
+  },
+  "icons": {
+    "floating": "Floating Icon",
+    "floating2": "Floating Icon 2",
+    "chicken1": "Chicken Icon 1",
+    "chicken2": "Chicken Icon 2",
+    "study1": "Study Icon 1",
+    "study2": "Study Icon 2",
+    "study3": "Study Icon 3"
+  },
+  "consent": {
+    "drawer": {
+      "startButton": "Start Test",
+      "preparing": "Preparing...",
+      "title": "Personal Data Collection and Use Agreement",
+      "description": "Please review the personal data collection and use agreement.",
+      "agree": "Agree and Start",
+      "cancel": "Cancel"
+    },
+    "modal": {
+      "form": {
+        "nameLabel": "Name (Optional)",
+        "namePlaceholder": "Enter your name",
+        "genderLabel": "Gender (Optional)",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "ageLabel": "Age Range",
+        "agePlaceholder": "Select your age range.",
+        "age20s": "20s",
+        "age30s": "30s",
+        "age40s": "40s",
+        "age50s": "50s",
+        "age60plus": "60+"
+      },
+      "privacy": {
+        "title": "Personal Data Collection Agreement (Required)",
+        "completed": "✓ Agreed",
+        "required": "Agreement Required",
+        "viewDetails": "View Personal Data Collection Details",
+        "dialogTitle": "Personal Data Collection and Use",
+        "purpose": "Collection Purpose:",
+        "purposeText": "Providing work style diagnostic services and statistical analysis",
+        "items": "Collection Items:",
+        "itemsText": "Name, gender, age range, test responses (all items optional)",
+        "retention": "Retention Period:",
+        "retentionText": "Immediately deleted after service completion",
+        "processing": "Processing Method:",
+        "processingText": "Anonymized and used only for statistical purposes",
+        "notice": "* Personal information is stored encrypted and used only for service improvement and statistical analysis.",
+        "agreeButton": "Agree and Confirm"
+      },
+      "validation": {
+        "consentRequired": "Please agree to personal data collection and use."
+      }
+    }
+  },
+  "questions": {
+    "1": {
+      "text": "When talking with people, I usually",
+      "options": {
+        "A": "respond enthusiastically and show agreement.",
+        "B": "listen carefully to what they say."
+      }
+    },
+    "2": {
+      "text": "When I think my opinion won't be accepted, I",
+      "options": {
+        "A": "still try to speak up anyway.",
+        "B": "prefer not to say anything."
+      }
+    },
+    "3": {
+      "text": "I usually think I am",
+      "options": {
+        "A": "cheerful and talkative",
+        "B": "careful and thoughtful"
+      }
+    },
+    "4": {
+      "text": "In work situations, I usually",
+      "options": {
+        "A": "actively share my opinions.",
+        "B": "support and follow others' opinions."
+      }
+    },
+    "5": {
+      "text": "When meeting new people, I",
+      "options": {
+        "A": "tend to lead the conversation.",
+        "B": "prefer to talk only when necessary."
+      }
+    },
+    "6": {
+      "text": "The person I want to work with is",
+      "options": {
+        "A": "someone who is kind and personable.",
+        "B": "someone who is fair and not swayed by emotions."
+      }
+    },
+    "7": {
+      "text": "What I'm good at is",
+      "options": {
+        "A": "making people around me happy and joyful.",
+        "B": "explaining and persuading others."
+      }
+    },
+    "8": {
+      "text": "When there's something uncomfortable during conversation, I",
+      "options": {
+        "A": "find it hard to say unpleasant things and tend to endure.",
+        "B": "say what needs to be said even if others might not like it."
+      }
+    },
+    "9": {
+      "text": "When someone comes to me for advice, I usually",
+      "options": {
+        "A": "provide empathy and comfort.",
+        "B": "suggest solutions."
+      }
+    },
+    "10": {
+      "text": "People usually tell me that I am",
+      "options": {
+        "A": "a kind and warm person.",
+        "B": "a rational and logical person."
+      }
+    }
+  },
+  "navigation": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "testResult": {
+    "viewDetails": "View Details",
+    "sections": {
+      "traits": "Key Characteristics",
+      "needs": "What I Need",
+      "negativeTraits": "When I Go Wrong",
+      "teamOptimization": "💼 Team Composition Optimization Insights",
+      "teamOptimizationSubtitle": "\"Best teamwork combinations with your type\"",
+      "heartPrescription": "Mental Health Prescription",
+      "heartPrescriptionDescription": "Check your mental health in 3 minutes"
+    },
+    "buttons": {
+      "shareResult": "Share Results",
+      "downloadResult": "Download Results",
+      "retakeTest": "Retake Test",
+      "goToDiagnosis": "Go to Diagnosis"
+    },
+    "footer": {
+      "disclaimer1": "This result analyzes your work tendencies.",
+      "disclaimer2": "Please answer honestly for more accurate results."
+    },
+    "teamCompositions": {
+      "actionLeader": "Action Leader",
+      "socialKing": "Social King",
+      "advisor": "Advisor",
+      "peacemaker": "Peacemaker",
+      "recommendations": {
+        "AB": {
+          "combo1": "Action Leader (You) + Advisor = 120% increase in strategic execution",
+          "combo2": "Action Leader + Peacemaker = 75% reduction in team conflicts",
+          "teamRatio": "Recommended team composition: Action Leader 30% + Social King 20% + Advisor 30% + Peacemaker 20%"
+        }
+      }
+    }
+  },
+  "personalityTypes": {
+    "AA": {
+      "name": "Social King who shines in relationships",
+      "description": "Active and warm personality that values relationships with people",
+      "characteristics": [
+        "#Relationship-centered and sociable",
+        "#Rich in emotional expression",
+        "#Enjoys receiving attention",
+        "#Not calculating and innocent"
+      ],
+      "needs": "Others' attention and favor, and praise",
+      "negativeTraits": [
+        "Gets sulky easily when hurt feelings accumulate",
+        "Confronts surroundings in an emotional way",
+        "Invests too much time in external activities",
+        "Thinks others are lecturing when they explain logically"
+      ]
+    },
+    "AB": {
+      "name": "Progressive and confident Action Leader",
+      "description": "Leadership type with active yet logical thinking",
+      "characteristics": [
+        "#Proactive and active",
+        "#Values performance/results creation",
+        "#Quick and bold decision-making",
+        "#Rational and logical judgment"
+      ],
+      "needs": "Others' recognition and respect, and authority",
+      "negativeTraits": [
+        "Acts aggressively while arguing logically",
+        "Actively rebels against company or supervisor policies",
+        "Finds problems and raises issues",
+        "Reports to higher organizations immediately when dissatisfied"
+      ]
+    },
+    "BA": {
+      "name": "Caring and warm Peacemaker",
+      "description": "Careful yet considerate and detailed personality",
+      "characteristics": [
+        "#Prefers cooperation over conflict",
+        "#Respects and accepts everyone",
+        "#Doesn't force others",
+        "#Endures for harmony"
+      ],
+      "needs": "Others' support and confidence, and peace",
+      "negativeTraits": [
+        "Loses confidence and undervalues themselves",
+        "Becomes indecisive and avoids when decisions need to be made",
+        "Shows passive attitude and excessive dependence",
+        "Causes irritation among colleagues due to lack of confidence"
+      ]
+    },
+    "BB": {
+      "name": "Trustworthy and honest Advisor",
+      "description": "Type that makes accurate judgments with careful and logical thinking",
+      "characteristics": [
+        "#Quiet and careful",
+        "#Expresses thoughts simply and clearly",
+        "#Rational and analytical",
+        "#Strict and perfectionist"
+      ],
+      "needs": "Trust relationships with others and fairness, and principles",
+      "negativeTraits": [
+        "Gets angry when someone receives special treatment or fairness is violated",
+        "Doesn't tolerate even small mistakes from those who lost trust",
+        "Emphasizes negative aspects of new tasks and is cynical",
+        "Gets indignant about unfairness and points it out sharply"
+      ]
+    }
+  }
+}
