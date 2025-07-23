@@ -197,7 +197,7 @@ function TestApp() {
                     {t("greeting")}
                   </TextAnimate>
                   {/* Carouesel */}
-                  <div className="px-4 absolute top-[60%] -translate-y-1/2">
+                  <div className="px-4 absolute top-[60%] -translate-y-1/2 w-full">
                     <div className="absolute inset-0  w-full flex bg-transparent items-center justify-center pointer-events-none top-6">
                       <div className="w-48 h-32 bg-[#D6B585]/50 rounded-full blur-2xl opacity-100"></div>
                     </div>
@@ -232,13 +232,13 @@ function TestApp() {
                             floatingIcon={{
                               src: teamWork1,
                               alt: t("icons.chicken1"),
-                              className: "-left-16 sm:-left-24 sm:bottom-0 w-12 sm:w-20 ",
+                              className: "-left-5 sm:-left-24 sm:bottom-0 w-12 sm:w-20 ",
                               delay: 0.5,
                             }}
                             floatingIcon2={{
                               src: teamWork2,
                               alt: t("icons.chicken2"),
-                              className: "-right-12 bottom-8 sm:-right-24 sm:bottom-8 w-12 sm:w-20 ",
+                              className: "-right-6 bottom-8 sm:-right-24 sm:bottom-8 w-12 sm:w-20 ",
                               delay: 1.0,
                             }}
                           />
@@ -252,19 +252,19 @@ function TestApp() {
                             floatingIcon={{
                               src: studyIcon1,
                               alt: t("icons.study1"),
-                              className: "top-6 -right-12 sm:top-4 sm:-right-20 w-12 sm:w-20",
+                              className: "top-6 -right-6 sm:top-4 sm:-right-20 w-12 sm:w-20",
                               delay: 0.3,
                             }}
                             floatingIcon2={{
                               src: studyIcon2,
                               alt: t("icons.study2"),
-                              className: "-left-12 sm:top-20 sm:-left-20 w-12 sm:w-20",
+                              className: "-left-6 sm:top-20 sm:-left-20 w-12 sm:w-20",
                               delay: 0.8,
                             }}
                             floatingIcon3={{
                               src: studyIcon3,
                               alt: t("icons.study3"),
-                              className: "-right-12 top-24 sm:top-28 sm:-right-20 w-12 sm:w-20",
+                              className: "-right-6 top-24 sm:top-28 sm:-right-20 w-12 sm:w-20",
                               delay: 1.3,
                             }}
                           />

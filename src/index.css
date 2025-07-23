@@ -20,8 +20,6 @@
     background-position: center;
     background-repeat: no-repeat;
     height: 100dvh;
-
-    /* overflow-y: hidden; */
   }
   #root {
     height: 100%;
