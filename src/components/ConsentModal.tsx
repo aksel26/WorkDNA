@@ -17,6 +17,7 @@ import {
   DialogFooter,
 } from "./ui/dialog";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 interface ConsentModalProps {
   onSubmit: (data: {
@@ -35,6 +36,7 @@ export const ConsentModal = React.forwardRef<
   ConsentModalRef,
   ConsentModalProps
 >(({ onSubmit }, ref) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
     gender: "",
@@ -56,7 +58,7 @@ export const ConsentModal = React.forwardRef<
       if (e) e.preventDefault();
       const currentFormData = formDataRef.current;
       if (!currentFormData.consent) {
-        toast.error("개인정보 수집 및 이용에 동의해주세요.");
+        toast.error(t("consent.modal.validation.consentRequired"));
         return;
       }
       onSubmit(currentFormData);
@@ -87,84 +89,94 @@ export const ConsentModal = React.forwardRef<
 
   return (
     <div className="p-1">
-      <form className="space-y-6 ">
+      <form className="space-y-3 ">
         {/* Name Input */}
         <div>
           <Label
             htmlFor="text"
-            className="block text-sm font-medium text-black mb-1"
+            className="block text-xs font-medium text-black mb-1"
           >
-            이름 (선택사항)
+            {t("consent.modal.form.nameLabel")}
           </Label>
           <Input
             type="text"
             value={formData.name}
-            className="text-sm"
+            className="text-xs"
             onChange={(e) => handleChange("name", e.target.value)}
-            placeholder="이름을 입력하세요"
+            placeholder={t("consent.modal.form.namePlaceholder")}
           />
         </div>
 
         {/* Gender Selection */}
         <div>
-          <Label className="block text-sm font-medium text-black mb-2">
-            성별 (선택사항)
+          <Label className="block text-xs font-medium text-black mb-2">
+            {t("consent.modal.form.genderLabel")}
           </Label>
           <div className="flex gap-3">
             <button
               type="button"
               onClick={() => handleChange("gender", "male")}
-              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+              className={`flex-1 p-2 rounded-lg border text-xs text-center transition-colors ${
                 formData.gender === "male"
                   ? "border-blue-400 bg-blue-50 text-blue-700"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
               }`}
             >
-              남성
+              {t("consent.modal.form.male")}
             </button>
             <button
               type="button"
               onClick={() => handleChange("gender", "female")}
-              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+              className={`flex-1 p-2 rounded-lg border text-xs text-center transition-colors ${
                 formData.gender === "female"
                   ? "border-pink-400 bg-pink-50 text-pink-700"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
               }`}
             >
-              여성
+              {t("consent.modal.form.female")}
             </button>
             <button
               type="button"
               onClick={() => handleChange("gender", "other")}
-              className={`flex-1 p-2 rounded-lg border-2 text-sm text-center transition-colors ${
+              className={`flex-1 p-2 rounded-lg border text-xs text-center transition-colors ${
                 formData.gender === "other"
                   ? "border-gray-400 bg-gray-50 text-gray-700"
                   : "border-gray-200 bg-white text-gray-700 hover:border-gray-300"
               }`}
             >
-              기타
+              {t("consent.modal.form.other")}
             </button>
           </div>
         </div>
 
         {/* Age Range Selection */}
         <div>
-          <Label className="block text-sm font-medium text-black mb-1">
-            연령대
+          <Label className="block text-xs font-medium text-black mb-1">
+            {t("consent.modal.form.ageLabel")}
           </Label>
           <Select
             value={formData.ageRange}
             onValueChange={(value) => handleChange("ageRange", value)}
           >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="연령대를 선택하세요." />
+            <SelectTrigger className="w-full text-xs">
+              <SelectValue placeholder={t("consent.modal.form.agePlaceholder")} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="20s">20대</SelectItem>
-              <SelectItem value="30s">30대</SelectItem>
-              <SelectItem value="40s">40대</SelectItem>
-              <SelectItem value="50s">50대</SelectItem>
-              <SelectItem value="60+">60대 이상</SelectItem>
+              <SelectItem className="text-xs" value="20s">
+                {t("consent.modal.form.age20s")}
+              </SelectItem>
+              <SelectItem className="text-xs" value="30s">
+                {t("consent.modal.form.age30s")}
+              </SelectItem>
+              <SelectItem className="text-xs" value="40s">
+                {t("consent.modal.form.age40s")}
+              </SelectItem>
+              <SelectItem className="text-xs" value="50s">
+                {t("consent.modal.form.age50s")}
+              </SelectItem>
+              <SelectItem className="text-xs" value="60+">
+                {t("consent.modal.form.age60plus")}
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -172,15 +184,15 @@ export const ConsentModal = React.forwardRef<
         {/* Privacy Policy Consent Button */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-black">
-              개인정보 수집 및 이용 동의 (필수)
+            <span className="text-xs font-medium text-black">
+              {t("consent.modal.privacy.title")}
             </span>
             <span
-              className={`text-sm ${
+              className={`text-xs ${
                 formData.consent ? "text-green-600" : "text-gray-400"
               }`}
             >
-              {formData.consent ? "✓ 동의완료" : "동의필요"}
+              {formData.consent ? t("consent.modal.privacy.completed") : t("consent.modal.privacy.required")}
             </span>
           </div>
 
@@ -191,48 +203,47 @@ export const ConsentModal = React.forwardRef<
             <DialogTrigger asChild>
               <button
                 type="button"
-                className={`w-full p-3 rounded-lg border text-left transition-colors text-sm ${
+                className={`w-full p-3 rounded-lg border text-left transition-colors text-xs ${
                   formData.consent
                     ? "bg-green-50 border-green-200 text-green-700"
                     : "bg-gray-50 border-gray-200 text-gray-700 hover:bg-gray-100"
                 }`}
               >
-                개인정보 수집 및 이용 내역 확인하기
+                {t("consent.modal.privacy.viewDetails")}
               </button>
             </DialogTrigger>
 
             <DialogContent className="max-w-xs">
               <DialogHeader>
-                <DialogTitle>개인정보 수집 및 이용</DialogTitle>
+                <DialogTitle className="text-sm">
+                  {t("consent.modal.privacy.dialogTitle")}
+                </DialogTitle>
               </DialogHeader>
 
-              <div className="text-sm space-y-3 text-black">
+              <div className="text-xs space-y-3 text-black">
                 <p>
-                  <strong>수집 목적:</strong> 업무 스타일 진단 서비스 제공 및
-                  통계 분석
+                  <strong>{t("consent.modal.privacy.purpose")}</strong> {t("consent.modal.privacy.purposeText")}
                 </p>
                 <p>
-                  <strong>수집 항목:</strong> 이름, 성별, 연령대, 테스트 응답
-                  (모든 항목 선택사항)
+                  <strong>{t("consent.modal.privacy.items")}</strong> {t("consent.modal.privacy.itemsText")}
                 </p>
                 <p>
-                  <strong>보유 기간:</strong> 서비스 제공 완료 후 즉시 삭제
+                  <strong>{t("consent.modal.privacy.retention")}</strong> {t("consent.modal.privacy.retentionText")}
                 </p>
                 <p>
-                  <strong>처리 방식:</strong> 익명화하여 통계 목적으로만 사용
+                  <strong>{t("consent.modal.privacy.processing")}</strong> {t("consent.modal.privacy.processingText")}
                 </p>
                 <p className="text-xs text-gray-500 mt-2">
-                  * 개인정보는 암호화되어 저장되며, 서비스 개선 및 통계 분석
-                  목적으로만 사용됩니다.
+                  {t("consent.modal.privacy.notice")}
                 </p>
               </div>
 
               <DialogFooter>
                 <button
                   onClick={handlePrivacyConsent}
-                  className="btn-primary w-full text-sm"
+                  className="btn-primary w-full text-xs"
                 >
-                  동의하고 확인
+                  {t("consent.modal.privacy.agreeButton")}
                 </button>
               </DialogFooter>
             </DialogContent>

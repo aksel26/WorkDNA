@@ -1,31 +1,16 @@
 import React, { useState, useRef } from "react";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "./ui/drawer";
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from "./ui/drawer";
 import { Button } from "./ui/button";
 import { ConsentModal, type ConsentModalRef } from "./ConsentModal";
+import { useTranslation } from "react-i18next";
 
 interface ConsentDrawerProps {
   isLoading: boolean;
-  onSubmit: (userData: {
-    name: string;
-    gender: string;
-    ageRange: string;
-    consent: boolean;
-  }) => void;
+  onSubmit: (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => void;
 }
 
-export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({
-  isLoading,
-  onSubmit,
-}) => {
+export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({ isLoading, onSubmit }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const consentModalRef = useRef<ConsentModalRef>(null);
 
@@ -35,12 +20,7 @@ export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({
     }
   };
 
-  const handleSubmit = (userData: {
-    name: string;
-    gender: string;
-    ageRange: string;
-    consent: boolean;
-  }) => {
+  const handleSubmit = (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
     onSubmit(userData);
     setIsOpen(false);
   };
@@ -48,28 +28,25 @@ export const ConsentDrawer: React.FC<ConsentDrawerProps> = ({
   return (
     <Drawer open={isOpen} onOpenChange={setIsOpen}>
       <DrawerTrigger asChild>
-        <button
-          disabled={isLoading}
-          className="btn-primary w-full text-sm px-8 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isLoading ? "준비 중..." : "테스트 시작하기"}
-        </button>
+        <Button disabled={isLoading} className="w-full text-xs cursor-pointer">
+          {isLoading ? t("consent.drawer.preparing") : t("consent.drawer.startButton")}
+        </Button>
       </DrawerTrigger>
-      <DrawerContent>
-        <div className="mx-auto w-full max-w-sm">
+      <DrawerContent className="max-w-xl mx-auto">
+        <div className="px-6">
           <DrawerHeader>
-            <DrawerTitle>개인정보 수집 및 이용 동의</DrawerTitle>
-            <DrawerDescription>
-              개인정보 수집 및 이용 동의 내용을 확인해주세요.
-            </DrawerDescription>
+            <DrawerTitle className="text-sm">{t("consent.drawer.title")}</DrawerTitle>
+            <DrawerDescription className="text-sm">{t("consent.drawer.description")}</DrawerDescription>
           </DrawerHeader>
           <ConsentModal ref={consentModalRef} onSubmit={handleSubmit} />
           <DrawerFooter>
-            <Button onClick={handleButtonClick} className="btn-primary">
-              동의하고 시작하기
+            <Button onClick={handleButtonClick} className="text-xs">
+              {t("consent.drawer.agree")}
             </Button>
             <DrawerClose asChild>
-              <Button variant="outline">취소</Button>
+              <Button variant="outline" className="text-xs">
+                {t("consent.drawer.cancel")}
+              </Button>
             </DrawerClose>
           </DrawerFooter>
         </div>

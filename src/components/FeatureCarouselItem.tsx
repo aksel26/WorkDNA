@@ -8,8 +8,6 @@ interface FeatureCarouselItemProps {
   title: string;
   description: string;
   titleColor?: string;
-  imageWidth?: string;
-  imageHeight?: string;
   floatingIcon?: {
     src: string;
     alt: string;
@@ -36,8 +34,6 @@ export function FeatureCarouselItem({
   title,
   description,
   titleColor = "text-gray-800",
-  imageWidth = "w-[240px]",
-  imageHeight = "h-[340px]",
   floatingIcon,
   floatingIcon2,
   floatingIcon3,
@@ -69,12 +65,15 @@ export function FeatureCarouselItem({
   }, []);
 
   return (
-    <div ref={ref} className="bg-transparent flex flex-col h-full">
-      <div className="h-[400px] flex items-center justify-center mb-4 relative">
+    <div
+      ref={ref}
+      className="bg-transparent flex flex-col h-full text-center text-white"
+    >
+      <div className="flex items-center justify-center mb-4 relative aspect-[4/3] w-1/3 mx-auto">
         <img
           src={imageSrc}
           alt={imageAlt}
-          className={`${imageWidth} ${imageHeight} object-contain`}
+          className="w-full h-full object-contain"
         />
         {floatingIcon && isVisible && (
           <FloatingIcon
@@ -101,9 +100,9 @@ export function FeatureCarouselItem({
           />
         )}
       </div>
-      <div className="flex-1 flex flex-col justify-center text-center">
+      <div className="">
         <motion.h3
-          className={`text-xl font-bold ${titleColor} mb-2`}
+          className={`text-base ${titleColor} mb-2 md:text-xl text-white text-semibold font-medium`}
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -111,7 +110,7 @@ export function FeatureCarouselItem({
           {title}
         </motion.h3>
         <motion.p
-          className="text-gray-600 text-sm leading-relaxed"
+          className="text-white text-xs md:text-md leading-relaxed"
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}

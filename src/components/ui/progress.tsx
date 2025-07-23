@@ -5,10 +5,10 @@ import { cn } from "@/lib/utils";
 
 function Progress({ className, value, ...props }: React.ComponentProps<typeof ProgressPrimitive.Root>) {
   return (
-    <ProgressPrimitive.Root data-slot="progress" className={cn("bg-primary/20 relative h-7 w-full overflow-hidden rounded-full", className)} {...props}>
+    <ProgressPrimitive.Root data-slot="progress" className={cn("bg-primary/20 relative h-[5px] w-full overflow-hidden rounded-md", className)} {...props}>
       <ProgressPrimitive.Indicator
         data-slot="progress-indicator"
-        className="bg-gradient-to-r from-green-200 via-green-100 to-pink-200 h-full w-full flex-1  transition-all"
+        className="bg-gold-200 h-full w-full flex-1 rounded-3xl transition-all"
         style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
       />
     </ProgressPrimitive.Root>

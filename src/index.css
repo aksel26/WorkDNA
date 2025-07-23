@@ -5,13 +5,30 @@
 
 @layer base {
   html {
+    height: 100dvh;
+
     font-family: "NanumSquareRound", "맑은 고딕", "Malgun Gothic", sans-serif;
+    word-break: keep-all;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+    overscroll-behavior: none;
   }
 
   body {
-    background-color: white;
-    color: white;
-    word-break: keep-all;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/images/bg/bg2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100dvh;
+    /* background-color: #1c3163; */
+    /* overflow-y: hidden; */
+  }
+  #root {
+    height: 100%;
+    /* background-color: #1c3163; */
+  }
+  button {
+    cursor: pointer;
   }
 }
 
@@ -45,8 +62,7 @@
   .card {
     background-color: #6b6a6a;
     border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding: 1.5rem;
     color: white;
   }
@@ -67,18 +83,34 @@
     box-shadow: 0 0 0 2px #b59f85;
   }
 
+  /* #d6b585 */
+
   .bg-main {
-    background-image: linear-gradient(
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.5)
-      ),
-      url("./assets/images/bg/bg.jpg");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./assets/images/bg/bg2.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .bg-main-care {
+    background-image: url("./assets/images/bg/eeee.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
   }
 }
-
+@theme {
+  --color-gold-50: #fff5e6;
+  --color-gold-100: #f5e9d7;
+  --color-gold-200: #e7d2b3;
+  --color-gold-300: #d6b585;
+  --color-gold-400: #cca46a;
+  --color-gold-500: #c49653;
+  --color-gold-600: #c18f47;
+  --color-gold-700: #aa7c38;
+  --color-gold-800: #986e2f;
+  --color-gold-900: #855e22;
+}
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -225,4 +257,8 @@
   font-weight: 900;
   font-style: normal;
   font-display: swap;
+}
+
+#test {
+  box-shadow: -23px 0px 100px 12px rgba(255, 80, 80, 0.14), 36px 24px 90px 7px rgba(89, 34, 203, 0.18);
 }
