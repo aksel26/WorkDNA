@@ -15,7 +15,6 @@ const useKakao = () => {
       // Kakao SDK가 이미 초기화되었는지 확인
       if (!window.Kakao.isInitialized()) {
         window.Kakao.init(kakaoAppKey);
-        console.log("Kakao SDK가 성공적으로 초기화되었습니다.");
       }
       setIsKakaoReady(true);
     }
