@@ -1,9 +1,9 @@
 import heartIcon from "@/assets/images/care/icon.png";
 import sproutIcon from "@/assets/images/care/sprout.png";
-import { motion, useInView } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import logoImage from "@/assets/images/ci/ACG_CI-그레이1.png";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { ChevronLeft } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { TextAnimate } from "./magicui/text-animate";
 import { TextReveal } from "./magicui/text-reveal";
 import { ChevronDown } from "./ui/arrowDown";
@@ -20,13 +20,7 @@ interface CareIntroProps {
   };
 }
 
-export default function CareIntro({ 
-  onStartTest, 
-  onContinueTest, 
-  hasOngoingTest,
-  testProgress 
-}: CareIntroProps) {
-  const navigate = useNavigate();
+export default function CareIntro({ onStartTest, onContinueTest, hasOngoingTest, testProgress }: CareIntroProps) {
   const [scrollY, setScrollY] = useState(0);
 
   // Refs for scroll-triggered animations
@@ -46,20 +40,20 @@ export default function CareIntro({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleGoBack = () => {
-    navigate(-1);
+  const goWorkTest = () => {
+    window.location.href = "/";
   };
+
+  const { scrollY: headerY } = useScroll();
+  const logoOpacity = useTransform(headerY, [0, 200], [1, 0]);
 
   return (
     <div className="min-h-screen bg-main-care">
       {/* Header */}
       <div className="sticky top-0 z-50 bg-main/80 backdrop-blur-sm border-b border-white/10">
-        <div className="max-w-md mx-auto px-6 py-4 flex items-center justify-between">
-          <button onClick={handleGoBack} className="p-2 text-lime-500 hover:text-gold-300 transition-colors">
-            <ArrowLeft size={24} />
-          </button>
-          ACG
-          <div className="w-10" />
+        <div className="max-w-md mx-auto px-6 py-4 flex items-center justify-center">
+          <motion.img src={logoImage} alt="WorkDNA Logo" className="h-5 object-contain" style={{ opacity: logoOpacity }} />
+          {/* <img src={logoImage} alt="WorkDNA Logo" className="h-5 object-contain" /> */}
         </div>
       </div>
 
@@ -177,11 +171,7 @@ export default function CareIntro({
 
         {/* Progress Info for Ongoing Test */}
         {hasOngoingTest && testProgress && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-6 p-4 bg-blue-500/20 backdrop-blur-sm rounded-lg border border-blue-400/30"
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mt-6 p-4 bg-blue-500/20 backdrop-blur-sm rounded-lg border border-blue-400/30">
             <div className="flex items-center justify-between mb-2">
               <h4 className="font-medium text-blue-100">진행중인 테스트</h4>
               <span className="text-sm text-blue-200">
@@ -189,14 +179,9 @@ export default function CareIntro({
               </span>
             </div>
             <div className="w-full bg-blue-400/20 rounded-full h-2 mb-3">
-              <div 
-                className="bg-blue-400 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${((testProgress.questionIndex + 1) / testProgress.totalQuestions) * 100}%` }}
-              />
+              <div className="bg-blue-400 h-2 rounded-full transition-all duration-300" style={{ width: `${((testProgress.questionIndex + 1) / testProgress.totalQuestions) * 100}%` }} />
             </div>
-            <p className="text-xs text-blue-200">
-              마지막 저장: {new Date(testProgress.lastSaved).toLocaleString()}
-            </p>
+            <p className="text-xs text-blue-200">마지막 저장: {new Date(testProgress.lastSaved).toLocaleString()}</p>
           </motion.div>
         )}
 
@@ -225,12 +210,19 @@ export default function CareIntro({
               </Button>
             </>
           ) : (
-            <Button
-              onClick={onStartTest}
-              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-4 text-sm font-medium shadow-lg transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
-            >
-              마음 진단 시작하기
-            </Button>
+            <div className="flex flex-col gap-y-4">
+              <Button onClick={goWorkTest} variant={"outline"} className="w-full flex justify-between transition-all duration-300 transform hover:scale-[1.02] cursor-pointer">
+                <ChevronLeft className="inline mr-2" color="gray" strokeWidth={1.8} />
+                직장인 유형 테스트
+                <div className="w-[20px] h-[16px] ml-2" />
+              </Button>
+              <Button
+                onClick={onStartTest}
+                className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-4 text-sm font-medium shadow-lg transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
+              >
+                마음 진단 시작하기
+              </Button>
+            </div>
           )}
         </motion.div>
       </div>
