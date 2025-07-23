@@ -4,9 +4,11 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../lib/supabase";
 import { useWeeklyStats } from "../hooks/useWeeklyStats";
+import { getPersonalityTypeAlias } from "../utils/personalityTypeUtils";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 
 const chartConfig = {
   users: {
@@ -175,8 +177,22 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 mb-8">
           <Card className="h-full">
             <CardHeader>
-              <CardTitle>주 단위 사용자 통계</CardTitle>
-              <CardDescription>최근 8주간 사용자 수 및 완료된 테스트 수</CardDescription>
+              <div className="flex justify-between">
+                <div className="flex flex-col gap-y-1">
+                  <CardTitle>월 단위 사용자 통계</CardTitle>
+                  <CardDescription>최근 1달간 사용자 수 및 완료된 테스트 수</CardDescription>
+                </div>
+                <Select>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="월 선택" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">1월</SelectItem>
+                    <SelectItem value="2">2월</SelectItem>
+                    <SelectItem value="3">3월</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </CardHeader>
             <CardContent>
               {isWeeklyLoading ? (
@@ -210,15 +226,15 @@ export default function Dashboard() {
                     {weeklyData.length > 1 && (
                       <>
                         {weeklyData[weeklyData.length - 1].users > weeklyData[weeklyData.length - 2].users
-                          ? `전주 대비 ${Math.round(((weeklyData[weeklyData.length - 1].users - weeklyData[weeklyData.length - 2].users) / weeklyData[weeklyData.length - 2].users) * 100)}% 증가`
-                          : `전주 대비 ${Math.abs(
+                          ? `전달 대비 ${Math.round(((weeklyData[weeklyData.length - 1].users - weeklyData[weeklyData.length - 2].users) / weeklyData[weeklyData.length - 2].users) * 100)}% 증가`
+                          : `전달 대비 ${Math.abs(
                               Math.round(((weeklyData[weeklyData.length - 1].users - weeklyData[weeklyData.length - 2].users) / weeklyData[weeklyData.length - 2].users) * 100)
                             )}% 감소`}
                         <TrendingUp className="h-4 w-4" />
                       </>
                     )}
                   </div>
-                  <div className="text-muted-foreground flex items-center gap-2 leading-none">최근 8주간 데이터</div>
+                  <div className="text-muted-foreground flex items-center gap-2 leading-none">최근 1달간 데이터</div>
                 </div>
               </div>
             </CardFooter>
@@ -229,12 +245,12 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Large card - Personality Type Distribution */}
           <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow-sm border">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">성격 유형 분포</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">유형 분포</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(stats?.typeDistribution || {}).map(([type, count]) => (
                 <div key={type} className="text-center p-4 bg-gray-50 rounded-lg">
                   <p className="text-2xl font-bold text-gray-900">{count}</p>
-                  <p className="text-sm text-gray-600">{type}</p>
+                  <p className="text-sm text-gray-600">{getPersonalityTypeAlias(type)}</p>
                 </div>
               ))}
             </div>
