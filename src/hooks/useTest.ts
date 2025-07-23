@@ -1,16 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 import { questions } from "../data/questions";
-import {
-  calculatePersonalityType,
-  personalityTypes,
-} from "../data/personalityTypes";
-import {
-  detectDevice,
-  detectBrowser,
-  detectLocation,
-  detectTrafficSource,
-} from "../utils/browserDetection";
+import { calculatePersonalityType, personalityTypes } from "../data/personalityTypes";
+import { detectDevice, detectBrowser, detectLocation, detectTrafficSource } from "../utils/browserDetection";
 
 export interface UserData {
   name: string;
@@ -139,9 +131,7 @@ export const useTest = () => {
           [answerColumn]: value,
         })
         .eq("id", testState.userId);
-
       if (updateError) throw updateError;
-
       // Update local state
       const newAnswers = { ...testState.answers, [questionId]: value };
 
@@ -160,6 +150,11 @@ export const useTest = () => {
   const nextQuestion = () => {
     const nextQ = testState.currentQuestion + 1;
     if (nextQ >= questions.length) {
+      // 마지막 문항을 넘어갔을 때: currentQuestion을 업데이트하고 테스트 완료
+      setTestState((prev) => ({
+        ...prev,
+        currentQuestion: nextQ, // questions.length로 설정됨
+      }));
       // Complete the test
       completeTest();
     } else {
@@ -185,9 +180,7 @@ export const useTest = () => {
     setIsLoading(true);
     try {
       const result = calculatePersonalityType(testState.answers);
-      const sessionDuration = Math.floor(
-        (Date.now() - testState.sessionStartTime) / 1000
-      );
+      const sessionDuration = Math.floor((Date.now() - testState.sessionStartTime) / 1000);
 
       const getEndingByType = (type: string) => {
         const endings = {
@@ -261,9 +254,7 @@ export const useTest = () => {
     } else {
       // Fallback to clipboard
       try {
-        await navigator.clipboard.writeText(
-          shareText + "\n\n" + window.location.href
-        );
+        await navigator.clipboard.writeText(shareText + "\n\n" + window.location.href);
         alert("결과가 클립보드에 복사되었습니다!");
       } catch (err) {
         console.error("Failed to copy to clipboard:", err);
@@ -281,12 +272,7 @@ export const useTest = () => {
     previousQuestion,
     restartTest,
     shareResult,
-    currentQuestion:
-      testState.currentQuestion < questions.length
-        ? questions[testState.currentQuestion]
-        : null,
-    personalityType: testState.result
-      ? personalityTypes[testState.result.type]
-      : null,
+    currentQuestion: testState.currentQuestion < questions.length ? questions[testState.currentQuestion] : null,
+    personalityType: testState.result ? personalityTypes[testState.result.type] : null,
   };
 };
