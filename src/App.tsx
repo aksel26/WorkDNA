@@ -192,12 +192,12 @@ function TestApp() {
               </div>
               <div className="flex-1  ">
                 {/* Header */}
-                <div className="h-full relative">
-                  <TextAnimate animation="blurIn" as="h3" className="text-2xl font-bold text-white text-center absolute top-[8%]  left-0 right-0">
+                <div className="h-full relative flex flex-col justify-around">
+                  <TextAnimate animation="blurIn" as="h3" className="text-2xl font-bold text-white text-center">
                     {t("greeting")}
                   </TextAnimate>
                   {/* Carouesel */}
-                  <div className="px-4 absolute top-[60%] -translate-y-1/2 w-full">
+                  <div className="px-4">
                     <div className="absolute inset-0  w-full flex bg-transparent items-center justify-center pointer-events-none top-6">
                       <div className="w-48 h-32 bg-[#D6B585]/50 rounded-full blur-2xl opacity-100"></div>
                     </div>
@@ -270,13 +270,13 @@ function TestApp() {
                           />
                         </CarouselItem>
                       </CarouselContent>
-                      <CarouselDots />
+                      <CarouselDots className="mt-2" />
                     </Carousel>
                   </div>
                 </div>
               </div>
               {/* Fixed bottom CTA */}
-              <div className="z-10 bg-white rounded-t-3xl shadow-none p-6 sm:p-8 text-center h-auto flex flex-col justify-between">
+              <div className="z-10 bg-white rounded-t-3xl shadow-none p-5 sm:p-8 text-center h-auto flex flex-col justify-between">
                 <div>
                   <div className="flex justify-center items-center gap-6 mb-4">
                     <div className="text-center">

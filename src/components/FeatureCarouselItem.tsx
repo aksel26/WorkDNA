@@ -56,8 +56,8 @@ export function FeatureCarouselItem({ imageSrc, imageAlt, title, description, ti
   }, []);
 
   return (
-    <div ref={ref} className="bg-transparent flex flex-col h-full text-center text-white">
-      <div className="flex items-center justify-center mb-4 relative aspect-[4/3] w-[60%] max-[640px]:w-1/3 sm:w-1/3 mx-auto">
+    <div ref={ref} className="bg-transparent text-center text-white">
+      <div className="flex items-center justify-center relative w-[40%] sm:w-1/3 mx-auto">
         <img src={imageSrc} alt={imageAlt} className="w-full h-full object-contain" />
         {floatingIcon && isVisible && <FloatingIcon src={floatingIcon.src} alt={floatingIcon.alt} className={floatingIcon.className || "top-12 right-6 w-8 h-8"} delay={floatingIcon.delay || 0.5} />}
         {floatingIcon2 && isVisible && (
@@ -69,7 +69,7 @@ export function FeatureCarouselItem({ imageSrc, imageAlt, title, description, ti
       </div>
       <div className="">
         <motion.h3
-          className={`text-base ${titleColor} mb-2 md:text-xl text-white text-semibold font-medium`}
+          className={`text-base ${titleColor} mb-1 md:text-xl text-white text-semibold font-medium`}
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
