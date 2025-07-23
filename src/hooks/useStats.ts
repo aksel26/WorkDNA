@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
+import { getPersonalityTypeAlias } from '../utils/personalityTypeUtils';
 
 export interface Stats {
   totalParticipants: number;
@@ -17,13 +18,7 @@ export const useStats = () => {
 
   // Helper function to get personality type name in Korean
   const getTypeDisplayName = (typeCode: string): string => {
-    const typeNames = {
-      'AA': '사교왕',
-      'AB': '행동대장', 
-      'BA': '평화주의자',
-      'BB': '조언자'
-    };
-    return typeNames[typeCode as keyof typeof typeNames] || typeCode;
+    return getPersonalityTypeAlias(typeCode);
   };
 
   // Helper function to find most common type from distribution
