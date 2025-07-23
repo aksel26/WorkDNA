@@ -32,7 +32,7 @@ export default function CareIntro({ onStartTest, onContinueTest, hasOngoingTest,
   // InView hooks for each section
   const contentInView = useInView(contentRef, { once: true, margin: "-50px" });
   const startButtonInView = useInView(startButtonRef, { once: true, margin: "-50px" });
-  const subscriptionInView = useInView(subscriptionRef, { once: true, margin: "-100px" });
+  const subscriptionInView = useInView(subscriptionRef, { once: true, margin: "-200px" });
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -64,10 +64,7 @@ export default function CareIntro({ onStartTest, onContinueTest, hasOngoingTest,
           <TextAnimate animation="blurIn" as="h1" className="text-3xl font-bold text-[#08301C] text-center">
             내 마음 진단
           </TextAnimate>
-          <p className="text-center text-[#0E4A2C] mt-4">
-            바쁜 일상 속에서 스스로를 더 깊이 이해하고,
-            <br /> 자신에게 한 걸음 더 다가가는 시간을 선물해요.
-          </p>
+          <p className="text-center text-[#0E4A2C] mt-4">내 마음을 들여다보고, 나를 더 잘 이해하는 시간</p>
 
           <motion.div
             ref={titleRef}
@@ -128,7 +125,7 @@ export default function CareIntro({ onStartTest, onContinueTest, hasOngoingTest,
         >
           {/* Intro */}
           <div className="space-y-6">
-            <TextReveal>치열한 하루 속에서 문득 내 마음이 낯설게 느껴진 적 있으신가요?</TextReveal>
+            <TextReveal className="p-0">치열한 하루 속에서 문득 내 마음이 낯설게 느껴진 적 있으신가요?</TextReveal>
             <motion.div
               ref={subscriptionRef}
               id="subscription"
@@ -150,6 +147,15 @@ export default function CareIntro({ onStartTest, onContinueTest, hasOngoingTest,
                 transition={{ duration: 1, delay: 0.5 }}
               />
 
+              <motion.p
+                className=" text-[#0E4A2C] mt-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={subscriptionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                바쁜 일상 속에서 스스로를 더 깊이 이해하고,
+                <br /> 자신에게 한 걸음 더 다가가는 시간을 선물해 드려요.
+              </motion.p>
               {/* Simple Guidelines with staggered animation */}
               <motion.div initial={{ opacity: 0, y: 30 }} animate={subscriptionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }} transition={{ duration: 0.6, delay: 0.6 }}>
                 <h4 className="font-medium mb-2">정답은 없어요</h4>
