@@ -212,13 +212,13 @@ function TestApp() {
                             floatingIcon={{
                               src: floatingIcon,
                               alt: t("icons.floating"),
-                              className: "-left-24 top-0 w-20 ",
+                              className: "-left-12 top-10 sm:-left-24 sm:top-10 w-12 sm:w-20",
                               delay: 0.5,
                             }}
                             floatingIcon2={{
                               src: floatingIcon2,
                               alt: t("icons.floating2"),
-                              className: "-right-24 top-5 w-20 ",
+                              className: "-right-12 top-15 sm:-right-24 sm:top-15 w-12 sm:w-20",
                               delay: 1,
                             }}
                           />
@@ -232,13 +232,13 @@ function TestApp() {
                             floatingIcon={{
                               src: teamWork1,
                               alt: t("icons.chicken1"),
-                              className: "-left-24 bottom-0 w-20 ",
+                              className: "-left-16 sm:-left-24 sm:bottom-0 w-12 sm:w-20 ",
                               delay: 0.5,
                             }}
                             floatingIcon2={{
                               src: teamWork2,
                               alt: t("icons.chicken2"),
-                              className: "-right-24 bottom-8 w-20 ",
+                              className: "-right-12 bottom-8 sm:-right-24 sm:bottom-8 w-12 sm:w-20 ",
                               delay: 1.0,
                             }}
                           />
@@ -252,19 +252,19 @@ function TestApp() {
                             floatingIcon={{
                               src: studyIcon1,
                               alt: t("icons.study1"),
-                              className: "top-4 -right-20 w-20",
+                              className: "top-6 -right-12 sm:top-4 sm:-right-20 w-12 sm:w-20",
                               delay: 0.3,
                             }}
                             floatingIcon2={{
                               src: studyIcon2,
                               alt: t("icons.study2"),
-                              className: "top-20 -left-20 w-20",
+                              className: "-left-12 sm:top-20 sm:-left-20 w-12 sm:w-20",
                               delay: 0.8,
                             }}
                             floatingIcon3={{
                               src: studyIcon3,
                               alt: t("icons.study3"),
-                              className: "top-28 -right-20 w-20",
+                              className: "-right-12 top-24 sm:top-28 sm:-right-20 w-12 sm:w-20",
                               delay: 1.3,
                             }}
                           />
@@ -276,7 +276,7 @@ function TestApp() {
                 </div>
               </div>
               {/* Fixed bottom CTA */}
-              <div className="z-10 bg-white rounded-t-3xl shadow-none p-8 text-center h-auto flex flex-col justify-between">
+              <div className="z-10 bg-white rounded-t-3xl shadow-none p-6 sm:p-8 text-center h-auto flex flex-col justify-between">
                 <div>
                   <div className="flex justify-center items-center gap-6 mb-4">
                     <div className="text-center">
