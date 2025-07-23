@@ -10,6 +10,9 @@ import studyIcon2 from "./assets/images/cover/icons/study2.webp";
 import studyIcon3 from "./assets/images/cover/icons/study3.webp";
 import teamWork1 from "./assets/images/cover/icons/teamwork.webp";
 import teamWork2 from "./assets/images/cover/icons/teamwork2.webp";
+import cover1 from "./assets/images/cover/cover1.webp";
+import cover2 from "./assets/images/cover/cover2.webp";
+import cover3 from "./assets/images/cover/cover3.webp";
 import { ConsentDrawer } from "./components/ConsentDrawer";
 import { FeatureCarouselItem } from "./components/FeatureCarouselItem";
 import { SplashScreen } from "./components/SplashScreen";
@@ -202,7 +205,7 @@ function TestApp() {
                       <CarouselContent>
                         <CarouselItem>
                           <FeatureCarouselItem
-                            imageSrc="/src/assets/images/cover/cover1.webp"
+                            imageSrc={cover1}
                             imageAlt={t("carousel.feature1.imageAlt")}
                             title={t("carousel.feature1.title")}
                             description={t("carousel.feature1.description", { count: questions.length })}
@@ -222,7 +225,7 @@ function TestApp() {
                         </CarouselItem>
                         <CarouselItem>
                           <FeatureCarouselItem
-                            imageSrc="/src/assets/images/cover/cover2.webp"
+                            imageSrc={cover2}
                             imageAlt={t("carousel.feature2.imageAlt")}
                             title={t("carousel.feature2.title")}
                             description={t("carousel.feature2.description")}
@@ -242,7 +245,7 @@ function TestApp() {
                         </CarouselItem>
                         <CarouselItem>
                           <FeatureCarouselItem
-                            imageSrc="/src/assets/images/cover/cover3.webp"
+                            imageSrc={cover3}
                             imageAlt={t("carousel.feature3.imageAlt")}
                             title={t("carousel.feature3.title")}
                             description={t("carousel.feature3.description")}
