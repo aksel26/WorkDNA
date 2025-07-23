@@ -1,51 +1,46 @@
 import { useEffect, useRef } from "react";
-import splashVideo from "../assets/video/splash.webm";
+import splashGif from "../assets/video/splash2.gif";
 
 interface SplashScreenProps {
   onComplete: () => void;
 }
 
 export function SplashScreen({ onComplete }: SplashScreenProps) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const img = imgRef.current;
+    if (!img) return;
 
-    const handleVideoEnd = () => {
+    const handleImageLoad = () => {
+      // GIF duration is approximately 3 seconds
+      setTimeout(() => {
+        onComplete();
+      }, 3000);
+    };
+
+    const handleImageError = () => {
+      console.error("GIF failed to load, skipping splash screen");
       onComplete();
     };
 
-    const handleVideoError = () => {
-      console.error("Video failed to load, skipping splash screen");
-      onComplete();
-    };
-
-    video.addEventListener("ended", handleVideoEnd);
-    video.addEventListener("error", handleVideoError);
-
-    video.play().catch((error) => {
-      console.error("Video playback failed:", error);
-      onComplete();
-    });
+    if (img.complete) {
+      handleImageLoad();
+    } else {
+      img.addEventListener("load", handleImageLoad);
+      img.addEventListener("error", handleImageError);
+    }
 
     return () => {
-      video.removeEventListener("ended", handleVideoEnd);
-      video.removeEventListener("error", handleVideoError);
+      img.removeEventListener("load", handleImageLoad);
+      img.removeEventListener("error", handleImageError);
     };
   }, [onComplete]);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center w-[90%] sm:max-w-xl mx-auto">
       <div className="overflow-hidden w-full">
-        <video
-          ref={videoRef}
-          className="object-contain scale-145"
-          muted
-          playsInline
-          autoPlay
-          src={splashVideo}
-        />
+        <img src={splashGif} alt="splash" className="object-contain scale-150" ref={imgRef} />
       </div>
     </div>
   );
