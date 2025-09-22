@@ -51,7 +51,6 @@ export default function CareResult({ answers, onRestart, onBack }: CareResultPro
           cause: resultData.cause,
           solution: resultData.solution,
         };
-        console.log("resultItem:", resultItem);
 
         calculatedResults.push(resultItem);
 

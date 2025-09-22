@@ -78,7 +78,6 @@ function TestApp() {
 
   const handleConsentSubmit = async (userData: { name: string; gender: string; ageRange: string; consent: boolean }) => {
     try {
-      console.log("userData:", userData);
       await submitConsent(userData);
     } catch (err) {
       console.error("Failed to submit consent:", err);

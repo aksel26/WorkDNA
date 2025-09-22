@@ -51,7 +51,6 @@ export const ConsentModal = React.forwardRef<
     formDataRef.current = formData;
   }, [formData]);
 
-  console.log("formData:", formData);
 
   const handleSubmit = React.useCallback(
     (e?: React.FormEvent) => {
@@ -80,7 +79,6 @@ export const ConsentModal = React.forwardRef<
   };
 
   const handleChange = (field: string, value: string | boolean) => {
-    console.log("field:", field, value);
     setFormData((prev) => ({
       ...prev,
       [field]: value,
