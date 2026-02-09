@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { pb } from "@/lib/pocketbase";
 import React, { Suspense } from "react";
 import { useCareProgress } from "@/hooks/useCareProgress";
 
@@ -49,7 +49,7 @@ export const Care: React.FC = () => {
         level: score <= 2 ? "normal" : score <= 3 ? "caution" : "danger",
       }));
 
-      const { error } = await supabase.from("care_responses").insert({
+      await pb.collection("care_responses").create({
         session_id: sessionId,
         answer_paranoid: answers.paranoid,
         answer_schizoid: answers.schizoid,
@@ -67,10 +67,6 @@ export const Care: React.FC = () => {
         browser: navigator.userAgent,
         completed_at: new Date().toISOString(),
       });
-
-      if (error) {
-        console.error("Error saving care response:", error);
-      }
     } catch (error) {
       console.error("Error saving care response:", error);
     }

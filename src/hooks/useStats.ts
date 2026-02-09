@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { pb, type StatsRecord, type UserResponse } from '../lib/pocketbase';
 import { getPersonalityTypeAlias } from '../utils/personalityTypeUtils';
 
 export interface Stats {
@@ -36,7 +36,7 @@ export const useStats = () => {
     });
 
     const percentage = totalCount > 0 ? Math.round((maxCount / totalCount) * 100) : 0;
-    
+
     return {
       type: getTypeDisplayName(mostCommonType),
       percentage
@@ -49,22 +49,32 @@ export const useStats = () => {
       setError(null);
 
       // Get the latest stats record (most recent date)
-      const { data: statsData, error: statsError } = await supabase
-        .from('stats')
-        .select('*')
-        .order('date', { ascending: false })
-        .limit(1)
-        .single();
+      let statsData: StatsRecord | null = null;
+      try {
+        statsData = await pb.collection('stats').getFirstListItem<StatsRecord>('', { sort: '-date' });
+      } catch {
+        // No stats data found
+      }
 
-      if (statsError) {
-        // If no stats table data, fetch from user_responses directly
-        console.warn('No stats data found, fetching from user_responses:', statsError);
-        
-        const { data: userResponses, error: userError } = await supabase
-          .from('user_responses')
-          .select('personality_type, session_duration_seconds, test_completed_at');
+      if (statsData) {
+        // Use stats table data
+        const { type: mostCommonType, percentage } = getMostCommonType(statsData.type_distribution);
 
-        if (userError) throw userError;
+        setStats({
+          totalParticipants: statsData.total_started,
+          totalCompleted: statsData.total_completed,
+          completionRate: statsData.completion_rate || 0,
+          mostCommonType,
+          mostCommonTypePercentage: percentage,
+          avgSessionDuration: Math.round(statsData.avg_session_duration)
+        });
+      } else {
+        // Fallback: fetch from user_responses directly
+        console.warn('No stats data found, fetching from user_responses');
+
+        const userResponses = await pb.collection('user_responses').getFullList<UserResponse>({
+          fields: 'personality_type,session_duration_seconds,test_completed_at'
+        });
 
         // Calculate stats from user_responses
         const totalParticipants = userResponses.length;
@@ -81,7 +91,7 @@ export const useStats = () => {
 
         // Calculate average session duration
         const completedWithDuration = userResponses.filter(r => r.session_duration_seconds > 0);
-        const avgDuration = completedWithDuration.length > 0 
+        const avgDuration = completedWithDuration.length > 0
           ? Math.round(completedWithDuration.reduce((sum, r) => sum + r.session_duration_seconds, 0) / completedWithDuration.length)
           : 300; // fallback 5 minutes
 
@@ -95,23 +105,11 @@ export const useStats = () => {
           mostCommonTypePercentage: percentage,
           avgSessionDuration: avgDuration
         });
-      } else {
-        // Use stats table data
-        const { type: mostCommonType, percentage } = getMostCommonType(statsData.type_distribution);
-
-        setStats({
-          totalParticipants: statsData.total_started,
-          totalCompleted: statsData.total_completed,
-          completionRate: statsData.completion_rate || 0,
-          mostCommonType,
-          mostCommonTypePercentage: percentage,
-          avgSessionDuration: Math.round(statsData.avg_session_duration)
-        });
       }
     } catch (err) {
       console.error('Error fetching stats:', err);
       setError(err instanceof Error ? err.message : 'Failed to load statistics');
-      
+
       // Fallback to default values
       setStats({
         totalParticipants: 1247,

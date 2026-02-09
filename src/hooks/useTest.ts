@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabase";
+import { pb, updateDailyStats, type UserResponse } from "../lib/pocketbase";
 import { questions } from "../data/questions";
 import { calculatePersonalityType, personalityTypes } from "../data/personalityTypes";
 import { detectDevice, detectBrowser, detectLocation, detectTrafficSource } from "../utils/browserDetection";
@@ -74,36 +74,31 @@ export const useTest = () => {
       const location = await detectLocation();
 
       // Create user record with all tracking data
-      const { data: user, error: userError } = await supabase
-        .from("user_responses")
-        .insert([
-          {
-            name: userData.name || null,
-            gender: userData.gender || null,
-            age_range: userData.ageRange || null,
-            consent_given: userData.consent,
-            device_type: deviceType,
-            browser: browser,
-            traffic_source: trafficSource,
-            country: location.country,
-            region: location.region,
-            session_duration_seconds: 0,
-            test_started_at: new Date().toISOString(),
-          },
-        ])
-        .select()
-        .single();
-
-      if (userError) throw userError;
+      const record = await pb.collection("user_responses").create<UserResponse>({
+        name: userData.name || null,
+        gender: userData.gender || null,
+        age_range: userData.ageRange || null,
+        consent_given: userData.consent,
+        device_type: deviceType,
+        browser: browser,
+        traffic_source: trafficSource,
+        country: location.country,
+        region: location.region,
+        session_duration_seconds: 0,
+        test_started_at: new Date().toISOString(),
+      });
 
       setTestState((prev) => ({
         ...prev,
         userData,
-        userId: user.id,
+        userId: record.id,
         sessionStartTime: Date.now(),
       }));
 
-      return user.id;
+      // Update stats asynchronously (non-blocking)
+      updateDailyStats().catch(() => {});
+
+      return record.id;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
       throw err;
@@ -125,13 +120,10 @@ export const useTest = () => {
       // Update the specific answer column
       const answerColumn = `answer_${questionId}`;
 
-      const { error: updateError } = await supabase
-        .from("user_responses")
-        .update({
-          [answerColumn]: value,
-        })
-        .eq("id", testState.userId);
-      if (updateError) throw updateError;
+      await pb.collection("user_responses").update(testState.userId, {
+        [answerColumn]: value,
+      });
+
       // Update local state
       const newAnswers = { ...testState.answers, [questionId]: value };
 
@@ -150,12 +142,10 @@ export const useTest = () => {
   const nextQuestion = () => {
     const nextQ = testState.currentQuestion + 1;
     if (nextQ >= questions.length) {
-      // 마지막 문항을 넘어갔을 때: currentQuestion을 업데이트하고 테스트 완료
       setTestState((prev) => ({
         ...prev,
-        currentQuestion: nextQ, // questions.length로 설정됨
+        currentQuestion: nextQ,
       }));
-      // Complete the test
       completeTest();
     } else {
       setTestState((prev) => ({
@@ -192,21 +182,19 @@ export const useTest = () => {
         return endings[type as keyof typeof endings] || "";
       };
 
-      const { error: resultError } = await supabase
-        .from("user_responses")
-        .update({
-          personality_type: result.type,
-          type_code: result.typeCode,
-          scores: result.scores,
-          ending: getEndingByType(result.type),
-          session_duration_seconds: sessionDuration,
-          test_completed_at: new Date().toISOString(),
-        })
-        .eq("id", testState.userId);
+      await pb.collection("user_responses").update(testState.userId, {
+        personality_type: result.type,
+        type_code: result.typeCode,
+        scores: result.scores,
+        ending: getEndingByType(result.type),
+        session_duration_seconds: sessionDuration,
+        test_completed_at: new Date().toISOString(),
+      });
 
-      if (resultError) throw resultError;
+      // Update stats asynchronously (non-blocking)
+      updateDailyStats().catch(() => {});
 
-      // Add 1.5 second delay before showing results
+      // Add 3 second delay before showing results
       await new Promise((resolve) => setTimeout(resolve, 3000));
 
       setTestState((prev) => ({
