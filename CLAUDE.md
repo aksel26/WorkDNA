@@ -9,10 +9,12 @@ WorkDNA is a React-based personality assessment web application for workplace en
 ## Technology Stack
 
 - **Frontend**: React 19.1.0 with TypeScript, Vite 7.0.0 build tool
-- **Routing**: React Router DOM 7.7.0 with AppRouter.tsx structure
+- **Routing**: React Router DOM 6.30.x with AppRouter.tsx structure
 - **Styling**: Tailwind CSS 4.1.11 with shadcn/ui component system
 - **UI Components**: Radix UI primitives, Framer Motion 12.23.3 for animations
-- **Backend**: Supabase 2.50.3 (PostgreSQL + anonymous access patterns)
+- **Backend**: PocketBase (self-hosted on Fly.io, SDK via `pocketbase` npm package)
+- **i18n**: i18next + react-i18next with browser language detection (ko/en, fallback: ko)
+- **Charts**: Recharts 2.x for dashboard analytics visualization
 - **Additional**: Kakao SDK integration, html2canvas-pro for image generation
 
 ## Architecture
@@ -25,15 +27,27 @@ WorkDNA is a React-based personality assessment web application for workplace en
 ### Core Components
 - `TestQuestion.tsx`: Individual question display with progress tracking
 - `TestResult.tsx`: Results with scroll animations and sharing functionality
-- `ConsentDrawer.tsx`: GDPR-compliant privacy consent collection
+- `TestLoading.tsx`: Loading screen during personality calculation
+- `ConsentDrawer.tsx` / `ConsentModal.tsx`: Privacy consent collection
 - `SplashScreen.tsx`: Loading experience with animations
-- `Dashboard.tsx`: Admin analytics interface with authentication
+- `Dashboard.tsx`: Admin analytics interface with authentication (recharts)
+- `LoginPage.tsx` / `ProtectedRoute.tsx`: Auth flow for dashboard
+
+### Care Module (Mental Health Assessment)
+- `Care.tsx` → `CareIntro.tsx` → `CareTest.tsx` → `CareResult.tsx`
+- Questions defined in `data/careQuestions.ts`
+- Progress tracked via `hooks/useCareProgress.ts`
 
 ### Data Layer & State Management
-- `useTest.ts`: Custom hook for test state management with localStorage persistence
+- `useTest.ts`: Core test state hook with localStorage persistence (key: `workdna-test-state`)
+- `useKakao.ts`: Kakao SDK sharing integration
+- `useStats.ts` / `useWeeklyStats.ts`: Dashboard analytics hooks
 - `AuthContext.tsx`: Authentication context for protected routes
-- `src/lib/supabase.ts`: Supabase client configuration
-- `calculatePersonalityType()`: Client-side personality type calculation algorithm
+- `src/lib/pocketbase.ts`: PocketBase client configuration, types, and `updateDailyStats()` helper
+- `calculatePersonalityType()` in `data/personalityTypes.ts`: Client-side type calculation
+- `data/questions.ts`: Question definitions, `data/typeDetails.ts`: Extended type info
+- `utils/browserDetection.ts`: Device/browser/location/traffic detection
+- `utils/personalityTypeUtils.ts`: Type code ↔ alias mapping
 
 ### Database Schema
 Current primary table: `user_responses`
@@ -41,9 +55,9 @@ Current primary table: `user_responses`
 - Individual answer columns (answer_1 through answer_10)
 - Analytics data (device_type, browser, traffic_source, location)
 - Personality results (personality_type, type_code, scores)
-- Session tracking (duration, created_at, updated_at)
+- Session tracking (duration, PocketBase auto-fields: `created`, `updated`)
 
-Legacy tables: `results`, `stats` for historical data
+Additional collections: `stats` (daily aggregates), `care_responses` (mental health data)
 
 ## Personality Type System
 
@@ -52,11 +66,9 @@ Legacy tables: `results`, `stats` for historical data
 - Questions 6-10: Feeling (A) vs Thinking (B) tendency  
 - 4 combinations: AA, AB, BA, BB with comparative scoring
 
-**Types**:
-- AA: "관계 속에서 빛나는 사교왕" (Social relationship-focused)
-- AB: "진취적이며 자신감 있는 행동대장" (Confident action-oriented)
-- BA: "배려가 넘치는 따뜻한 평화주의자" (Caring peacemaker)
-- BB: "신뢰할 수 있는 솔직한 조언자" (Trustworthy advisor)
+**Types**: AA (외향+감정), AB (외향+논리), BA (내향+감정), BB (내향+논리)
+- Full type names/descriptions defined in `data/personalityTypes.ts`
+- Korean aliases (사교왕, 행동대장, 평화주의자, 조언자) in `utils/personalityTypeUtils.ts`
 
 ## Development Commands
 
@@ -74,12 +86,15 @@ npm run preview
 npm run lint
 ```
 
+## Path Aliases
+
+`@/*` maps to `./src/*` (configured in both tsconfig.json and vite.config.ts)
+
 ## Environment Variables
 
 Create a `.env` file with:
 ```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_POCKETBASE_URL=http://127.0.0.1:8090
 ```
 
 ## UI/UX Architecture
@@ -105,10 +120,15 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ## Key Implementation Details
 
-**State Management**: 
-- localStorage persistence for test progress across sessions
+**State Management**:
+- localStorage key `workdna-test-state` persists test progress across sessions
 - Custom useTest hook centralizes test state logic
 - AuthContext for dashboard authentication
+
+**i18n**:
+- Locales in `src/locales/{ko,en}/translation.json`
+- Browser language auto-detected, fallback to Korean
+- i18n debug mode is ON (`debug: true` in `src/i18n.ts`)
 
 **Analytics Integration**:
 - Device/browser detection for user analytics
@@ -120,4 +140,11 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 - Component-based architecture for code splitting potential
 - Progressive image loading for personality type results
 - Client-side personality calculation (no server dependency)
-- Anonymous-first database design with RLS policies
+- Anonymous-first database design with PocketBase API rules (public create/read, no delete)
+
+## Gotchas
+
+- Vite config uses only `@tailwindcss/vite` plugin — `@vitejs/plugin-react` is a devDependency but NOT used in `vite.config.ts`
+- `server.allowedHosts: true` in vite config allows all hosts during development
+- 3-second artificial delay in `useTest.ts` `completeTest()` before showing results (UX anticipation effect)
+- localStorage state is only saved after `userId` is set (post-consent), not during splash/consent phase

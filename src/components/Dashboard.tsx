@@ -2,7 +2,7 @@ import { BarChart3, Clock, Globe, LogOut, Monitor, Smartphone, TrendingUp, Users
 import { useEffect, useState } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { useAuth } from "../contexts/AuthContext";
-import { supabase } from "../lib/supabase";
+import { pb, type UserResponse } from "../lib/pocketbase";
 import { useWeeklyStats } from "../hooks/useWeeklyStats";
 import { getPersonalityTypeAlias } from "../utils/personalityTypeUtils";
 
@@ -43,46 +43,41 @@ export default function Dashboard() {
 
   const fetchDashboardStats = async () => {
     try {
-      const { data: userResponses } = await supabase.from("user_responses").select("*");
+      const userResponses = await pb.collection("user_responses").getFullList<UserResponse>();
 
-      // Future: Use aggregated stats data
-      await supabase.from("stats").select("*").order("date", { ascending: false }).limit(1);
+      const totalUsers = userResponses.length;
+      const completedTests = userResponses.filter((r) => r.test_completed_at).length;
+      const completionRate = totalUsers > 0 ? (completedTests / totalUsers) * 100 : 0;
 
-      if (userResponses) {
-        const totalUsers = userResponses.length;
-        const completedTests = userResponses.filter((r) => r.test_completed_at).length;
-        const completionRate = totalUsers > 0 ? (completedTests / totalUsers) * 100 : 0;
+      const today = new Date().toISOString().split("T")[0];
+      const todayUsers = userResponses.filter((r) => r.created.startsWith(today)).length;
 
-        const today = new Date().toISOString().split("T")[0];
-        const todayUsers = userResponses.filter((r) => r.created_at.startsWith(today)).length;
+      const avgDuration = userResponses.filter((r) => r.session_duration_seconds > 0).reduce((acc, r) => acc + r.session_duration_seconds, 0) / completedTests || 0;
 
-        const avgDuration = userResponses.filter((r) => r.session_duration_seconds > 0).reduce((acc, r) => acc + r.session_duration_seconds, 0) / completedTests || 0;
+      const typeDistribution: Record<string, number> = {};
+      userResponses.forEach((r) => {
+        if (r.personality_type) {
+          typeDistribution[r.personality_type] = (typeDistribution[r.personality_type] || 0) + 1;
+        }
+      });
 
-        const typeDistribution: Record<string, number> = {};
-        userResponses.forEach((r) => {
-          if (r.personality_type) {
-            typeDistribution[r.personality_type] = (typeDistribution[r.personality_type] || 0) + 1;
-          }
-        });
+      const deviceBreakdown: Record<string, number> = {};
+      userResponses.forEach((r) => {
+        if (r.device_type) {
+          deviceBreakdown[r.device_type] = (deviceBreakdown[r.device_type] || 0) + 1;
+        }
+      });
 
-        const deviceBreakdown: Record<string, number> = {};
-        userResponses.forEach((r) => {
-          if (r.device_type) {
-            deviceBreakdown[r.device_type] = (deviceBreakdown[r.device_type] || 0) + 1;
-          }
-        });
-
-        setStats({
-          totalUsers,
-          completedTests,
-          completionRate,
-          avgSessionDuration: avgDuration,
-          todayUsers,
-          weeklyGrowth: 12.5, // Mock data
-          typeDistribution,
-          deviceBreakdown,
-        });
-      }
+      setStats({
+        totalUsers,
+        completedTests,
+        completionRate,
+        avgSessionDuration: avgDuration,
+        todayUsers,
+        weeklyGrowth: 12.5, // Mock data
+        typeDistribution,
+        deviceBreakdown,
+      });
     } catch (error) {
       console.error("Error fetching dashboard stats:", error);
     } finally {
